@@ -99,46 +99,13 @@ function TocSidebar({
   readProgress: number // 0..1
   onItemClick: (id: string) => void
 }) {
-  const [barHovered, setBarHovered] = useState(false)
-  const [panelHovered, setPanelHovered] = useState(false)
-  const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [isOpen, setIsOpen] = useState(false)
   const activeListRef = useRef<HTMLDivElement>(null)
   const total = items.length
 
-  // Grace period: keep panel visible for 300ms after leaving the light bar
-  const handleBarLeave = useCallback(() => {
-    setBarHovered(false)
-    hideTimerRef.current = setTimeout(() => {
-      // Only hide if mouse didn't enter the panel
-      setPanelHovered(false)
-    }, 300)
-  }, [])
-
-  const handlePanelEnter = useCallback(() => {
-    // Cancel the pending hide timer
-    if (hideTimerRef.current) {
-      clearTimeout(hideTimerRef.current)
-      hideTimerRef.current = null
-    }
-    setPanelHovered(true)
-  }, [])
-
-  const handlePanelLeave = useCallback(() => {
-    setPanelHovered(false)
-  }, [])
-
-  // Cleanup timer on unmount
-  useEffect(() => {
-    return () => {
-      if (hideTimerRef.current) clearTimeout(hideTimerRef.current)
-    }
-  }, [])
-
-  const showPanel = barHovered || panelHovered
-
   // Auto-scroll active item into view when panel opens
   useEffect(() => {
-    if (!showPanel || !activeListRef.current || activeIndex < 0) return
+    if (!isOpen || !activeListRef.current || activeIndex < 0) return
     const raf = requestAnimationFrame(() => {
       const activeEl = activeListRef.current?.querySelector(`[data-toc-index="${activeIndex}"]`)
       if (activeEl) {
@@ -153,61 +120,63 @@ function TocSidebar({
       }
     })
     return () => cancelAnimationFrame(raf)
-  }, [showPanel, activeIndex])
+  }, [isOpen, activeIndex])
+
+  // Single container wrapping both bar and panel.
+  // Width expands from 36px (bar only) to 328px (bar + gap + panel) when open,
+  // so the mouse can travel seamlessly between bar ↔ panel with zero dead zone.
+  // No timers needed — mouseLeave only fires when leaving the entire area.
+  const panelW = 288 // w-72
+  const panelR = 40  // right offset
 
   return (
-    <>
-      {/* === Fixed Light Bar (right edge of viewport) === */}
-      <div
-        className="hidden lg:block fixed right-0 z-30"
-        style={{ top: '4rem', width: '36px', height: 'calc(100vh - 5rem)' }}
-        onMouseEnter={() => setBarHovered(true)}
-        onMouseLeave={handleBarLeave}
-      >
-        <div className="h-full flex flex-col items-center px-2 pt-3 pb-3">
-          {/* Track */}
-          <div className="relative w-[3px] flex-1 rounded-full bg-border/40">
-            {/* Progress fill */}
-            <div
-              className="absolute top-0 left-0 w-full rounded-full bg-primary/25 transition-[height] duration-200 ease-out"
-              style={{ height: `${Math.max(4, readProgress * 100)}%` }}
-            />
-            {/* Active dot */}
-            <div
-              className="absolute left-1/2 -translate-x-1/2 w-[9px] h-[9px] rounded-full bg-primary ring-2 ring-primary/20 transition-[top] duration-200 ease-out"
-              style={{ top: `${readProgress * 100}%`, marginTop: '-5px' }}
-            />
-          </div>
-          {/* TOC icon at bottom */}
-          <div className="mt-1.5 p-1 rounded text-muted-foreground/50">
-            <List className="size-3" />
-          </div>
+    <div
+      className="hidden lg:block fixed z-30 cursor-default"
+      style={{
+        right: 0,
+        top: '4rem',
+        width: isOpen ? panelW + panelR : 36,
+        height: 'calc(100vh - 5rem)',
+      }}
+      onMouseEnter={() => setIsOpen(true)}
+      onMouseLeave={() => setIsOpen(false)}
+    >
+      {/* Light Bar (right edge) */}
+      <div className="absolute right-0 top-0 h-full w-9 flex flex-col items-center px-2 pt-3 pb-3">
+        <div className="relative w-[3px] flex-1 rounded-full bg-border/40">
+          <div
+            className="absolute top-0 left-0 w-full rounded-full bg-primary/25 transition-[height] duration-200 ease-out"
+            style={{ height: `${Math.max(4, readProgress * 100)}%` }}
+          />
+          <div
+            className="absolute left-1/2 -translate-x-1/2 w-[9px] h-[9px] rounded-full bg-primary ring-2 ring-primary/20 transition-[top] duration-200 ease-out"
+            style={{ top: `${readProgress * 100}%`, marginTop: '-5px' }}
+          />
+        </div>
+        <div className="mt-1.5 p-1 rounded text-muted-foreground/50">
+          <List className="size-3" />
         </div>
       </div>
 
-      {/* === Fixed Floating Panel (hover) === */}
+      {/* Floating Panel */}
       <div
-        className={`hidden lg:block fixed z-40 w-72 bg-popover border border-border rounded-xl shadow-2xl shadow-black/8 overflow-hidden transition-[opacity,transform] duration-200 ease-out ${
-          showPanel
+        className={`absolute w-72 bg-popover border border-border rounded-xl shadow-2xl shadow-black/8 overflow-hidden transition-[opacity,transform] duration-200 ease-out ${
+          isOpen
             ? 'opacity-100 scale-100 pointer-events-auto'
             : 'opacity-0 scale-[0.97] pointer-events-none'
         }`}
         style={{
-          right: '40px',
-          top: '4.5rem',
+          right: `${panelR}px`,
+          top: '0.5rem',
           maxHeight: 'calc(100vh - 6rem)',
         }}
-        onMouseEnter={handlePanelEnter}
-        onMouseLeave={handlePanelLeave}
       >
-        {/* Panel header */}
         <div className="flex items-center gap-1.5 px-4 py-2.5 bg-muted/30 border-b border-border/50">
           <List className="size-3.5 text-muted-foreground" />
           <span className="text-xs font-semibold text-muted-foreground tracking-wider">目录</span>
           <span className="ml-auto text-[10px] tabular-nums text-muted-foreground/60">{total} 项</span>
         </div>
 
-        {/* Scrollable heading list */}
         <div
           ref={activeListRef}
           className="overflow-y-auto py-1.5 px-1"
@@ -236,7 +205,7 @@ function TocSidebar({
           })}
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
