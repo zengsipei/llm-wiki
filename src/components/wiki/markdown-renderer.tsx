@@ -15,7 +15,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
   }
 
   return (
-    <div className="markdown-content prose prose-neutral dark:prose-invert max-w-none prose-table:border-collapse prose-th:bg-muted/50 prose-th:border prose-th:border-border prose-th:px-3 prose-th:py-2 prose-th:text-left prose-td:border prose-td:border-border prose-td:px-3 prose-td:py-2 prose-pre:bg-muted/50 prose-pre:border prose-pre:border-border">
+    <div className="markdown-content prose prose-neutral dark:prose-invert max-w-none">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
@@ -68,7 +68,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
             )
           },
           pre: ({ children }) => (
-            <pre className="my-4 p-4 bg-muted/50 border border-border rounded-lg overflow-x-auto text-sm font-mono leading-6">
+            <pre className="not-prose my-4 p-4 bg-muted/50 border border-border rounded-lg overflow-x-auto text-sm font-mono leading-6">
               {children}
             </pre>
           ),
