@@ -105,3 +105,8 @@ src/
 ## License
 
 MIT
+
+### 最近更新
+
+- 2026-05-17: 摄入 grahify-kb 18 篇文章
+- 2026-05-17: 新增 Claude Code Agent View 专题
