@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useRef, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
@@ -10,7 +10,7 @@ import { Check, Copy, Terminal } from 'lucide-react'
 // Markdown renderer with GFM support + syntax highlighting + copy button
 interface MarkdownRendererProps {
   content: string
-  nextHeadingId?: () => string
+  headingIds?: string[]
 }
 
 // Extract plain text from React children (strip HTML tags)
@@ -24,15 +24,21 @@ function extractText(children: React.ReactNode): string {
   return ''
 }
 
-export function MarkdownRenderer({ content, nextHeadingId }: MarkdownRendererProps) {
+export function MarkdownRenderer({ content, headingIds }: MarkdownRendererProps) {
   if (!content) {
     return <p className="text-muted-foreground italic">暂无内容</p>
   }
 
-  // Create heading components that assign sequential IDs
+  // Index into headingIds — resets synchronously when headingIds changes
+  const headingIndexRef = useRef(0)
+  // Reset index at the start of each render
+  headingIndexRef.current = 0
+
+  // Create heading components that assign IDs from the headingIds array
   const createHeadingComponent = (Tag: 'h1' | 'h2' | 'h3' | 'h4', className: string) => {
     const HeadingComponent = ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement> & { children?: React.ReactNode }) => {
-      const id = nextHeadingId ? nextHeadingId() : undefined
+      const id = headingIds ? headingIds[headingIndexRef.current] : undefined
+      headingIndexRef.current++
       return (
         <Tag id={id} className={className} {...props}>
           {children}
@@ -78,15 +84,11 @@ export function MarkdownRenderer({ content, nextHeadingId }: MarkdownRendererPro
             const match = /language-(\w+)/.exec(className || '')
             const codeString = extractText(children)
 
-            // Block code with syntax highlighting
             if (match && match[1]) {
               return <CodeBlock language={match[1]} code={codeString} />
             }
 
-            // Block code without language (indented or bare ``` blocks)
             if (!className) {
-              // Check if this is inside a <pre> — ReactMarkdown passes <code> inside <pre> for fenced blocks
-              // We handle it in the `pre` component instead
               return (
                 <code className="bg-muted px-1.5 py-0.5 rounded text-xs font-mono text-foreground/80" {...props}>
                   {children}
@@ -101,8 +103,6 @@ export function MarkdownRenderer({ content, nextHeadingId }: MarkdownRendererPro
             )
           },
           pre: ({ children }) => {
-            // If children already contains a SyntaxHighlighter (from code handler), render as-is
-            // Otherwise, render as a plain code block
             const child = React.Children.toArray(children)[0]
             if (React.isValidElement(child) && child.type === CodeBlock) {
               return (
@@ -112,7 +112,6 @@ export function MarkdownRenderer({ content, nextHeadingId }: MarkdownRendererPro
               )
             }
 
-            // Fallback for bare code blocks (no language specified)
             const text = extractText(children)
             return (
               <div className="not-prose my-4 rounded-lg overflow-hidden border border-border/60">
@@ -133,7 +132,6 @@ export function MarkdownRenderer({ content, nextHeadingId }: MarkdownRendererPro
           hr: () => (
             <hr className="my-6 border-border" />
           ),
-          // GFM table support
           table: ({ children }) => (
             <div className="my-4 overflow-x-auto not-prose">
               <table className="w-full text-sm border-collapse border border-border">
@@ -175,7 +173,6 @@ function CodeBlock({ language, code }: { language: string; code: string }) {
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch {
-      // Fallback for environments without clipboard API
       const textarea = document.createElement('textarea')
       textarea.value = code
       textarea.style.position = 'fixed'
@@ -189,12 +186,10 @@ function CodeBlock({ language, code }: { language: string; code: string }) {
     }
   }, [code])
 
-  // Normalize language names
   const displayLang = language === 'text' ? '' : language
 
   return (
     <div className="relative group">
-      {/* Header bar */}
       <div className="flex items-center justify-between px-4 py-2 bg-[#282c34] border-b border-[#3e4451]">
         <div className="flex items-center gap-2">
           <Terminal className="size-3.5 text-[#636d83]" />
@@ -221,7 +216,6 @@ function CodeBlock({ language, code }: { language: string; code: string }) {
         </button>
       </div>
 
-      {/* Code area */}
       <SyntaxHighlighter
         language={displayLang || 'text'}
         style={oneDark}

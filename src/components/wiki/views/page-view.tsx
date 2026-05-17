@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
-import { Edit, Trash2, Tag, Clock, ArrowLeft, Link2, ArrowUp, List } from 'lucide-react'
+import { Edit, Trash2, Tag, Clock, ArrowLeft, Link2, ArrowUp, List, ChevronRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
@@ -76,9 +76,9 @@ function extractTocItems(content: string): TocItem[] {
   return items
 }
 
-// ============ TOC Component ============
+// ============ TOC Sidebar: Light Bar + Floating Panel ============
 
-function TableOfContents({
+function TocSidebar({
   items,
   activeId,
   onItemClick,
@@ -87,33 +87,87 @@ function TableOfContents({
   activeId: string | null
   onItemClick: (id: string) => void
 }) {
-  if (items.length === 0) return null
+  const [hovered, setHovered] = useState(false)
+  const activeIndex = useMemo(
+    () => items.findIndex((item) => item.id === activeId),
+    [items, activeId]
+  )
+  const total = items.length
+  // Calculate progress: position of the active heading indicator on the bar
+  const progress = total > 1 ? (activeIndex >= 0 ? activeIndex / (total - 1) : 0) : 0
 
   return (
-    <nav className="space-y-0.5">
-      <div className="flex items-center gap-1.5 mb-3 pb-2 border-b border-border/50">
-        <List className="size-3.5 text-muted-foreground" />
-        <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">目录</span>
+    <div
+      className="hidden lg:block relative"
+      style={{ width: '40px', flexShrink: 0 }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {/* === Light bar (always visible) === */}
+      <div className="sticky top-16 h-[calc(100vh-5rem)] flex flex-col items-center pt-4 pb-4">
+        {/* Track */}
+        <div className="relative w-[3px] flex-1 rounded-full bg-border/60 overflow-visible">
+          {/* Progress fill */}
+          <div
+            className="absolute top-0 left-0 w-full rounded-full bg-primary/20 transition-all duration-300 ease-out"
+            style={{ height: `${Math.max(6, progress * 100)}%` }}
+          />
+          {/* Active dot */}
+          <div
+            className="absolute left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-primary shadow-[0_0_8px_rgba(var(--primary),0.5)] transition-all duration-300 ease-out"
+            style={{ top: `${progress * 100}%`, marginTop: '-5px' }}
+          />
+        </div>
+        {/* TOC icon at bottom */}
+        <button
+          className="mt-2 p-1 rounded text-muted-foreground hover:text-foreground transition-colors"
+          title="目录"
+        >
+          <List className="size-3.5" />
+        </button>
       </div>
-      {items.map((item) => {
-        const isActive = item.id === activeId
-        const indent = (item.level - 2) * 14 // h2 = 0, h3 = 14, h4 = 28
-        return (
-          <button
-            key={item.id}
-            onClick={() => onItemClick(item.id)}
-            className={`block w-full text-left text-[13px] py-1.5 px-2.5 rounded-md transition-all duration-200 truncate ${
-              isActive
-                ? 'text-primary font-medium bg-primary/8 border-l-2 border-primary pl-2'
-                : 'text-muted-foreground hover:text-foreground hover:bg-muted/40 border-l-2 border-transparent'
-            }`}
-            style={{ paddingLeft: `${indent + 10}px` }}
-          >
-            {item.text}
-          </button>
-        )
-      })}
-    </nav>
+
+      {/* === Floating panel (hover) === */}
+      <div
+        className={`absolute right-0 top-0 z-40 w-64 max-h-[calc(100vh-3rem)] bg-popover border border-border rounded-xl shadow-2xl shadow-black/10 overflow-hidden transition-all duration-200 origin-top-right ${
+          hovered
+            ? 'opacity-100 scale-100 translate-x-0 pointer-events-auto'
+            : 'opacity-0 scale-95 translate-x-1 pointer-events-none'
+        }`}
+        style={{ marginTop: '4rem' }}
+      >
+        {/* Panel header */}
+        <div className="sticky top-0 z-10 flex items-center gap-1.5 px-4 py-3 bg-popover/95 backdrop-blur-sm border-b border-border/50">
+          <List className="size-3.5 text-muted-foreground" />
+          <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">目录</span>
+          <span className="ml-auto text-[10px] text-muted-foreground">{total} 项</span>
+        </div>
+
+        {/* Scrollable list */}
+        <div className="overflow-y-auto max-h-[calc(100vh-8rem)] py-1 px-1.5 scrollbar-thin">
+          {items.map((item) => {
+            const isActive = item.id === activeId
+            const indent = (item.level - 2) * 14
+            return (
+              <button
+                key={item.id}
+                onClick={() => onItemClick(item.id)}
+                className={`flex items-center gap-1.5 w-full text-left text-[13px] py-[6px] px-2.5 rounded-md transition-all duration-150 truncate ${
+                  isActive
+                    ? 'text-primary font-medium bg-primary/8'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                }`}
+                style={{ paddingLeft: `${indent + 10}px` }}
+              >
+                {isActive && <ChevronRight className="size-3 shrink-0 text-primary" strokeWidth={3} />}
+                {!isActive && <span className="w-3 shrink-0" />}
+                <span className="truncate">{item.text}</span>
+              </button>
+            )
+          })}
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -139,25 +193,13 @@ function BackToTopButton({ visible, onClick }: { visible: boolean; onClick: () =
 export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, onBack }: PageViewProps) {
   const backlinkPages = allPages.filter((p) => page.backlinks.includes(p.id))
   const tocItems = useMemo(() => extractTocItems(page.content), [page.content])
+  // Derive heading IDs from TOC items — guaranteed to match extractTocItems
+  const headingIds = useMemo(() => tocItems.map((item) => item.id), [tocItems])
 
   // Scroll tracking state
   const [showStickyBar, setShowStickyBar] = useState(false)
   const [showBackToTop, setShowBackToTop] = useState(false)
   const [activeHeadingId, setActiveHeadingId] = useState<string | null>(null)
-  const [tocCollapsed, setTocCollapsed] = useState(false)
-
-  // Heading ID counter — used by custom heading components
-  // We don't inject HTML into markdown; instead, heading components set IDs directly
-  const headingCounterRef = React.useRef(0)
-  // Reset counter when content changes
-  useEffect(() => {
-    headingCounterRef.current = 0
-  }, [page.content])
-
-  const nextHeadingId = useCallback(() => {
-    headingCounterRef.current++
-    return `heading-${headingCounterRef.current}`
-  }, [])
 
   // Scroll handler — listen on the <main> scroll container
   useEffect(() => {
@@ -171,7 +213,6 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
     }
 
     mainEl.addEventListener('scroll', handleScroll, { passive: true })
-    // Initial check in case already scrolled
     handleScroll()
 
     return () => {
@@ -180,38 +221,43 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
   }, [])
 
   // IntersectionObserver for active heading tracking
+  // Use a short delay to ensure heading DOM elements are rendered
   useEffect(() => {
     if (tocItems.length === 0) return
 
     const rootEl = document.querySelector('main') || null
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // Find the first heading that is intersecting from top
-        const visible = entries.filter((e) => e.isIntersecting)
-        if (visible.length > 0) {
-          // Pick the one closest to the top
-          visible.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
-          setActiveHeadingId(visible[0].target.id)
+    // Delay to ensure MarkdownRenderer has rendered headings with IDs
+    const timer = setTimeout(() => {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const visible = entries.filter((e) => e.isIntersecting)
+          if (visible.length > 0) {
+            visible.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
+            setActiveHeadingId(visible[0].target.id)
+          }
+        },
+        {
+          root: rootEl,
+          rootMargin: '-60px 0px -75% 0px',
+          threshold: 0.1,
         }
-      },
-      {
-        root: rootEl,
-        rootMargin: '-80px 0px -70% 0px',
-        threshold: 0.1,
-      }
-    )
+      )
 
-    let count = 0
-    for (const item of tocItems) {
-      const el = document.getElementById(item.id)
-      if (el) {
-        observer.observe(el)
-        count++
+      let observed = 0
+      for (const item of tocItems) {
+        const el = document.getElementById(item.id)
+        if (el) {
+          observer.observe(el)
+          observed++
+        }
       }
-    }
 
-    return () => observer.disconnect()
+      // Store observer for cleanup
+      return () => observer.disconnect()
+    }, 150)
+
+    return () => clearTimeout(timer)
   }, [tocItems])
 
   const getScrollContainer = useCallback((): HTMLElement | null => {
@@ -275,7 +321,7 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
       </div>
 
       {/* ===== Content + TOC Layout ===== */}
-      <div className="flex gap-8 max-w-5xl mx-auto px-6 pb-16">
+      <div className="flex max-w-5xl mx-auto px-6 pb-16">
         {/* Main content area */}
         <div className="flex-1 min-w-0">
           {/* Header section (scrolls away) */}
@@ -350,7 +396,7 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
 
           {/* Content */}
           <CardContent className="p-0">
-            <MarkdownRenderer content={page.content} nextHeadingId={nextHeadingId} />
+            <MarkdownRenderer content={page.content} headingIds={headingIds} />
           </CardContent>
 
           {/* Source */}
@@ -393,27 +439,13 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
           )}
         </div>
 
-        {/* ===== TOC Sidebar (desktop only) ===== */}
+        {/* ===== TOC Sidebar: Light bar + floating panel ===== */}
         {tocItems.length > 0 && (
-          <aside className="hidden lg:block w-56 shrink-0">
-            <div className="sticky top-16 max-h-[calc(100vh-5rem)] overflow-y-auto scrollbar-none pr-2">
-              {/* Toggle button */}
-              <button
-                onClick={() => setTocCollapsed(!tocCollapsed)}
-                className="flex items-center justify-between w-full mb-2 text-xs text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <span className="font-semibold uppercase tracking-wider">目录</span>
-                <span className="text-[10px]">{tocCollapsed ? '+' : '−'}</span>
-              </button>
-              {!tocCollapsed && (
-                <TableOfContents
-                  items={tocItems}
-                  activeId={activeHeadingId}
-                  onItemClick={handleTocClick}
-                />
-              )}
-            </div>
-          </aside>
+          <TocSidebar
+            items={tocItems}
+            activeId={activeHeadingId}
+            onItemClick={handleTocClick}
+          />
         )}
       </div>
 
