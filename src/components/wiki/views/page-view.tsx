@@ -252,10 +252,11 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
       setShowBackToTop(scrollTop > 300)
 
       // Find active heading: last heading whose top is above the "reading line"
-      // Use 20% of viewport height from main top — more intuitive than a fixed pixel value
+      // Offset = mainTop + 48px: just past the sticky action bar (~44px) so a heading
+      // becomes active as soon as it scrolls into view below the bar
       if (tocItems.length > 0) {
         const mainTop = mainEl.getBoundingClientRect().top
-        const readingLine = mainTop + mainEl.clientHeight * 0.2
+        const readingLine = mainTop + 48
         let activeIdx = -1
         for (let i = 0; i < tocItems.length; i++) {
           const el = document.getElementById(tocItems[i].id)
