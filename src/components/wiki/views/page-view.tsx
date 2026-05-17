@@ -99,15 +99,46 @@ function TocSidebar({
   readProgress: number // 0..1
   onItemClick: (id: string) => void
 }) {
-  const [hovered, setHovered] = useState(false)
+  const [barHovered, setBarHovered] = useState(false)
   const [panelHovered, setPanelHovered] = useState(false)
+  const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const activeListRef = useRef<HTMLDivElement>(null)
   const total = items.length
 
+  // Grace period: keep panel visible for 300ms after leaving the light bar
+  const handleBarLeave = useCallback(() => {
+    setBarHovered(false)
+    hideTimerRef.current = setTimeout(() => {
+      // Only hide if mouse didn't enter the panel
+      setPanelHovered(false)
+    }, 300)
+  }, [])
+
+  const handlePanelEnter = useCallback(() => {
+    // Cancel the pending hide timer
+    if (hideTimerRef.current) {
+      clearTimeout(hideTimerRef.current)
+      hideTimerRef.current = null
+    }
+    setPanelHovered(true)
+  }, [])
+
+  const handlePanelLeave = useCallback(() => {
+    setPanelHovered(false)
+  }, [])
+
+  // Cleanup timer on unmount
+  useEffect(() => {
+    return () => {
+      if (hideTimerRef.current) clearTimeout(hideTimerRef.current)
+    }
+  }, [])
+
+  const showPanel = barHovered || panelHovered
+
   // Auto-scroll active item into view when panel opens
   useEffect(() => {
-    if (!panelHovered || !activeListRef.current || activeIndex < 0) return
-    // Use requestAnimationFrame to ensure DOM is ready after panel becomes visible
+    if (!showPanel || !activeListRef.current || activeIndex < 0) return
     const raf = requestAnimationFrame(() => {
       const activeEl = activeListRef.current?.querySelector(`[data-toc-index="${activeIndex}"]`)
       if (activeEl) {
@@ -116,16 +147,13 @@ function TocSidebar({
         const elHeight = (activeEl as HTMLElement).offsetHeight
         const scrollTop = container.scrollTop
         const viewHeight = container.clientHeight
-        // Scroll if the active element is outside the visible area
         if (elTop < scrollTop || elTop + elHeight > scrollTop + viewHeight) {
           container.scrollTo({ top: elTop - viewHeight / 3, behavior: 'smooth' })
         }
       }
     })
     return () => cancelAnimationFrame(raf)
-  }, [panelHovered, activeIndex])
-
-  const showPanel = hovered || panelHovered
+  }, [showPanel, activeIndex])
 
   return (
     <>
@@ -133,8 +161,8 @@ function TocSidebar({
       <div
         className="hidden lg:block fixed right-0 z-30"
         style={{ top: '4rem', width: '36px', height: 'calc(100vh - 5rem)' }}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
+        onMouseEnter={() => setBarHovered(true)}
+        onMouseLeave={handleBarLeave}
       >
         <div className="h-full flex flex-col items-center px-2 pt-3 pb-3">
           {/* Track */}
@@ -159,7 +187,7 @@ function TocSidebar({
 
       {/* === Fixed Floating Panel (hover) === */}
       <div
-        className={`hidden lg:block fixed z-40 w-72 bg-popover border border-border rounded-xl shadow-2xl shadow-black/8 overflow-hidden transition-all duration-150 ease-out ${
+        className={`hidden lg:block fixed z-40 w-72 bg-popover border border-border rounded-xl shadow-2xl shadow-black/8 overflow-hidden transition-[opacity,transform] duration-200 ease-out ${
           showPanel
             ? 'opacity-100 scale-100 pointer-events-auto'
             : 'opacity-0 scale-[0.97] pointer-events-none'
@@ -169,8 +197,8 @@ function TocSidebar({
           top: '4.5rem',
           maxHeight: 'calc(100vh - 6rem)',
         }}
-        onMouseEnter={() => setPanelHovered(true)}
-        onMouseLeave={() => setPanelHovered(false)}
+        onMouseEnter={handlePanelEnter}
+        onMouseLeave={handlePanelLeave}
       >
         {/* Panel header */}
         <div className="flex items-center gap-1.5 px-4 py-2.5 bg-muted/30 border-b border-border/50">
