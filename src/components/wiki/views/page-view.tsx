@@ -238,11 +238,11 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
     const mainEl = document.querySelector('main') as HTMLElement | null
     if (!mainEl) return
 
-    // Pre-collect heading DOM elements (stable for this page)
-    const headingEls: HTMLElement[] = []
+    // Pre-collect heading elements and their offsets relative to mainEl
+    const headingOffsets: number[] = []
     for (const item of tocItems) {
       const el = document.getElementById(item.id)
-      if (el) headingEls.push(el)
+      if (el) headingOffsets.push(el.offsetTop)
     }
 
     let rafId = 0
@@ -262,19 +262,20 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
         setShowStickyBar(scrollTop > 160)
         setShowBackToTop(scrollTop > 300)
 
-        // Active heading: first heading visible below the sticky bar (zread-style)
-        if (headingEls.length > 0) {
-          const mainTop = mainEl.getBoundingClientRect().top
-          const contentTop = mainTop + 46 // sticky action bar ≈ 44px + 2px gap
+        // Active heading: first heading whose top is visible below the sticky bar
+        // Use offsetTop (relative to scroll container) — no getBoundingClientRect needed
+        if (headingOffsets.length > 0) {
+          // stickyBar ≈ 44px; the heading must be below that in the scroll view
+          const barHeight = 48
           let activeIdx = -1
-          for (let i = 0; i < headingEls.length; i++) {
-            if (headingEls[i].getBoundingClientRect().top >= contentTop) {
+          for (let i = 0; i < headingOffsets.length; i++) {
+            if (headingOffsets[i] >= scrollTop + barHeight) {
               activeIdx = i
               break
             }
           }
           // All headings scrolled past → use the last one
-          if (activeIdx < 0) activeIdx = headingEls.length - 1
+          if (activeIdx < 0) activeIdx = headingOffsets.length - 1
           setActiveHeadingIndex(activeIdx)
         }
       })
@@ -296,11 +297,15 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
 
   const handleTocClick = useCallback((id: string) => {
     const el = document.getElementById(id)
-    if (el) {
-      // scroll-margin-top (80px) on headings ensures the heading is not hidden behind the sticky bar
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    const mainEl = getScrollContainer()
+    if (el && mainEl) {
+      // scrollIntoView doesn't reliably respect scroll-margin-top inside
+      // a nested scroll container (<main>), so manually calculate offset.
+      // Scroll to heading - 48px to leave room below the sticky bar.
+      const targetScroll = el.offsetTop - 48
+      mainEl.scrollTo({ top: Math.max(0, targetScroll), behavior: 'smooth' })
     }
-  }, [])
+  }, [getScrollContainer])
 
   const scrollToTop = useCallback(() => {
     const mainEl = getScrollContainer()
