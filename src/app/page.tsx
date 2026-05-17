@@ -16,6 +16,7 @@ import { IngestView } from '@/components/wiki/views/ingest-view'
 import { QueryView } from '@/components/wiki/views/query-view'
 import { LintView } from '@/components/wiki/views/lint-view'
 import { LogsView } from '@/components/wiki/views/logs-view'
+import { ExportView } from '@/components/wiki/views/export-view'
 import type { WikiPage, ActivityLog, ActiveTab, QueryResult, LintReport } from '@/types/wiki'
 import { PAGE_TYPE_LABELS, PAGE_TYPE_COLORS } from '@/types/wiki'
 
@@ -432,6 +433,9 @@ export default function WikiPage() {
 
       case 'logs':
         return <LogsView logs={logs} onSelectPage={handleSelectPage} />
+
+      case 'export':
+        return <ExportView pages={pages} />
 
       default:
         return null

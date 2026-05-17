@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { BookOpen, Plus, MessageSquare, ShieldCheck, Clock, FileText } from 'lucide-react'
+import { BookOpen, Plus, MessageSquare, ShieldCheck, Clock, FileText, Download } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -48,6 +48,7 @@ export function WikiSidebar({
     { tab: 'query', label: '知识问答', icon: <MessageSquare className="size-4" /> },
     { tab: 'lint', label: '健康检查', icon: <ShieldCheck className="size-4" /> },
     { tab: 'logs', label: '操作日志', icon: <Clock className="size-4" />, badge: logsCount },
+    { tab: 'export', label: '导出', icon: <Download className="size-4" /> },
   ]
 
   const sidebarContent = (

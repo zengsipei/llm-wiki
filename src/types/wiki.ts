@@ -71,7 +71,7 @@ export interface IngestResult {
 }
 
 // App tab types
-export type ActiveTab = 'view' | 'edit' | 'ingest' | 'query' | 'lint' | 'logs'
+export type ActiveTab = 'view' | 'edit' | 'ingest' | 'query' | 'lint' | 'logs' | 'export'
 
 // Page type labels (Chinese)
 export const PAGE_TYPE_LABELS: Record<string, string> = {
