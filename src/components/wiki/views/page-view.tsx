@@ -242,16 +242,11 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
   const [activeHeadingIndex, setActiveHeadingIndex] = useState(-1)
   const [readProgress, setReadProgress] = useState(0)
 
-  // Helper: get element's offset relative to a specific container
-  // el.offsetTop is relative to offsetParent, which may not be <main>
-  const getOffsetRelativeTo = useCallback((el: HTMLElement, container: HTMLElement): number => {
-    let top = 0
-    let current: HTMLElement | null = el
-    while (current && current !== container) {
-      top += current.offsetTop
-      current = current.offsetParent as HTMLElement | null
-    }
-    return top
+  // Helper: get element's scroll-content offset relative to <main>
+  // offsetTop/offsetParent is unreliable when <main> lacks position:relative.
+  // This getBoundingClientRect formula is mathematically invariant to scroll.
+  const getContentOffset = useCallback((el: HTMLElement, mainEl: HTMLElement): number => {
+    return el.getBoundingClientRect().top - mainEl.getBoundingClientRect().top + mainEl.scrollTop
   }, [])
 
   // Unified scroll handler (rAF-throttled):
@@ -260,11 +255,11 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
     const mainEl = document.querySelector('main') as HTMLElement | null
     if (!mainEl) return
 
-    // Pre-collect heading elements and their true offsets relative to mainEl
+    // Pre-collect heading offsets relative to mainEl's scroll content
     const headingOffsets: number[] = []
     for (const item of tocItems) {
       const el = document.getElementById(item.id)
-      if (el) headingOffsets.push(getOffsetRelativeTo(el, mainEl))
+      if (el) headingOffsets.push(getContentOffset(el, mainEl))
     }
 
     let rafId = 0
@@ -309,7 +304,7 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
       cancelAnimationFrame(rafId)
       clearTimeout(initTimer)
     }
-  }, [tocItems, getOffsetRelativeTo])
+  }, [tocItems, getContentOffset])
 
   const getScrollContainer = useCallback((): HTMLElement | null => {
     return document.querySelector('main')
@@ -319,12 +314,11 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
     const el = document.getElementById(id)
     const mainEl = getScrollContainer()
     if (el && mainEl) {
-      // Use the same getOffsetRelativeTo helper for consistency with tracking
-      const offset = getOffsetRelativeTo(el, mainEl)
+      const offset = getContentOffset(el, mainEl)
       const stickyBarH = 48
       mainEl.scrollTo({ top: Math.max(0, offset - stickyBarH), behavior: 'smooth' })
     }
-  }, [getScrollContainer, getOffsetRelativeTo])
+  }, [getScrollContainer, getContentOffset])
 
   const scrollToTop = useCallback(() => {
     const mainEl = getScrollContainer()
