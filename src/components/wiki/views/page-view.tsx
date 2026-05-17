@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { Edit, Trash2, Tag, Clock, ArrowLeft, Link2, ArrowUp, List } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -90,24 +90,24 @@ function TableOfContents({
   if (items.length === 0) return null
 
   return (
-    <nav className="space-y-1">
-      <div className="flex items-center gap-1.5 mb-3">
+    <nav className="space-y-0.5">
+      <div className="flex items-center gap-1.5 mb-3 pb-2 border-b border-border/50">
         <List className="size-3.5 text-muted-foreground" />
         <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">目录</span>
       </div>
       {items.map((item) => {
         const isActive = item.id === activeId
-        const indent = (item.level - 2) * 12 // h2 = 0, h3 = 12, h4 = 24
+        const indent = (item.level - 2) * 14 // h2 = 0, h3 = 14, h4 = 28
         return (
           <button
             key={item.id}
             onClick={() => onItemClick(item.id)}
-            className={`block w-full text-left text-xs py-1 px-2 rounded transition-colors truncate ${
+            className={`block w-full text-left text-[13px] py-1.5 px-2.5 rounded-md transition-all duration-200 truncate ${
               isActive
-                ? 'text-primary font-semibold bg-primary/5 border-l-2 border-primary'
-                : 'text-muted-foreground hover:text-foreground hover:bg-muted/50 border-l-2 border-transparent'
+                ? 'text-primary font-medium bg-primary/8 border-l-2 border-primary pl-2'
+                : 'text-muted-foreground hover:text-foreground hover:bg-muted/40 border-l-2 border-transparent'
             }`}
-            style={{ paddingLeft: `${8 + indent}px` }}
+            style={{ paddingLeft: `${indent + 10}px` }}
           >
             {item.text}
           </button>
@@ -123,12 +123,13 @@ function BackToTopButton({ visible, onClick }: { visible: boolean; onClick: () =
   return (
     <button
       onClick={onClick}
-      className={`fixed bottom-6 right-6 z-40 size-10 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center transition-all duration-300 hover:bg-primary/90 hover:scale-110 ${
+      className={`fixed bottom-8 right-8 z-50 size-11 rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/25 flex items-center justify-center transition-all duration-300 hover:bg-primary/90 hover:scale-110 active:scale-95 ${
         visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
       }`}
       title="回到顶部"
+      aria-label="回到顶部"
     >
-      <ArrowUp className="size-4" />
+      <ArrowUp className="size-5" strokeWidth={2.5} />
     </button>
   )
 }
@@ -144,40 +145,45 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
   const [showBackToTop, setShowBackToTop] = useState(false)
   const [activeHeadingId, setActiveHeadingId] = useState<string | null>(null)
   const [tocCollapsed, setTocCollapsed] = useState(false)
-  const mainRef = useRef<HTMLDivElement>(null)
 
-  // Inject heading IDs into markdown content
-  const processedContent = useMemo(() => {
-    let counter = 0
-    return page.content.replace(/^(#{1,4})\s+(.+)$/gm, (match, hashes, text) => {
-      counter++
-      const id = `heading-${counter}`
-      return `${hashes} <span id="${id}"></span>${text}`
-    })
+  // Heading ID counter — used by custom heading components
+  // We don't inject HTML into markdown; instead, heading components set IDs directly
+  const headingCounterRef = React.useRef(0)
+  // Reset counter when content changes
+  useEffect(() => {
+    headingCounterRef.current = 0
   }, [page.content])
 
-  // Scroll handler
+  const nextHeadingId = useCallback(() => {
+    headingCounterRef.current++
+    return `heading-${headingCounterRef.current}`
+  }, [])
+
+  // Scroll handler — listen on the <main> scroll container
   useEffect(() => {
-    const mainEl = mainRef.current?.closest('main') || window
+    const mainEl = document.querySelector('main') as HTMLElement | null
+    if (!mainEl) return
+
     const handleScroll = () => {
-      const scrollTop = 'scrollTop' in mainEl ? (mainEl as HTMLElement).scrollTop : window.scrollY
+      const scrollTop = mainEl.scrollTop || 0
       setShowStickyBar(scrollTop > 160)
-      setShowBackToTop(scrollTop > 400)
+      setShowBackToTop(scrollTop > 300)
     }
 
     mainEl.addEventListener('scroll', handleScroll, { passive: true })
-    // Also listen on window for safety
-    window.addEventListener('scroll', handleScroll, { passive: true })
+    // Initial check in case already scrolled
+    handleScroll()
 
     return () => {
       mainEl.removeEventListener('scroll', handleScroll)
-      window.removeEventListener('scroll', handleScroll)
     }
   }, [])
 
   // IntersectionObserver for active heading tracking
   useEffect(() => {
     if (tocItems.length === 0) return
+
+    const rootEl = document.querySelector('main') || null
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -190,16 +196,15 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
         }
       },
       {
+        root: rootEl,
         rootMargin: '-80px 0px -70% 0px',
         threshold: 0.1,
       }
     )
 
-    // Observe all heading elements
-    const mainEl = mainRef.current?.closest('main') || document
     let count = 0
     for (const item of tocItems) {
-      const el = (mainEl as Element).querySelector(`#${item.id}`)
+      const el = document.getElementById(item.id)
       if (el) {
         observer.observe(el)
         count++
@@ -209,31 +214,29 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
     return () => observer.disconnect()
   }, [tocItems])
 
+  const getScrollContainer = useCallback((): HTMLElement | null => {
+    return document.querySelector('main')
+  }, [])
+
   const handleTocClick = useCallback((id: string) => {
     const el = document.getElementById(id)
-    if (el) {
-      const mainEl = mainRef.current?.closest('main') || window
-      const mainTop = 'scrollTop' in mainEl ? 0 : (mainEl as HTMLElement).getBoundingClientRect().top
-      const elTop = el.getBoundingClientRect().top + (mainEl instanceof Window ? mainEl.scrollY : (mainEl as HTMLElement).scrollTop) - mainTop - 72 // header offset
-      if (mainEl instanceof Window) {
-        mainEl.scrollTo({ top: elTop, behavior: 'smooth' })
-      } else {
-        (mainEl as HTMLElement).scrollTo({ top: elTop, behavior: 'smooth' })
-      }
+    const mainEl = getScrollContainer()
+    if (el && mainEl) {
+      const mainTop = mainEl.getBoundingClientRect().top
+      const elTop = el.getBoundingClientRect().top + mainEl.scrollTop - mainTop - 72
+      mainEl.scrollTo({ top: elTop, behavior: 'smooth' })
     }
-  }, [])
+  }, [getScrollContainer])
 
   const scrollToTop = useCallback(() => {
-    const mainEl = mainRef.current?.closest('main') || window
-    if (mainEl instanceof Window) {
+    const mainEl = getScrollContainer()
+    if (mainEl) {
       mainEl.scrollTo({ top: 0, behavior: 'smooth' })
-    } else {
-      (mainEl as HTMLElement).scrollTo({ top: 0, behavior: 'smooth' })
     }
-  }, [])
+  }, [getScrollContainer])
 
   return (
-    <div ref={mainRef}>
+    <div>
       {/* ===== Sticky Action Bar (appears on scroll) ===== */}
       <div
         className={`sticky top-0 z-30 transition-all duration-300 bg-background/80 backdrop-blur-sm border-b ${
@@ -347,7 +350,7 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
 
           {/* Content */}
           <CardContent className="p-0">
-            <MarkdownRenderer content={processedContent} />
+            <MarkdownRenderer content={page.content} nextHeadingId={nextHeadingId} />
           </CardContent>
 
           {/* Source */}
@@ -392,9 +395,9 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
 
         {/* ===== TOC Sidebar (desktop only) ===== */}
         {tocItems.length > 0 && (
-          <aside className="hidden lg:block w-48 shrink-0">
-            <div className="sticky top-16 max-h-[calc(100vh-5rem)] overflow-y-auto scrollbar-none">
-              {/* Mobile toggle button */}
+          <aside className="hidden lg:block w-56 shrink-0">
+            <div className="sticky top-16 max-h-[calc(100vh-5rem)] overflow-y-auto scrollbar-none pr-2">
+              {/* Toggle button */}
               <button
                 onClick={() => setTocCollapsed(!tocCollapsed)}
                 className="flex items-center justify-between w-full mb-2 text-xs text-muted-foreground hover:text-foreground transition-colors"

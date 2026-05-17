@@ -10,6 +10,7 @@ import { Check, Copy, Terminal } from 'lucide-react'
 // Markdown renderer with GFM support + syntax highlighting + copy button
 interface MarkdownRendererProps {
   content: string
+  nextHeadingId?: () => string
 }
 
 // Extract plain text from React children (strip HTML tags)
@@ -23,32 +24,39 @@ function extractText(children: React.ReactNode): string {
   return ''
 }
 
-export function MarkdownRenderer({ content }: MarkdownRendererProps) {
+export function MarkdownRenderer({ content, nextHeadingId }: MarkdownRendererProps) {
   if (!content) {
     return <p className="text-muted-foreground italic">暂无内容</p>
   }
+
+  // Create heading components that assign sequential IDs
+  const createHeadingComponent = (Tag: 'h1' | 'h2' | 'h3' | 'h4', className: string) => {
+    const HeadingComponent = ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement> & { children?: React.ReactNode }) => {
+      const id = nextHeadingId ? nextHeadingId() : undefined
+      return (
+        <Tag id={id} className={className} {...props}>
+          {children}
+        </Tag>
+      )
+    }
+    HeadingComponent.displayName = Tag.toUpperCase()
+    return HeadingComponent
+  }
+
+  const H1 = createHeadingComponent('h1', 'text-2xl font-bold mt-8 mb-4 pb-2 border-b border-border first:mt-0')
+  const H2 = createHeadingComponent('h2', 'text-xl font-semibold mt-6 mb-3 pb-1 border-b border-border/50')
+  const H3 = createHeadingComponent('h3', 'text-lg font-semibold mt-5 mb-2')
+  const H4 = createHeadingComponent('h4', 'text-base font-semibold mt-4 mb-2')
 
   return (
     <div className="markdown-content prose prose-neutral dark:prose-invert max-w-none">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
-          h1: ({ children }) => (
-            <h1 className="text-2xl font-bold mt-8 mb-4 pb-2 border-b border-border first:mt-0">
-              {children}
-            </h1>
-          ),
-          h2: ({ children }) => (
-            <h2 className="text-xl font-semibold mt-6 mb-3 pb-1 border-b border-border/50">
-              {children}
-            </h2>
-          ),
-          h3: ({ children }) => (
-            <h3 className="text-lg font-semibold mt-5 mb-2">{children}</h3>
-          ),
-          h4: ({ children }) => (
-            <h4 className="text-base font-semibold mt-4 mb-2">{children}</h4>
-          ),
+          h1: H1,
+          h2: H2,
+          h3: H3,
+          h4: H4,
           p: ({ children }) => (
             <p className="my-3 leading-7 text-sm text-foreground/90">{children}</p>
           ),
