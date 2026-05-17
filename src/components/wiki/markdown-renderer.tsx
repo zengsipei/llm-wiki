@@ -1,12 +1,26 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import { Check, Copy, Terminal } from 'lucide-react'
 
-// Markdown renderer with GFM support (tables, strikethrough, task lists, etc.)
+// Markdown renderer with GFM support + syntax highlighting + copy button
 interface MarkdownRendererProps {
   content: string
+}
+
+// Extract plain text from React children (strip HTML tags)
+function extractText(children: React.ReactNode): string {
+  if (typeof children === 'string') return children
+  if (typeof children === 'number') return String(children)
+  if (Array.isArray(children)) return children.map(extractText).join('')
+  if (children && typeof children === 'object' && 'props' in children) {
+    return extractText((children as React.ReactElement).props.children)
+  }
+  return ''
 }
 
 export function MarkdownRenderer({ content }: MarkdownRendererProps) {
@@ -53,25 +67,51 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
             </blockquote>
           ),
           code: ({ className, children, ...props }) => {
-            const isInline = !className
-            if (isInline) {
+            const match = /language-(\w+)/.exec(className || '')
+            const codeString = extractText(children)
+
+            // Block code with syntax highlighting
+            if (match && match[1]) {
+              return <CodeBlock language={match[1]} code={codeString} />
+            }
+
+            // Block code without language (indented or bare ``` blocks)
+            if (!className) {
+              // Check if this is inside a <pre> — ReactMarkdown passes <code> inside <pre> for fenced blocks
+              // We handle it in the `pre` component instead
               return (
-                <code className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono text-foreground/80" {...props}>
+                <code className="bg-muted px-1.5 py-0.5 rounded text-xs font-mono text-foreground/80" {...props}>
                   {children}
                 </code>
               )
             }
+
             return (
-              <code className={`${className} block text-sm font-mono`} {...props}>
+              <code className={`${className} text-sm font-mono`} {...props}>
                 {children}
               </code>
             )
           },
-          pre: ({ children }) => (
-            <pre className="not-prose my-4 p-4 bg-muted/50 border border-border rounded-lg overflow-x-auto text-sm font-mono leading-6">
-              {children}
-            </pre>
-          ),
+          pre: ({ children }) => {
+            // If children already contains a SyntaxHighlighter (from code handler), render as-is
+            // Otherwise, render as a plain code block
+            const child = React.Children.toArray(children)[0]
+            if (React.isValidElement(child) && child.type === CodeBlock) {
+              return (
+                <div className="not-prose my-4 rounded-lg overflow-hidden border border-border/60">
+                  {child}
+                </div>
+              )
+            }
+
+            // Fallback for bare code blocks (no language specified)
+            const text = extractText(children)
+            return (
+              <div className="not-prose my-4 rounded-lg overflow-hidden border border-border/60">
+                <CodeBlock language="text" code={text} />
+              </div>
+            )
+          },
           a: ({ href, children }) => (
             <a
               href={href}
@@ -85,7 +125,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
           hr: () => (
             <hr className="my-6 border-border" />
           ),
-          // GFM table support - wrapper for horizontal scroll
+          // GFM table support
           table: ({ children }) => (
             <div className="my-4 overflow-x-auto not-prose">
               <table className="w-full text-sm border-collapse border border-border">
@@ -113,6 +153,94 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
       >
         {content}
       </ReactMarkdown>
+    </div>
+  )
+}
+
+// Standalone code block component with syntax highlighting + copy button
+function CodeBlock({ language, code }: { language: string; code: string }) {
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(code)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      // Fallback for environments without clipboard API
+      const textarea = document.createElement('textarea')
+      textarea.value = code
+      textarea.style.position = 'fixed'
+      textarea.style.opacity = '0'
+      document.body.appendChild(textarea)
+      textarea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textarea)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    }
+  }, [code])
+
+  // Normalize language names
+  const displayLang = language === 'text' ? '' : language
+
+  return (
+    <div className="relative group">
+      {/* Header bar */}
+      <div className="flex items-center justify-between px-4 py-2 bg-[#282c34] border-b border-[#3e4451]">
+        <div className="flex items-center gap-2">
+          <Terminal className="size-3.5 text-[#636d83]" />
+          <span className="text-xs font-medium text-[#636d83] uppercase tracking-wider">
+            {displayLang || 'code'}
+          </span>
+        </div>
+        <button
+          onClick={handleCopy}
+          className="flex items-center gap-1.5 px-2 py-1 rounded text-xs text-[#636d83] hover:text-[#abb2bf] hover:bg-[#3e4451] transition-colors"
+          title={copied ? '已复制' : '复制代码'}
+        >
+          {copied ? (
+            <>
+              <Check className="size-3.5 text-emerald-400" />
+              <span className="text-emerald-400">已复制</span>
+            </>
+          ) : (
+            <>
+              <Copy className="size-3.5" />
+              <span>复制</span>
+            </>
+          )}
+        </button>
+      </div>
+
+      {/* Code area */}
+      <SyntaxHighlighter
+        language={displayLang || 'text'}
+        style={oneDark}
+        customStyle={{
+          margin: 0,
+          padding: '1rem',
+          fontSize: '0.8125rem',
+          lineHeight: '1.6',
+          background: '#282c34',
+          borderRadius: 0,
+        }}
+        showLineNumbers={code.split('\n').length > 3}
+        lineNumberStyle={{
+          color: '#4b5263',
+          fontSize: '0.75rem',
+          minWidth: '2.5em',
+          paddingRight: '1em',
+          userSelect: 'none',
+        }}
+        codeTagProps={{
+          style: {
+            fontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', Menlo, Monaco, 'Courier New', monospace",
+          },
+        }}
+      >
+        {code}
+      </SyntaxHighlighter>
     </div>
   )
 }
