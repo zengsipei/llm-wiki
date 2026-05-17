@@ -284,13 +284,11 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
 
   const handleTocClick = useCallback((id: string) => {
     const el = document.getElementById(id)
-    const mainEl = getScrollContainer()
-    if (el && mainEl) {
-      const mainTop = mainEl.getBoundingClientRect().top
-      const elTop = el.getBoundingClientRect().top + mainEl.scrollTop - mainTop - 72
-      mainEl.scrollTo({ top: elTop, behavior: 'smooth' })
+    if (el) {
+      // scroll-margin-top (80px) on headings ensures the heading is not hidden behind the sticky bar
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
-  }, [getScrollContainer])
+  }, [])
 
   const scrollToTop = useCallback(() => {
     const mainEl = getScrollContainer()

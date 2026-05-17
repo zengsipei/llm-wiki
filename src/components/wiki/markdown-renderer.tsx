@@ -49,10 +49,11 @@ export function MarkdownRenderer({ content, headingIds }: MarkdownRendererProps)
     return HeadingComponent
   }
 
-  const H1 = createHeadingComponent('h1', 'text-2xl font-bold mt-8 mb-4 pb-2 border-b border-border first:mt-0')
-  const H2 = createHeadingComponent('h2', 'text-xl font-semibold mt-6 mb-3 pb-1 border-b border-border/50')
-  const H3 = createHeadingComponent('h3', 'text-lg font-semibold mt-5 mb-2')
-  const H4 = createHeadingComponent('h4', 'text-base font-semibold mt-4 mb-2')
+  const scrollMarginClass = '[scroll-margin-top:80px]'
+  const H1 = createHeadingComponent('h1', `text-2xl font-bold mt-8 mb-4 pb-2 border-b border-border first:mt-0 ${scrollMarginClass}`)
+  const H2 = createHeadingComponent('h2', `text-xl font-semibold mt-6 mb-3 pb-1 border-b border-border/50 ${scrollMarginClass}`)
+  const H3 = createHeadingComponent('h3', `text-lg font-semibold mt-5 mb-2 ${scrollMarginClass}`)
+  const H4 = createHeadingComponent('h4', `text-base font-semibold mt-4 mb-2 ${scrollMarginClass}`)
 
   return (
     <div className="markdown-content prose prose-neutral dark:prose-invert max-w-none">
