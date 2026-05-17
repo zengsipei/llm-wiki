@@ -2,6 +2,7 @@
 
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 // Markdown renderer
 interface MarkdownRendererProps {
@@ -16,6 +17,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
   return (
     <div className="markdown-content prose prose-neutral dark:prose-invert max-w-none">
       <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
         components={{
           h1: ({ children }) => (
             <h1 className="text-2xl font-bold mt-8 mb-4 pb-2 border-b border-border first:mt-0">
