@@ -106,7 +106,7 @@ export function PageEdit({ page, onSave, onCancel, loading }: PageEditProps) {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder="# 标题&#10;&#10;在此输入 Markdown 内容..."
-            className="min-h-[400px] font-mono text-sm leading-6 resize-y"
+            className="min-h-[400px] font-mono text-sm leading-6 resize-y [font-variant-ligatures:none]"
           />
         </div>
 

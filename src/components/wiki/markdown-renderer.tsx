@@ -4,7 +4,7 @@ import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
-// Markdown renderer
+// Markdown renderer with GFM support (tables, strikethrough, task lists, etc.)
 interface MarkdownRendererProps {
   content: string
 }
@@ -15,7 +15,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
   }
 
   return (
-    <div className="markdown-content prose prose-neutral dark:prose-invert max-w-none">
+    <div className="markdown-content prose prose-neutral dark:prose-invert max-w-none prose-table:border-collapse prose-th:bg-muted/50 prose-th:border prose-th:border-border prose-th:px-3 prose-th:py-2 prose-th:text-left prose-td:border prose-td:border-border prose-td:px-3 prose-td:py-2 prose-pre:bg-muted/50 prose-pre:border prose-pre:border-border">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
@@ -85,20 +85,29 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
           hr: () => (
             <hr className="my-6 border-border" />
           ),
+          // GFM table support - wrapper for horizontal scroll
           table: ({ children }) => (
-            <div className="my-4 overflow-x-auto">
+            <div className="my-4 overflow-x-auto not-prose">
               <table className="w-full text-sm border-collapse border border-border">
                 {children}
               </table>
             </div>
           ),
+          thead: ({ children }) => (
+            <thead className="bg-muted/30">{children}</thead>
+          ),
           th: ({ children }) => (
-            <th className="border border-border bg-muted/50 px-3 py-2 text-left font-semibold">
+            <th className="border border-border bg-muted/50 px-3 py-2 text-left font-semibold whitespace-nowrap">
               {children}
             </th>
           ),
+          tr: ({ children }) => (
+            <tr className="hover:bg-muted/20 transition-colors">{children}</tr>
+          ),
           td: ({ children }) => (
-            <td className="border border-border px-3 py-2">{children}</td>
+            <td className="border border-border px-3 py-2 text-sm">
+              {children}
+            </td>
           ),
         }}
       >
