@@ -232,77 +232,60 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
   const [activeHeadingIndex, setActiveHeadingIndex] = useState(-1)
   const [readProgress, setReadProgress] = useState(0)
 
-  // Scroll handler: progress + sticky bar + back-to-top
+  // Unified scroll handler (rAF-throttled):
+  // progress + sticky bar + back-to-top + active heading (zread-style)
   useEffect(() => {
     const mainEl = document.querySelector('main') as HTMLElement | null
     if (!mainEl) return
 
-    const handleScroll = () => {
-      const scrollTop = mainEl.scrollTop || 0
-      const scrollHeight = mainEl.scrollHeight || 1
-      const clientHeight = mainEl.clientHeight || 1
-
-      // Reading progress (0..1)
-      const maxScroll = scrollHeight - clientHeight
-      const progress = maxScroll > 0 ? Math.min(1, Math.max(0, scrollTop / maxScroll)) : 0
-      setReadProgress(progress)
-
-      // UI toggles
-      setShowStickyBar(scrollTop > 160)
-      setShowBackToTop(scrollTop > 300)
-    }
-
-    mainEl.addEventListener('scroll', handleScroll, { passive: true })
-    const initTimer = setTimeout(() => handleScroll(), 200)
-
-    return () => {
-      mainEl.removeEventListener('scroll', handleScroll)
-      clearTimeout(initTimer)
-    }
-  }, [])
-
-  // IntersectionObserver: active heading tracking (zread-style)
-  // Highlights the topmost heading currently visible below the sticky bar
-  useEffect(() => {
-    const mainEl = document.querySelector('main') as HTMLElement | null
-    if (!mainEl || tocItems.length === 0) return
-
-    // Collect heading DOM elements
+    // Pre-collect heading DOM elements (stable for this page)
     const headingEls: HTMLElement[] = []
     for (const item of tocItems) {
       const el = document.getElementById(item.id)
       if (el) headingEls.push(el)
     }
 
-    // Scan headings to find the topmost one visible below the sticky bar
-    const updateActive = () => {
-      if (headingEls.length === 0) return
-      const mainTop = mainEl.getBoundingClientRect().top
-      const readingLine = mainTop + 52 // just past the sticky action bar
-      let activeIdx = -1
-      for (let i = 0; i < headingEls.length; i++) {
-        if (headingEls[i].getBoundingClientRect().top >= readingLine) {
-          activeIdx = i
-          break
+    let rafId = 0
+
+    const handleScroll = () => {
+      cancelAnimationFrame(rafId)
+      rafId = requestAnimationFrame(() => {
+        const scrollTop = mainEl.scrollTop || 0
+        const scrollHeight = mainEl.scrollHeight || 1
+        const clientHeight = mainEl.clientHeight || 1
+
+        // Reading progress (0..1)
+        const maxScroll = scrollHeight - clientHeight
+        setReadProgress(maxScroll > 0 ? Math.min(1, Math.max(0, scrollTop / maxScroll)) : 0)
+
+        // UI toggles
+        setShowStickyBar(scrollTop > 160)
+        setShowBackToTop(scrollTop > 300)
+
+        // Active heading: first heading visible below the sticky bar (zread-style)
+        if (headingEls.length > 0) {
+          const mainTop = mainEl.getBoundingClientRect().top
+          const contentTop = mainTop + 46 // sticky action bar ≈ 44px + 2px gap
+          let activeIdx = -1
+          for (let i = 0; i < headingEls.length; i++) {
+            if (headingEls[i].getBoundingClientRect().top >= contentTop) {
+              activeIdx = i
+              break
+            }
+          }
+          // All headings scrolled past → use the last one
+          if (activeIdx < 0) activeIdx = headingEls.length - 1
+          setActiveHeadingIndex(activeIdx)
         }
-      }
-      // All headings scrolled past → use the last one
-      if (activeIdx < 0) activeIdx = headingEls.length - 1
-      setActiveHeadingIndex(activeIdx)
+      })
     }
 
-    // Observe headings; fires when any heading enters/leaves the viewport
-    const observer = new IntersectionObserver(() => updateActive(), {
-      root: mainEl,
-      threshold: 0,
-    })
-    headingEls.forEach((el) => observer.observe(el))
-
-    // Initial calculation
-    const initTimer = setTimeout(updateActive, 250)
+    mainEl.addEventListener('scroll', handleScroll, { passive: true })
+    const initTimer = setTimeout(handleScroll, 250)
 
     return () => {
-      observer.disconnect()
+      mainEl.removeEventListener('scroll', handleScroll)
+      cancelAnimationFrame(rafId)
       clearTimeout(initTimer)
     }
   }, [tocItems])
