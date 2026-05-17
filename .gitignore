@@ -1,0 +1,62 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# next.js
+.next/
+out/
+build/
+dist/
+
+# misc
+.DS_Store
+*.pem
+*.db
+*.db-journal
+
+# debug/logs
+npm-debug.log*
+yarn-debug.log*
+dev.log
+
+# env
+.env
+.env*.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# database files
+db/
+
+# screenshots & temp
+download/*.png
+download/*.json
+screenshot*.mjs
+seed-db.mjs
+Caddyfile
+
+# prisma migrations (users generate their own)
+prisma/migrations/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+Thumbs.db
+
+# sandbox/system files
+.zscripts/
+skills/
+mini-services/
+examples/
+download/cloudflared.log
+download/zengsipei_github_repos.html
+worklog.md
+download/

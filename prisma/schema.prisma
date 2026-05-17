@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// 原始文档来源
+model Source {
+  id         String   @id @default(cuid())
+  title      String
+  content    String   // 原始文本内容
+  sourceType String   @default("manual") // manual | file | web
+  status     String   @default("pending") // pending | processed
+  createdAt  DateTime @default(now())
+  pages      WikiPage[]
+  logs       ActivityLog[]
+}
+
+// Wiki 页面
+model WikiPage {
+  id         String   @id @default(cuid())
+  title      String
+  content    String   // Markdown 内容
+  pageType   String   @default("concept") // entity | concept | summary
+  tags       String   @default("[]") // JSON array of tags
+  backlinks  String   @default("[]") // JSON array of page IDs
+  sourceId   String?
+  source     Source?  @relation(fields: [sourceId], references: [id], onDelete: SetNull)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  logs       ActivityLog[]
+}
+
+// 操作日志
+model ActivityLog {
+  id           String    @id @default(cuid())
+  actionType   String    // ingest | query | lint | edit | create
+  summary      String
+  relatedPages String    @default("[]") // JSON array of page IDs
+  createdAt    DateTime  @default(now())
+  sourceId     String?
+  source       Source?   @relation(fields: [sourceId], references: [id], onDelete: SetNull)
+  pageId       String?
+  page         WikiPage? @relation(fields: [pageId], references: [id], onDelete: SetNull)
+}
