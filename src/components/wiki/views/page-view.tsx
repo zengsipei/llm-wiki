@@ -55,12 +55,22 @@ const formatTime = (dateStr: string) => {
 }
 
 // Extract headings from markdown content for TOC
+// Skips lines inside code blocks (triple backtick fences)
 function extractTocItems(content: string): TocItem[] {
   const items: TocItem[] = []
   const lines = content.split('\n')
   let counter = 0
+  let inCodeBlock = false
 
   for (const line of lines) {
+    // Toggle code block state on fenced code blocks
+    if (line.trimStart().startsWith('```')) {
+      inCodeBlock = !inCodeBlock
+      continue
+    }
+    // Skip lines inside code blocks
+    if (inCodeBlock) continue
+
     const match = line.match(/^(#{1,4})\s+(.+)$/)
     if (match) {
       const level = match[1].length
@@ -232,17 +242,29 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
   const [activeHeadingIndex, setActiveHeadingIndex] = useState(-1)
   const [readProgress, setReadProgress] = useState(0)
 
+  // Helper: get element's offset relative to a specific container
+  // el.offsetTop is relative to offsetParent, which may not be <main>
+  const getOffsetRelativeTo = useCallback((el: HTMLElement, container: HTMLElement): number => {
+    let top = 0
+    let current: HTMLElement | null = el
+    while (current && current !== container) {
+      top += current.offsetTop
+      current = current.offsetParent as HTMLElement | null
+    }
+    return top
+  }, [])
+
   // Unified scroll handler (rAF-throttled):
   // progress + sticky bar + back-to-top + active heading (zread-style)
   useEffect(() => {
     const mainEl = document.querySelector('main') as HTMLElement | null
     if (!mainEl) return
 
-    // Pre-collect heading elements and their offsets relative to mainEl
+    // Pre-collect heading elements and their true offsets relative to mainEl
     const headingOffsets: number[] = []
     for (const item of tocItems) {
       const el = document.getElementById(item.id)
-      if (el) headingOffsets.push(el.offsetTop)
+      if (el) headingOffsets.push(getOffsetRelativeTo(el, mainEl))
     }
 
     let rafId = 0
@@ -262,14 +284,12 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
         setShowStickyBar(scrollTop > 160)
         setShowBackToTop(scrollTop > 300)
 
-        // Active heading: first heading whose top is visible below the sticky bar
-        // Use offsetTop (relative to scroll container) — no getBoundingClientRect needed
+        // Active heading: first heading visible below the sticky bar
         if (headingOffsets.length > 0) {
-          // stickyBar ≈ 44px; the heading must be below that in the scroll view
-          const barHeight = 48
+          const stickyBarH = 48
           let activeIdx = -1
           for (let i = 0; i < headingOffsets.length; i++) {
-            if (headingOffsets[i] >= scrollTop + barHeight) {
+            if (headingOffsets[i] >= scrollTop + stickyBarH) {
               activeIdx = i
               break
             }
@@ -289,7 +309,7 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
       cancelAnimationFrame(rafId)
       clearTimeout(initTimer)
     }
-  }, [tocItems])
+  }, [tocItems, getOffsetRelativeTo])
 
   const getScrollContainer = useCallback((): HTMLElement | null => {
     return document.querySelector('main')
@@ -299,13 +319,12 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
     const el = document.getElementById(id)
     const mainEl = getScrollContainer()
     if (el && mainEl) {
-      // scrollIntoView doesn't reliably respect scroll-margin-top inside
-      // a nested scroll container (<main>), so manually calculate offset.
-      // Scroll to heading - 48px to leave room below the sticky bar.
-      const targetScroll = el.offsetTop - 48
-      mainEl.scrollTo({ top: Math.max(0, targetScroll), behavior: 'smooth' })
+      // Use the same getOffsetRelativeTo helper for consistency with tracking
+      const offset = getOffsetRelativeTo(el, mainEl)
+      const stickyBarH = 48
+      mainEl.scrollTo({ top: Math.max(0, offset - stickyBarH), behavior: 'smooth' })
     }
-  }, [getScrollContainer])
+  }, [getScrollContainer, getOffsetRelativeTo])
 
   const scrollToTop = useCallback(() => {
     const mainEl = getScrollContainer()
