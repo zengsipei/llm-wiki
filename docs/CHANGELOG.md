@@ -1,6 +1,8 @@
 # LLM Wiki 开发历程 (CHANGELOG)
 
 > 按开发阶段记录所有功能实现、Bug 修复和技术决策
+>
+> **项目归属**: 由 [z.ai](https://z.ai) 的 Agent 模式提供 AI 编程支持，用户通过**微信 (WeChat)** 完成会话沟通，手动在 **PC 网页** 上发布更新并预览 `https://v1z5640xhrq1-d.space-z.ai/`。
 
 ---
 
