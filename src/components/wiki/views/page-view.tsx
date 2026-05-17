@@ -251,13 +251,15 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
       setShowStickyBar(scrollTop > 160)
       setShowBackToTop(scrollTop > 300)
 
-      // Find active heading: last heading whose top is above viewport top + 80px
+      // Find active heading: last heading whose top is above the "reading line"
+      // Use 20% of viewport height from main top — more intuitive than a fixed pixel value
       if (tocItems.length > 0) {
-        const viewportTop = mainEl.getBoundingClientRect().top + 80
+        const mainTop = mainEl.getBoundingClientRect().top
+        const readingLine = mainTop + mainEl.clientHeight * 0.2
         let activeIdx = -1
         for (let i = 0; i < tocItems.length; i++) {
           const el = document.getElementById(tocItems[i].id)
-          if (el && el.getBoundingClientRect().top <= viewportTop) {
+          if (el && el.getBoundingClientRect().top <= readingLine) {
             activeIdx = i
           }
         }
