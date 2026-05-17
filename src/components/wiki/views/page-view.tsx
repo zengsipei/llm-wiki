@@ -232,7 +232,7 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
   const [activeHeadingIndex, setActiveHeadingIndex] = useState(-1)
   const [readProgress, setReadProgress] = useState(0)
 
-  // Unified scroll handler: progress + active heading + sticky bar + back-to-top
+  // Scroll handler: progress + sticky bar + back-to-top
   useEffect(() => {
     const mainEl = document.querySelector('main') as HTMLElement | null
     if (!mainEl) return
@@ -250,33 +250,59 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
       // UI toggles
       setShowStickyBar(scrollTop > 160)
       setShowBackToTop(scrollTop > 300)
-
-      // Find active heading: last heading whose top is above the "reading line"
-      // Offset = mainTop + 48px: just past the sticky action bar (~44px) so a heading
-      // becomes active as soon as it scrolls into view below the bar
-      if (tocItems.length > 0) {
-        const mainTop = mainEl.getBoundingClientRect().top
-        const readingLine = mainTop + 48
-        let activeIdx = -1
-        for (let i = 0; i < tocItems.length; i++) {
-          const el = document.getElementById(tocItems[i].id)
-          if (el && el.getBoundingClientRect().top <= readingLine) {
-            activeIdx = i
-          }
-        }
-        // Default to first heading if scrolled but none in active zone yet
-        if (activeIdx < 0 && scrollTop > 10) activeIdx = 0
-        setActiveHeadingIndex(activeIdx)
-      }
     }
 
     mainEl.addEventListener('scroll', handleScroll, { passive: true })
-    // Initial calculation
-    // Small delay to ensure headings are rendered
     const initTimer = setTimeout(() => handleScroll(), 200)
 
     return () => {
       mainEl.removeEventListener('scroll', handleScroll)
+      clearTimeout(initTimer)
+    }
+  }, [])
+
+  // IntersectionObserver: active heading tracking (zread-style)
+  // Highlights the topmost heading currently visible below the sticky bar
+  useEffect(() => {
+    const mainEl = document.querySelector('main') as HTMLElement | null
+    if (!mainEl || tocItems.length === 0) return
+
+    // Collect heading DOM elements
+    const headingEls: HTMLElement[] = []
+    for (const item of tocItems) {
+      const el = document.getElementById(item.id)
+      if (el) headingEls.push(el)
+    }
+
+    // Scan headings to find the topmost one visible below the sticky bar
+    const updateActive = () => {
+      if (headingEls.length === 0) return
+      const mainTop = mainEl.getBoundingClientRect().top
+      const readingLine = mainTop + 52 // just past the sticky action bar
+      let activeIdx = -1
+      for (let i = 0; i < headingEls.length; i++) {
+        if (headingEls[i].getBoundingClientRect().top >= readingLine) {
+          activeIdx = i
+          break
+        }
+      }
+      // All headings scrolled past → use the last one
+      if (activeIdx < 0) activeIdx = headingEls.length - 1
+      setActiveHeadingIndex(activeIdx)
+    }
+
+    // Observe headings; fires when any heading enters/leaves the viewport
+    const observer = new IntersectionObserver(() => updateActive(), {
+      root: mainEl,
+      threshold: 0,
+    })
+    headingEls.forEach((el) => observer.observe(el))
+
+    // Initial calculation
+    const initTimer = setTimeout(updateActive, 250)
+
+    return () => {
+      observer.disconnect()
       clearTimeout(initTimer)
     }
   }, [tocItems])
