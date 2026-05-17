@@ -267,10 +267,6 @@ git remote -v  # origin → https://github.com/zengsipei/llm-wiki.git
 git push origin main     # 推送
 ```
 
-### 定时任务
-- Cron Job ID: `154362`
-- 每小时整点报时（关怀用户、提醒休息）
-
 ---
 
 ## 九、已知注意事项
