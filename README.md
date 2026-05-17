@@ -32,7 +32,6 @@ npm install
 
 ```bash
 cp .env.example .env
-# 编辑 .env 填入你的配置
 ```
 
 ### 初始化数据库
@@ -92,6 +91,16 @@ src/
 - **Source** - 原始文档来源
 - **WikiPage** - Wiki 知识页面（标题、Markdown 内容、类型、标签、反向链接）
 - **ActivityLog** - 操作日志（创建、编辑、摄入、查询、检查）
+
+## 知识来源
+
+已从 [grahify-kb](https://github.com/zengsipei/grahify-kb) 摄入 18 篇 AI/开发工具相关文章，涵盖：
+- Claude Code Operator 模式
+- Anthropic Prompting 最佳实践
+- Browser Harness、Windsurf CodeMaps
+- 暗壳 AI 室内设计、Stitch2 AI 设计
+- Supabase vs Firebase 对比
+- 等
 
 ## License
 
