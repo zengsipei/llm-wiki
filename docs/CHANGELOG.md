@@ -154,3 +154,27 @@ for (let i = 0; i < headingOffsets.length; i++) {
 | TOC Hover | 单容器包裹 | 零死区、无定时器、代码更少 |
 | AI SDK | z-ai-web-dev-sdk | 平台内置，无需额外配置 |
 | 进程管理 | PM2 (npx) | 持久化、自动重启 |
+
+---
+
+## 阶段四：HTML Effectiveness 研究（2026-05-21）
+
+### 4.1 研究内容摄入
+- 调研 [thariqs.github.io/html-effectiveness](https://thariqs.github.io/html-effectiveness/) — Anthropic 工程师 Thariq 的博文及配套 20 个 Demo
+- 核心理念：**AI Agent 应该直接输出可交互的 HTML 文件**，而非纯文本 Markdown
+- 创建 Wiki 页面「The Unreasonable Effectiveness of HTML（HTML 的不合理有效性）」，包含完整的 9 大场景分析和设计原则
+- 通过 `scripts/add-html-effectiveness.mjs` 种子脚本写入数据库
+
+### 4.2 Demo 文件
+- 将 20 个自包含 HTML Demo 文件放入 `public/html-effectiveness-demos/`
+- 覆盖 9 大场景：探索与规划、代码审查、设计系统、原型开发、图表插图、演示文稿、研究与学习、报告、自定义编辑器
+- 所有 Demo 文件零依赖（纯 HTML + CSS + 原生 JS），可直接在浏览器中打开
+
+### 4.3 Demo 画廊页面
+- 新增 `/html-effectiveness` 路由（`src/app/html-effectiveness/page.tsx`）
+- 分类筛选、搜索、网格/列表视图切换
+- 每张卡片点击可直接打开对应 Demo
+- 返回按钮链接 Wiki 主页
+
+### 4.4 Git 操作
+- 推送 commit `77bb507`（HTML Effectiveness demos + seed script）到 GitHub
