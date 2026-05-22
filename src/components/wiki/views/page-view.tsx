@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react'
-import { Edit, Trash2, Tag, Clock, ArrowLeft, Link2, ArrowUp, List, ChevronRight, Sparkles, Maximize2, Minimize2, Loader2, RefreshCw } from 'lucide-react'
+import { Edit, Trash2, Tag, Clock, ArrowLeft, Link2, ArrowUp, List, ChevronRight, Sparkles, Maximize2, Minimize2, Loader2, History, ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
@@ -431,6 +431,80 @@ function WidgetPanel({ pageId }: { pageId: string }) {
   )
 }
 
+// ============ Page History Component ============
+
+function PageHistory({ pageId }: { pageId: string }) {
+  const [expanded, setExpanded] = useState(false)
+  const [commits, setCommits] = useState<Array<{
+    hash: string
+    fullHash: string
+    author: string
+    date: string
+    message: string
+  }>>([])
+  const [loading, setLoading] = useState(false)
+  const [loaded, setLoaded] = useState(false)
+
+  const fetchHistory = useCallback(async () => {
+    if (loaded) return
+    setLoading(true)
+    try {
+      const res = await fetch(`/api/wiki/${pageId}/history`)
+      const data = await res.json()
+      if (data.commits) {
+        setCommits(data.commits)
+        setLoaded(true)
+      }
+    } catch {
+      // silently fail
+    } finally {
+      setLoading(false)
+    }
+  }, [pageId, loaded])
+
+  const handleToggle = useCallback(() => {
+    if (!expanded && !loaded) {
+      fetchHistory()
+    }
+    setExpanded(prev => !prev)
+  }, [expanded, loaded, fetchHistory])
+
+  return (
+    <div className="my-4">
+      <button
+        onClick={handleToggle}
+        className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+      >
+        <History className="size-3.5" />
+        <span>版本历史</span>
+        {loading && <Loader2 className="size-3 animate-spin" />}
+        <ChevronDown className={`size-3 transition-transform ${expanded ? 'rotate-180' : ''}`} />
+      </button>
+      {expanded && (
+        <div className="mt-2 ml-5 border-l-2 border-border pl-4 space-y-2">
+          {commits.length === 0 && !loading ? (
+            <p className="text-xs text-muted-foreground py-2">暂无版本记录</p>
+          ) : (
+            commits.map((c, idx) => (
+              <div key={c.fullHash || idx} className="flex items-start gap-2 text-xs py-1">
+                <code className="shrink-0 px-1.5 py-0.5 rounded bg-muted font-mono text-[10px] text-muted-foreground hover:text-foreground cursor-pointer transition-colors">
+                  {c.hash}
+                </code>
+                <div className="min-w-0 flex-1">
+                  <p className="text-foreground/80 truncate">{c.message}</p>
+                  <p className="text-muted-foreground/60 mt-0.5">
+                    {c.author} · {c.date ? new Date(c.date).toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }) : ''}
+                  </p>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ============ Main Component ============
 
 export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, onBack }: PageViewProps) {
@@ -647,6 +721,9 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
 
         {/* Widget Panel */}
         <WidgetPanel pageId={page.id} />
+
+        {/* Version History */}
+        <PageHistory pageId={page.id} />
 
         {/* Source */}
         {page.source && (
