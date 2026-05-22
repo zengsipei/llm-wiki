@@ -3,7 +3,7 @@
 > **最后更新**: 2026-05-17 22:00 CST
 > **项目版本**: v0.2.0
 > **Git**: https://github.com/zengsipei/llm-wiki
-> **预览**: https://v1z5640xhrq1-d.space-z.ai
+> **预览**: https://zengsipei.space-z.ai
 > **用途**: 新会话读取此文档 + `docs/CHANGELOG.md` + `docs/SESSION_LOG.md` 即可无缝继续项目
 >
 > **项目归属**: 本项目由 [z.ai](https://z.ai) 的 Agent 模式提供 AI 编程支持，用户通过**微信 (WeChat)** 完成会话沟通，Agent 在云端沙盒中开发，用户在 **PC 网页** 上手动发布更新并预览效果。
@@ -16,7 +16,7 @@
 |------|------|
 | **AI Agent** | z.ai 的 Agent 模式 |
 | **沟通渠道** | 微信 (WeChat) |
-| **预览方式** | PC 网页手动发布更新后预览 `https://v1z5640xhrq1-d.space-z.ai/` |
+| **预览方式** | PC 网页手动发布更新后预览 `https://zengsipei.space-z.ai/` |
 | **开发环境** | 云端沙盒 Linux 服务器 |
 | **代码托管** | GitHub: `https://github.com/zengsipei/llm-wiki` |
 

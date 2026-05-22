@@ -229,4 +229,4 @@ class WikiPage:
 ### 链接
 
 - [GitHub 仓库](https://github.com/zengsipei/llm-wiki)
-- [预览地址](https://v1z5640xhrq1-d.space-z.ai/)
+- [预览地址](https://zengsipei.space-z.ai/)
