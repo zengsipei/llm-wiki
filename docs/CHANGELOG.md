@@ -178,3 +178,35 @@ for (let i = 0; i < headingOffsets.length; i++) {
 
 ### 4.4 Git 操作
 - 推送 commit `77bb507`（HTML Effectiveness demos + seed script）到 GitHub
+
+---
+
+## 阶段五：内容持久化改进 — md 做记忆，html 做展示（2026-05-22）
+
+### 5.1 问题背景
+- SQLite 数据库（`db/custom.db`）被 `.gitignore` 排除，从未纳入 Git 管理
+- 5月22日午夜 cron 触发器意外重建了数据库，导致所有页面内容丢失
+- 之前手动创建的 25 个页面内容无法恢复
+
+### 5.2 架构改进：三层分离
+| 层 | 格式 | 存储 | 作用 |
+|---|---|---|---|
+| **内容层** | `.md` + frontmatter | `wiki-content/` 目录，**Git 管理** | Source of Truth，可 diff、可回溯 |
+| **索引层** | SQLite | `db/custom.db`，不入 Git | 搜索缓存，可丢弃，随时从 .md 重建 |
+| **展示层** | HTML | react-markdown → 富交互渲染 | 比纯 md 渲染更强的展示 |
+
+### 5.3 wiki-content/ 目录结构
+- 每个页面一个 `.md` 文件，文件名由标题 slug 生成
+- YAML frontmatter 存储：`id`、`title`、`type`、`tags`、`created`、`updated`
+- 文件内容为纯 Markdown，任何编辑器可直接修改
+
+### 5.4 双向同步脚本
+- `scripts/sync-to-md.mjs` — 数据库 → .md 文件（全量导出）
+- `scripts/sync-from-md.mjs` — .md 文件 → 数据库（全量导入/重建）
+- 数据库丢失时：`node scripts/sync-from-md.mjs` 即可恢复
+
+### 5.5 API 自动同步
+- `POST /api/wiki` — 创建页面时自动写入对应 `.md` 文件
+- `PUT /api/wiki/[id]` — 更新页面时自动同步 `.md` 文件
+- `DELETE /api/wiki/[id]` — 删除页面时自动删除对应 `.md` 文件
+- 同步为 fire-and-forget，不阻塞 API 响应
