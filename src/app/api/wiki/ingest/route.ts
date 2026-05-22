@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
+import { writeFileSync, mkdirSync } from 'fs'
+import { resolve } from 'path'
 import ZAI from 'z-ai-web-dev-sdk'
+
+const CONTENT_DIR = resolve(process.cwd(), 'wiki-content')
 
 // Helper: parse JSON array string safely
 function parseJsonArray(str: string): string[] {
@@ -133,6 +137,22 @@ export async function POST(request: NextRequest) {
           sourceId: source.id,
         },
       })
+
+      // Sync to .md file (fire-and-forget)
+      try {
+        syncToMd({
+          id: page.id,
+          title: page.title,
+          content: page.content,
+          pageType: page.pageType,
+          tags: page.tags,
+          createdAt: page.createdAt,
+          updatedAt: page.updatedAt,
+        })
+      } catch (err) {
+        console.error(`[sync] Failed to write .md for ${page.title}:`, err)
+      }
+
       createdPages.push({ ...page, crossReferences: pageData.crossReferences || [] })
     }
 
@@ -193,4 +213,45 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     )
   }
+}
+
+// Sync a page to its .md file in wiki-content/
+function syncToMd(page: { id: string; title: string; content: string; pageType: string; tags: string; createdAt: Date | string; updatedAt: Date | string }) {
+  try {
+    mkdirSync(CONTENT_DIR, { recursive: true })
+  } catch { /* already exists */ }
+
+  const slug = page.title
+    .toLowerCase()
+    .replace(/[\s（）()【】[\]]+/g, '-')
+    .replace(/[^\w\u4e00-\u9fff-]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
+    .substring(0, 80) || 'untitled'
+
+  const filePath = resolve(CONTENT_DIR, `${slug}.md`)
+
+  const tagsStr = (() => {
+    try {
+      const arr = JSON.parse(page.tags)
+      return arr.map((t: string) => `  - ${t}`).join('\n')
+    } catch {
+      return `  - ${page.tags}`
+    }
+  })()
+
+  const frontmatter = [
+    `---`,
+    `id: ${page.id}`,
+    `title: ${page.title}`,
+    `type: ${page.pageType}`,
+    `tags:`,
+    tagsStr,
+    `created: ${new Date(page.createdAt).toISOString()}`,
+    `updated: ${new Date(page.updatedAt).toISOString()}`,
+    `---`,
+  ].join('\n')
+
+  writeFileSync(filePath, `${frontmatter}\n\n${page.content}`, 'utf-8')
+  console.log(`[sync] Ingested .md for: ${page.title}`)
 }
