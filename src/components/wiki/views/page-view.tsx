@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react'
-import { Edit, Trash2, Tag, Clock, ArrowLeft, Link2, ArrowUp, List, ChevronRight } from 'lucide-react'
+import { Edit, Trash2, Tag, Clock, ArrowLeft, Link2, ArrowUp, List, ChevronRight, Sparkles, Maximize2, Minimize2, Loader2, RefreshCw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
@@ -18,8 +18,17 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { MarkdownRenderer } from '@/components/wiki/markdown-renderer'
+import { toast } from '@/hooks/use-toast'
 import type { WikiPage } from '@/types/wiki'
 import { PAGE_TYPE_LABELS, PAGE_TYPE_COLORS } from '@/types/wiki'
+
+// ============ Widget Types ============
+
+interface WidgetInfo {
+  filename: string
+  url: string
+  generatedAt: string
+}
 
 // ============ Types ============
 
@@ -223,6 +232,202 @@ function BackToTopButton({ visible, onClick }: { visible: boolean; onClick: () =
     >
       <ArrowUp className="size-5" strokeWidth={2.5} />
     </button>
+  )
+}
+
+// ============ Widget Panel Component ============
+
+function WidgetPanel({ pageId }: { pageId: string }) {
+  const [widgets, setWidgets] = useState<WidgetInfo[]>([])
+  const [loading, setLoading] = useState(false)
+  const [generating, setGenerating] = useState(false)
+  const [activeWidget, setActiveWidget] = useState<string | null>(null)
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  const [hint, setHint] = useState('')
+  const iframeRef = useRef<HTMLIFrameElement>(null)
+
+  // Fetch existing widgets
+  const fetchWidgets = useCallback(async () => {
+    try {
+      const res = await fetch(`/api/wiki/${pageId}/widgets`)
+      const data = await res.json()
+      if (data.widgets) {
+        setWidgets(data.widgets)
+        // Auto-select the latest widget
+        if (data.widgets.length > 0 && !activeWidget) {
+          setActiveWidget(data.widgets[0].url)
+        }
+      }
+    } catch {
+      // silently fail
+    }
+  }, [pageId, activeWidget])
+
+  useEffect(() => {
+    fetchWidgets()
+  }, [fetchWidgets])
+
+  const handleGenerate = useCallback(async () => {
+    setGenerating(true)
+    try {
+      const body: { hint?: string } = {}
+      if (hint.trim()) body.hint = hint.trim()
+
+      const res = await fetch(`/api/wiki/${pageId}/widgets`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      })
+
+      if (!res.ok) {
+        const err = await res.json()
+        throw new Error(err.error || '生成失败')
+      }
+
+      const data = await res.json()
+      if (data.widget) {
+        toast({ title: 'Widget 生成成功', description: `已生成: ${data.widget.filename}` })
+        setActiveWidget(data.widget.url)
+        setHint('')
+        // Re-fetch to update the list
+        await fetchWidgets()
+      }
+    } catch (err) {
+      toast({
+        title: '生成失败',
+        description: err instanceof Error ? err.message : '未知错误',
+        variant: 'destructive',
+      })
+    } finally {
+      setGenerating(false)
+    }
+  }, [pageId, hint, fetchWidgets])
+
+  const toggleFullscreen = useCallback(() => {
+    setIsFullscreen(prev => !prev)
+  }, [])
+
+  const fullscreenContainer = isFullscreen
+    ? 'fixed inset-0 z-50 bg-background'
+    : ''
+  const fullscreenIframe = isFullscreen
+    ? 'w-full h-full border-0'
+    : 'w-full border border-border rounded-lg'
+
+  return (
+    <div className={`my-6 ${fullscreenContainer}`}>
+      {/* Widget Header */}
+      <div className={`flex items-center justify-between mb-3 ${isFullscreen ? 'p-4 border-b' : ''}`}>
+        <div className="flex items-center gap-2">
+          <Sparkles className="size-4 text-primary" />
+          <span className="text-sm font-semibold">知识组件</span>
+          {widgets.length > 0 && (
+            <Badge variant="secondary" className="text-[10px] h-5 px-1.5">
+              {widgets.length}
+            </Badge>
+          )}
+        </div>
+        <div className="flex items-center gap-1.5">
+          {activeWidget && (
+            <button
+              onClick={toggleFullscreen}
+              className="p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              title={isFullscreen ? '退出全屏' : '全屏预览'}
+            >
+              {isFullscreen ? <Minimize2 className="size-3.5" /> : <Maximize2 className="size-3.5" />}
+            </button>
+          )}
+        </div>
+      </div>
+
+      <div className={`flex gap-3 ${isFullscreen ? 'h-[calc(100vh-4rem)] flex-col lg:flex-row p-4' : 'flex-col'}`}>
+        {/* Sidebar: Generate + Widget list */}
+        <div className={`flex-shrink-0 ${isFullscreen ? 'lg:w-64 overflow-y-auto' : 'mb-3'}`}>
+          {/* Generate input */}
+          <div className="flex flex-col gap-2 mb-3">
+            <div className="flex gap-1.5">
+              <input
+                type="text"
+                value={hint}
+                onChange={e => setHint(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && handleGenerate()}
+                placeholder="生成提示（可选，如：流程图、交互演示）"
+                className="flex-1 h-8 px-3 text-xs rounded-md border border-input bg-background placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-ring"
+              />
+              <Button
+                size="sm"
+                className="h-8 px-3 gap-1 text-xs"
+                onClick={handleGenerate}
+                disabled={generating}
+              >
+                {generating ? (
+                  <><Loader2 className="size-3 animate-spin" />生成中</>
+                ) : (
+                  <><Sparkles className="size-3" />生成</>
+                )}
+              </Button>
+            </div>
+          </div>
+
+          {/* Widget list */}
+          {widgets.length > 0 && (
+            <div className={`flex flex-row ${isFullscreen ? 'lg:flex-col' : ''} gap-1.5 overflow-x-auto lg:overflow-x-visible`}>
+              {widgets.map((w, idx) => (
+                <button
+                  key={w.filename}
+                  onClick={() => setActiveWidget(w.url)}
+                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs whitespace-nowrap transition-colors shrink-0 ${
+                    activeWidget === w.url
+                      ? 'bg-primary text-primary-foreground'
+                      : 'bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  <span>#{idx + 1}</span>
+                  {w.generatedAt && (
+                    <span className="opacity-60">
+                      {new Date(w.generatedAt).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Widget Preview */}
+        <div className={`flex-1 min-h-0 ${isFullscreen ? 'min-h-0' : ''}`}>
+          {activeWidget ? (
+            <iframe
+              ref={iframeRef}
+              src={activeWidget}
+              className={fullscreenIframe}
+              style={{ minHeight: isFullscreen ? '100%' : '360px', maxHeight: isFullscreen ? '100%' : '600px' }}
+              sandbox="allow-scripts allow-same-origin"
+              title="Widget Preview"
+            />
+          ) : (
+            <div className="flex items-center justify-center rounded-lg border border-dashed border-border/60 bg-muted/20" style={{ minHeight: '360px' }}>
+              <div className="text-center p-6">
+                <Sparkles className="size-8 mx-auto text-muted-foreground/30 mb-3" />
+                <p className="text-sm text-muted-foreground mb-1">暂无知识组件</p>
+                <p className="text-xs text-muted-foreground/60">点击「生成」让 AI 为本页面创建交互式组件</p>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Fullscreen backdrop */}
+      {isFullscreen && (
+        <button
+          onClick={() => setIsFullscreen(false)}
+          className="fixed top-4 right-4 z-[60] p-2 rounded-full bg-muted hover:bg-muted/80 transition-colors"
+          title="关闭全屏"
+        >
+          <Minimize2 className="size-4" />
+        </button>
+      )}
+    </div>
   )
 }
 
@@ -439,6 +644,9 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
         <CardContent className="p-0">
           <MarkdownRenderer content={page.content} headingIds={headingIds} />
         </CardContent>
+
+        {/* Widget Panel */}
+        <WidgetPanel pageId={page.id} />
 
         {/* Source */}
         {page.source && (
