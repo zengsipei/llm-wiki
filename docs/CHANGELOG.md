@@ -210,3 +210,65 @@ for (let i = 0; i < headingOffsets.length; i++) {
 - `PUT /api/wiki/[id]` — 更新页面时自动同步 `.md` 文件
 - `DELETE /api/wiki/[id]` — 删除页面时自动删除对应 `.md` 文件
 - 同步为 fire-and-forget，不阻塞 API 响应
+
+---
+
+## 阶段六：四步改进计划 — 展示层增强 + Agent Widget + CMS（2026-05-22 上午）
+
+### 6.1 Step 2: 展示层增强
+- 重写 `markdown-renderer.tsx`（+1642/-119 行）：
+  - **Callout 组件**: 6 种类型（note/warning/tip/info/caution/danger），支持 `> [!type]` GitHub 风格语法
+  - **Mermaid 图表**: 动态 import mermaid@11.15.0，暗色模式自适应，错误回退
+  - **交互式代码预览**: HTML/JS 代码块显示"运行"按钮，iframe sandbox 执行
+  - **表格增强**: 圆角边框、悬停高亮、响应式滚动
+  - **图片增强**: 圆角阴影、alt 标题显示
+- 创建 `wiki-content/markdown-渲染增强演示.md`（演示页面）
+- Commit: 2c5d827
+
+### 6.2 Step 3: Agent 生成 HTML 知识组件
+- `POST /api/wiki/generate-widget` — LLM 分析页面内容生成交互式 HTML widget
+- `GET /api/wiki/[id]/widgets` — 列出页面关联的 widget
+- `GET /api/wiki/widget/[slug]` — 提供 widget HTML 文件
+- WidgetPanel 组件：生成按钮、预览、全屏模式
+- Widget 存储: `wiki-content/widgets/{slug}-{timestamp}.html`（Git 管理）
+- Commit: 674fe6d
+
+### 6.3 Step 4: flat-file CMS 架构收尾
+- `POST /api/wiki/sync` — 运行 sync-from-md.mjs 实现自动同步
+- `GET /api/wiki/[id]/history` — Git log 查询 .md 文件变更历史
+- PageHistory 组件：可折叠面板，懒加载，commit hash + 作者 + 时间
+- MDXEditor v3.52.3 替换 textarea：
+  - dynamic import（ssr: false）
+  - 插件: headings/lists/quote/codeBlock/table/link/diffSource/codeMirror
+  - 工具栏 + 编辑/预览切换 + Ctrl+S 快速保存
+- Commit: 157df76
+
+---
+
+## 阶段七：文档恢复 + grahify-kb 摄入（2026-05-22 下午）
+
+### 7.1 数据库被清空后的恢复
+- 5月22日午夜 cron 触发器意外重建了数据库
+- 还原 17 篇丢失的 Wiki 文档，恢复到 25 篇
+- 更新预览地址为 `https://zengsipei.space-z.ai`
+- PM2 部署修复（清理 errored 进程，production 模式重启）
+- DB 从 .md 文件全量重建（sync-from-md.mjs --force）
+- Commit: f285530
+
+### 7.2 grahify-kb 文章摄入
+- 从 `zengsipei/grahify-kb`（注意：仓库名少一个 p）的 `raw/articles/` 摄入 18 篇文章
+- 文件格式：双层 YAML frontmatter（外层 grahify-kb 元数据 + 内层文章元数据 + body）
+- 编写 `scripts/ingest-grahify-kb.mjs`：解析双层 frontmatter → wiki-content 格式 .md + DB
+- 编写 `scripts/fix-grahify-titles.mjs`：修复 14 个标题（从 body heading 和 topic 字段提取正确标题）
+- 摄入的 18 篇文章：
+  - Claude Code Operator 模式、Cursor Debug、GitNexus、Graphify
+  - Obscura 浏览器、Pretext 文本测量、Stitch 2.0、暗壳AI
+  - Anthropic Prompting Best Practices、Codex CLI /goal、HereOS
+  - Browser Harness、Supabase vs Firebase、Windsurf Codemaps
+  - Hermes Operator 对比、Grill-Me Skill、RTK Token Killer、Trellis
+- Wiki 总计 43 页（原有 25 + 新增 18）
+- Commit: bbcfcb7
+
+### 7.3 关联仓库
+- `zengsipei/grahify-kb` — 知识库原始调研素材（raw/articles/ + entities/ + concepts/ + comparisons/）
+- `zengsipei/llm-wiki` — Wiki 系统（产品化实现）

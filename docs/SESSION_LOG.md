@@ -186,6 +186,105 @@ for (const line of lines) {
 
 ---
 
+## 会话 5: HTML Effectiveness 研究（2026-05-21）
+
+### 用户需求
+> （通过 cron 触发自动摄入调研任务）调研 Anthropic 工程师 Thariq 的 HTML Effectiveness 理念
+
+### 实现内容
+- 摄入博文及配套 20 个自包含 HTML Demo
+- 核心理念：AI Agent 应该直接输出可交互的 HTML 文件，而非纯文本 Markdown
+- 创建 Wiki 页面「The Unreasonable Effectiveness of HTML」
+- 新增 `/html-effectiveness` Demo 画廊页面（分类筛选、搜索、网格/列表视图）
+- 20 个 Demo 放入 `public/html-effectiveness-demos/`
+
+---
+
+## 会话 6: 四步改进计划（2026-05-22 上午）
+
+### 背景
+数据库被 cron 意外清空后，确立了「md 做记忆，html 做展示」的架构。用户回到成都后讨论下一步。
+
+### 用户对话
+> 用户: "我已经回到成都。关于 wiki 系统，下一步计划是？"
+
+Agent 提出四步改进计划，用户批准后开始执行。
+
+> 用户: "那现在我们应该做什么，第一阶段不是完成了吗？"
+
+确认 Steps 1-2 为第一阶段（已完成），Steps 3-4 为第二阶段。
+
+> 用户: "继续下一步"
+
+### Step 1（已在上一会话完成）: md 做记忆
+- 创建 `wiki-content/` 目录，每个页面一个 `.md` 文件 + YAML frontmatter
+- 双向同步脚本 `sync-to-md.mjs` / `sync-from-md.mjs`
+- API 路由自动同步（创建/更新/删除页面时同步 .md 文件）
+
+### Step 2: 展示层增强
+- 重写 `markdown-renderer.tsx`：
+  - Callout 组件：6 种类型（note/warning/tip/info/caution/danger），支持 `> [!type]` 语法
+  - Mermaid 图表：动态 import，暗色模式自适应
+  - 交互式代码预览：HTML/JS 代码块显示"运行"按钮，iframe sandbox 执行
+  - 表格增强（圆角边框、悬停高亮）、图片增强（圆角阴影、alt 标题）
+- 创建演示页面 `markdown-渲染增强演示.md`
+- Commit: 2c5d827
+
+### Step 3: Agent 生成 HTML 知识组件
+- `POST /api/wiki/generate-widget` — LLM 分析页面内容生成交互式 HTML widget
+- `GET /api/wiki/[id]/widgets` — 列出页面关联的 widget
+- `GET /api/wiki/widget/[slug]` — 提供 widget HTML 文件
+- WidgetPanel 组件：生成按钮、预览、全屏模式
+- Commit: 674fe6d
+
+### Step 4: flat-file CMS 架构收尾
+- `POST /api/wiki/sync` — 运行 sync-from-md.mjs 自动同步
+- `GET /api/wiki/[id]/history` — Git log 查询 .md 文件变更历史
+- PageHistory 组件：可折叠面板，commit hash + 作者 + 时间
+- MDXEditor 替换 textarea（dynamic import SSR-safe，工具栏，Ctrl+S 保存）
+- Commit: 157df76
+
+---
+
+## 会话 7: 文档恢复 + grahify-kb 摄入（2026-05-22 下午）
+
+### 用户对话
+> 用户: "我已经在成都了。如果你觉得第二阶段优先级不高，那么就先帮我把之前丢失的文档补上，要求尽可能还原。最后预览地址已经变更为 `https://zengsipei.space-z.ai`，但是部署更新失败了。"
+
+### 三个任务
+1. 还原 25 篇丢失的 Wiki 文档
+2. 更新预览地址
+3. 修复部署
+
+### 执行结果
+- 还原 17 篇文档，总计恢复到 25 篇
+- 预览地址更新为 `https://zengsipei.space-z.ai`
+- PM2 修复，production 模式重启
+- Commit: f285530
+
+### grahify-kb 摄入
+
+> 用户: "拉取当前 github 用户的 graphify-kb 仓库，摄入其中的 raw 目录下的源文件内容"
+
+注意：实际仓库名为 `grahify-kb`（少一个 p）。
+
+- 从 `zengsipei/grahify-kb` clone 到 `/tmp/grahify-kb`
+- 分析 `raw/articles/` 目录：18 篇技术调研文章，双层 YAML frontmatter
+- 编写 `scripts/ingest-grahify-kb.mjs` 摄入脚本
+- 修复 14 个标题（双层 frontmatter 解析问题），编写 `scripts/fix-grahify-titles.mjs`
+- Wiki 总计 43 页（原有 25 + 新增 18）
+- Commit: bbcfcb7
+
+> 用户: "不太对，之前有摄入 grahify-kb 中的 raw 文件，怎么没看到补"
+
+（因为上一会话只还原了之前手动创建的 25 页，grahify-kb 的内容在数据库清空前未纳入 Git 管理，原始文件也已不在服务器上，需要重新从 GitHub 拉取）
+
+> 用户: "留存与 llm-wiki 相关对话了吗？"
+
+（用户强调原始对话记录的重要性，触发本次文档更新）
+
+---
+
 ## 关键用户偏好（新会话必读）
 
 1. **语言**: 全部使用中文（UI、代码注释、Git commit message）
