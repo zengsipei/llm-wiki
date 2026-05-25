@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
-import ZAI from 'z-ai-web-dev-sdk'
+import { aiComplete, parseAIJson } from '@/lib/ai-provider'
 
 const LINT_SYSTEM_PROMPT = `You are a knowledge base health checker. You are given the titles and content summaries of all wiki pages in a knowledge base.
 
@@ -103,37 +103,22 @@ Last updated: ${page.updatedAt.toISOString()}`
       })
       .join('\n\n')
 
-    // Step 3: Send to GLM for analysis
-    const zai = await ZAI.create()
-    const completion = await zai.chat.completions.create({
-      messages: [
-        { role: 'system', content: LINT_SYSTEM_PROMPT },
-        {
-          role: 'user',
-          content: `Analyze the following wiki knowledge base (${pages.length} pages):\n\n${pagesSummary}`,
-        },
-      ],
+    // Step 3: Call AI for analysis
+    const { content: rawResponse } = await aiComplete([
+      { role: 'system', content: LINT_SYSTEM_PROMPT },
+      {
+        role: 'user',
+        content: `Analyze the following wiki knowledge base (${pages.length} pages):\n\n${pagesSummary}`,
+      },
+    ])
+
+    const lintReport = parseAIJson(rawResponse, {
+      summary: 'Unable to parse AI lint analysis. Raw response available in logs.',
+      score: null,
+      issues: [],
+      stats: { totalPages: pages.length, issuesFound: 0, highSeverity: 0, mediumSeverity: 0, lowSeverity: 0 },
+      rawResponse,
     })
-
-    const rawResponse = completion.choices?.[0]?.message?.content || ''
-
-    let lintReport
-    try {
-      const cleaned = rawResponse
-        .replace(/```json\n?/g, '')
-        .replace(/```\n?/g, '')
-        .trim()
-      lintReport = JSON.parse(cleaned)
-    } catch {
-      console.error('Failed to parse lint response:', rawResponse)
-      lintReport = {
-        summary: 'Unable to parse AI lint analysis. Raw response available in logs.',
-        score: null,
-        issues: [],
-        stats: { totalPages: pages.length, issuesFound: 0, highSeverity: 0, mediumSeverity: 0, lowSeverity: 0 },
-        rawResponse,
-      }
-    }
 
     // Step 4: Create ActivityLog
     const issueCount = lintReport.issues?.length || 0

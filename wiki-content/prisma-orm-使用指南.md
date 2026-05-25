@@ -1,11 +1,11 @@
 ---
+id: cmpgzaff2000forunvd1ioyje
 title: Prisma ORM 使用指南
 type: concept
 tags:
-  - Prisma
-  - ORM
-  - 数据库
-  - TypeScript
+
+created: 2026-05-22T13:51:40.431Z
+updated: 2026-05-22T14:36:56.651Z
 ---
 
 # Prisma ORM 使用指南

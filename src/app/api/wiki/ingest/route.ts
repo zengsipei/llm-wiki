@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { writeFileSync, mkdirSync } from 'fs'
 import { resolve } from 'path'
-import ZAI from 'z-ai-web-dev-sdk'
+import { aiComplete, cleanJsonResponse } from '@/lib/ai-provider'
 
 const CONTENT_DIR = resolve(process.cwd(), 'wiki-content')
 
@@ -69,19 +69,15 @@ export async function POST(request: NextRequest) {
       },
     })
 
-    // Step 2: Call GLM to analyze the document
-    const zai = await ZAI.create()
-    const completion = await zai.chat.completions.create({
-      messages: [
-        { role: 'system', content: INGEST_SYSTEM_PROMPT },
-        {
-          role: 'user',
-          content: `Analyze this document and generate wiki pages:\n\nTitle: ${title}\n\nContent:\n${content}`,
-        },
-      ],
-    })
+    // Step 2: Call AI to analyze the document
+    const { content: rawResponse } = await aiComplete([
+      { role: 'system', content: INGEST_SYSTEM_PROMPT },
+      {
+        role: 'user',
+        content: `Analyze this document and generate wiki pages:\n\nTitle: ${title}\n\nContent:\n${content}`,
+      },
+    ])
 
-    const rawResponse = completion.choices?.[0]?.message?.content || ''
     let parsedResponse: { pages: Array<{
       title: string
       content: string
@@ -90,16 +86,10 @@ export async function POST(request: NextRequest) {
       crossReferences?: string[]
     }> }
 
-    // Try to parse the JSON from GLM response
     try {
-      // Strip markdown code fences if present
-      const cleaned = rawResponse
-        .replace(/```json\n?/g, '')
-        .replace(/```\n?/g, '')
-        .trim()
-      parsedResponse = JSON.parse(cleaned)
+      parsedResponse = JSON.parse(cleanJsonResponse(rawResponse))
     } catch {
-      console.error('Failed to parse GLM response:', rawResponse)
+      console.error('Failed to parse AI response:', rawResponse)
       return NextResponse.json(
         {
           error: 'Failed to parse AI response',

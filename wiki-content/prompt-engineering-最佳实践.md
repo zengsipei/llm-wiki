@@ -1,12 +1,11 @@
 ---
+id: cmpgzaff3000gorun3g9rduw8
 title: Prompt Engineering 最佳实践
 type: concept
 tags:
-  - Prompt
-  - AI
-  - LLM
-  - Engineering
-  - Best-Practice
+
+created: 2026-05-22T13:51:40.432Z
+updated: 2026-05-22T14:36:56.653Z
 ---
 
 # Prompt Engineering 最佳实践

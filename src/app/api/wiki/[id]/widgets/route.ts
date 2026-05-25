@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { writeFileSync, readFileSync, readdirSync, mkdirSync, unlinkSync } from 'fs'
 import { resolve } from 'path'
-import ZAI from 'z-ai-web-dev-sdk'
+import { aiComplete } from '@/lib/ai-provider'
 
 const WIDGETS_DIR = resolve(process.cwd(), 'wiki-content', 'widgets')
 
@@ -55,22 +55,17 @@ export async function POST(
       return NextResponse.json({ error: 'Page not found' }, { status: 404 })
     }
 
-    // Call GLM to generate the widget
-    const zai = await ZAI.create()
-
+    // Call AI to generate the widget
     const userPrompt = hint
       ? `Based on this wiki page, create an interactive HTML widget. Focus on: ${hint}\n\nPage title: ${page.title}\nPage type: ${page.pageType}\nTags: ${page.tags}\n\nContent:\n${page.content}`
       : `Based on this wiki page, create an interactive HTML widget.\n\nPage title: ${page.title}\nPage type: ${page.pageType}\nTags: ${page.tags}\n\nContent:\n${page.content}`
 
-    const completion = await zai.chat.completions.create({
-      messages: [
-        { role: 'system', content: WIDGET_SYSTEM_PROMPT },
-        { role: 'user', content: userPrompt },
-      ],
-      temperature: 0.7,
-    })
+    const { content: rawHtml } = await aiComplete([
+      { role: 'system', content: WIDGET_SYSTEM_PROMPT },
+      { role: 'user', content: userPrompt },
+    ], { temperature: 0.7 })
 
-    let html = completion.choices?.[0]?.message?.content || ''
+    let html = rawHtml
 
     // Clean up markdown code fences if the model wrapped them
     html = html

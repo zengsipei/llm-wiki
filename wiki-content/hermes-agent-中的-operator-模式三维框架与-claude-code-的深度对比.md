@@ -1,13 +1,18 @@
 ---
-id: 6e09e383-6990-4635-81be-1b67f5906ecd
-title: "Hermes Agent 中的 Operator 模式：三维框架与 Claude Code 的深度对比"
+id: cmpgyj6el000eorxt974a0drr
+title: Hermes Agent 中的 Operator 模式：三维框架与 Claude Code 的深度对比
 type: concept
-tags: ["grahify-kb"]
-created: 2026-05-09
-updated: 2026-05-09
-source: grahify-kb
+tags:
+
+created: 2026-05-22T13:51:40.420Z
+updated: 2026-05-22T14:36:56.630Z
 ---
 
+---
+source_url: https://hermes-agent.nousresearch.com/docs
+ingested: 2026-05-09
+sha256: 4a7d1e2b3c4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b
+---
 
 # Hermes Agent 中的 Operator 模式：三维框架与 Claude Code 的深度对比
 

@@ -1,11 +1,11 @@
 ---
+id: cmpgzaff4000horuns6lqgiwb
 title: RAG 检索增强生成
 type: concept
 tags:
-  - RAG
-  - AI
-  - 检索
-  - LLM
+
+created: 2026-05-22T13:51:40.433Z
+updated: 2026-05-22T14:36:56.656Z
 ---
 
 # RAG 检索增强生成

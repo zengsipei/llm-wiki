@@ -1,12 +1,11 @@
 ---
+id: cmpgzafea0005orunfwu78cjc
 title: Claude 使用指南
 type: concept
 tags:
-  - Claude
-  - AI
-  - LLM
-  - Prompt
-  - Anthropic
+
+created: 2026-05-22T13:51:40.403Z
+updated: 2026-05-22T14:36:56.608Z
 ---
 
 # Claude 使用指南

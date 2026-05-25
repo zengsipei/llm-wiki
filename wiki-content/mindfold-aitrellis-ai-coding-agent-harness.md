@@ -1,13 +1,18 @@
 ---
-id: 00b06be7-1c81-476e-8195-02ad08bebf74
-title: "mindfold-ai/Trellis — AI Coding Agent Harness"
+id: cmpgyj6eq000horxt56ne7xak
+title: mindfold-ai/Trellis — AI Coding Agent Harness
 type: concept
-tags: ["grahify-kb"]
-created: 2026-05-14
-updated: 2026-05-14
-source: grahify-kb
+tags:
+
+created: 2026-05-22T13:51:40.425Z
+updated: 2026-05-22T14:36:56.640Z
 ---
 
+---
+source_url: https://github.com/mindfold-ai/Trellis
+ingested: 2026-05-14
+sha256: b4e8f9c1a2d3e5f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2
+---
 
 # mindfold-ai/Trellis — AI Coding Agent Harness
 

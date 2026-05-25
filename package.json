@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3000 2>&1 | tee dev.log",
+    "dev": "prisma db push --skip-generate 2>/dev/null; node scripts/sync-from-md.mjs && next dev -p 3000 2>&1 | tee dev.log",
     "build": "next build && cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/",
     "start": "NODE_ENV=production bun .next/standalone/server.js 2>&1 | tee server.log",
     "lint": "eslint .",
@@ -13,6 +13,7 @@
     "db:reset": "prisma migrate reset"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.98.0",
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
@@ -66,6 +67,7 @@
     "next-auth": "^4.24.11",
     "next-intl": "^4.3.4",
     "next-themes": "^0.4.6",
+    "openai": "^6.39.0",
     "playwright": "^1.60.0",
     "prisma": "^6.11.1",
     "react": "^19.0.0",
@@ -92,6 +94,7 @@
     "@types/file-saver": "^2.0.7",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "agentation": "^3.0.2",
     "bun-types": "^1.3.4",
     "eslint": "^9",
     "eslint-config-next": "^16.1.1",

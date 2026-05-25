@@ -1,11 +1,11 @@
 ---
+id: cmpgzafet000aorung7wggsrf
 title: LLM 评测方法
 type: concept
 tags:
-  - LLM
-  - 评测
-  - Benchmark
-  - AI
+
+created: 2026-05-22T13:51:40.422Z
+updated: 2026-05-22T14:36:56.634Z
 ---
 
 # LLM 评测方法

@@ -1,212 +1,126 @@
-#!/usr/bin/env node
-// ingest-grahify-kb.mjs — 摄入 grahify-kb/raw/articles/ 下的原始文件到 Wiki
-// Usage: node scripts/ingest-grahify-kb.mjs
-//
-// 读取 /tmp/grahify-kb/raw/articles/*.md，解析双层 frontmatter，
-// 转换为 wiki-content 格式（单层 frontmatter + 纯 Markdown body），
-// 同时写入 .md 文件和数据库。
+// Ingest grahify-kb articles into LLM Wiki
+// Run: node scripts/ingest-grahify-kb.mjs
+import { PrismaClient } from '@prisma/client';
+import { readFileSync, readdirSync } from 'fs';
+import { join } from 'path';
 
-import { PrismaClient } from '@prisma/client'
-import { readFileSync, writeFileSync, readdirSync } from 'fs'
-import { resolve } from 'path'
-import { randomUUID } from 'crypto'
+const prisma = new PrismaClient();
 
-const prisma = new PrismaClient()
-const RAW_DIR = '/tmp/grahify-kb/raw/articles'
-const CONTENT_DIR = resolve(process.cwd(), 'wiki-content')
+const ARTICLES_DIR = join(process.cwd(), 'grahify-kb', 'raw', 'articles');
 
-// Parse the outer frontmatter (grahify-kb metadata)
-function parseOuterFrontmatter(content) {
-  const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/)
-  if (!match) return { outerMeta: {}, remaining: content }
+function parseArticle(filePath) {
+  const raw = readFileSync(filePath, 'utf-8');
+  const lines = raw.split('\n');
 
-  const yaml = match[1]
-  const remaining = match[2]
-  const meta = {}
-
-  for (const line of yaml.split('\n')) {
-    const kvMatch = line.match(/^(\w[\w-]*):\s*(.*)/)
-    if (kvMatch) {
-      meta[kvMatch[1].toLowerCase()] = kvMatch[2].trim()
-    }
-  }
-
-  return { outerMeta: meta, remaining }
-}
-
-// Parse the inner frontmatter (actual article metadata)
-function parseInnerFrontmatter(content) {
-  const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/)
-  if (!match) return { meta: {}, body: content }
-
-  const yaml = match[1]
-  const body = match[2]
-  const meta = {}
-
-  let currentKey = null
-  let inList = false
-  let listItems = []
-
-  for (const line of yaml.split('\n')) {
-    if (/^\s{2}-\s+/.test(line)) {
-      inList = true
-      listItems.push(line.replace(/^\s{2}-\s+/, '').trim())
-      continue
-    }
-
-    if (inList && currentKey) {
-      meta[currentKey] = listItems
-      listItems = []
-      inList = false
-    }
-
-    const kvMatch = line.match(/^(\w[\w-]*):\s*(.*)/)
-    if (kvMatch) {
-      const key = kvMatch[1].toLowerCase()
-      let value = kvMatch[2].trim()
-      if (value.startsWith('"') && value.endsWith('"')) {
-        value = value.slice(1, -1)
+  // Skip outer frontmatter (first --- block, lines before the line-numbered inner block)
+  let startIdx = 0;
+  if (lines[0] === '---') {
+    // Find closing ---
+    for (let i = 1; i < lines.length; i++) {
+      if (lines[i].trim() === '---' && !lines[i].match(/^\s+\d+\|/)) {
+        startIdx = i + 1;
+        break;
       }
-      meta[key] = value
-      currentKey = key
     }
   }
 
-  if (inList && currentKey) {
-    meta[currentKey] = listItems
+  // Find inner frontmatter (line-numbered: "     1|---" to "     N|---")
+  const innerFrontStart = startIdx;
+  let innerFrontEnd = -1;
+  for (let i = startIdx; i < lines.length; i++) {
+    const match = lines[i].match(/^\s*\d+\|---\s*$/);
+    if (match && i > startIdx) {
+      innerFrontEnd = i;
+      break;
+    }
   }
 
-  return { meta, body: body.trim() }
-}
-
-// Extract title from body (first # heading)
-function extractTitleFromBody(body) {
-  const match = body.match(/^#\s+(.+)$/m)
-  return match ? match[1].trim() : null
-}
-
-// Generate wiki-content slug from title
-function titleToSlug(title) {
-  return title
-    .replace(/[^\w\u4e00-\u9fff\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '')
-    .toLowerCase()
-}
-
-// Deduplicate: skip if wiki-content already has a file with same title
-function getExistingTitles() {
-  const files = readdirSync(CONTENT_DIR)
-    .filter(f => f.endsWith('.md') && !f.startsWith('README'))
-  const titles = new Set()
-  for (const file of files) {
-    try {
-      const raw = readFileSync(resolve(CONTENT_DIR, file), 'utf-8')
-      const match = raw.match(/^---\n[\s\S]*?\ntitle:\s*"?([^"\n]+)"?\n[\s\S]*?\n---/)
-      if (match) titles.add(match[1].trim())
-    } catch {}
+  // Parse inner frontmatter
+  const metadata = {};
+  if (innerFrontEnd > innerFrontStart) {
+    for (let i = innerFrontStart + 1; i < innerFrontEnd; i++) {
+      const line = lines[i].replace(/^\s*\d+\|/, '').trim();
+      const m = line.match(/^(\w+):\s*(.+)$/);
+      if (m) metadata[m[1]] = m[2].replace(/^["']|["']$/g, '');
+    }
   }
-  return titles
+
+  // Extract body (after inner frontmatter)
+  const bodyLines = lines.slice(innerFrontEnd + 1).map(l => l.replace(/^\s*\d+\|/, ''));
+  const body = bodyLines.join('\n').trim();
+
+  // Extract title from first # heading in body
+  const headingMatch = body.match(/^#\s+(.+)$/m);
+  const title = headingMatch ? headingMatch[1].trim() : metadata.title || metadata.topic || 'Untitled';
+
+  // Generate slug from filename
+  const filename = filePath.split('/').pop().replace('.md', '');
+  const datePrefix = filename.match(/^\d{4}-\d{2}-\d{2}-/)?.[0] || '';
+  let slug = filename.replace(datePrefix, '').toLowerCase().replace(/[^a-z0-9\u4e00-\u9fff]+/g, '-').replace(/^-|-$/g, '');
+
+  // Extract tags
+  let tags = [];
+  if (metadata.tags) {
+    tags = metadata.tags.replace(/^\[|\]$/g, '').split(',').map(t => t.trim());
+  }
+
+  // Determine category from tags
+  let category = 'concept';
+  const lowerTags = tags.map(t => t.toLowerCase());
+  if (lowerTags.some(t => t.includes('claude') || t.includes('anthropic'))) category = 'entity';
+  else if (lowerTags.some(t => t.includes('tool') || t.includes('sdk') || t.includes('library'))) category = 'tool';
+
+  return {
+    title,
+    slug,
+    content: body,
+    pageType: category,
+    tags: JSON.stringify(tags),
+    backlinks: '[]',
+    sourceUrl: metadata.source || '',
+    date: metadata.date || '',
+  };
 }
 
 async function main() {
-  const files = readdirSync(RAW_DIR)
-    .filter(f => f.endsWith('.md'))
-    .sort()
+  const files = readdirSync(ARTICLES_DIR).filter(f => f.endsWith('.md')).sort();
+  console.log(`Found ${files.length} articles`);
 
-  if (files.length === 0) {
-    console.log('[ingest] No .md files found in raw/articles/')
-    return
-  }
-
-  console.log(`[ingest] Found ${files.length} articles in grahify-kb/raw/articles/`)
-
-  const existingTitles = getExistingTitles()
-  console.log(`[ingest] Existing wiki titles: ${existingTitles.size}`)
-
-  let created = 0
-  let skipped = 0
+  let created = 0;
+  let errors = 0;
 
   for (const file of files) {
-    const raw = readFileSync(resolve(RAW_DIR, file), 'utf-8')
+    try {
+      const filePath = join(ARTICLES_DIR, file);
+      const article = parseArticle(filePath);
 
-    // Step 1: Parse outer grahify-kb frontmatter
-    const { outerMeta, remaining } = parseOuterFrontmatter(raw)
+      // Check if page with same title already exists
+      const existing = await prisma.wikiPage.findFirst({ where: { title: article.title } });
+      if (existing) {
+        console.log(`  SKIP (exists): ${article.title}`);
+        continue;
+      }
 
-    // Step 2: Parse inner article frontmatter
-    const { meta, body } = parseInnerFrontmatter(remaining)
+      const page = await prisma.wikiPage.create({
+        data: {
+          title: article.title,
+          content: article.content,
+          pageType: article.pageType,
+          tags: article.tags,
+          backlinks: article.backlinks,
+        }
+      });
 
-    // Step 3: Determine title
-    const title = meta.title || extractTitleFromBody(body) || file.replace('.md', '')
-
-    // Skip if already exists
-    if (existingTitles.has(title)) {
-      console.log(`  [skip] "${title}" — already exists in wiki`)
-      skipped++
-      continue
+      console.log(`  OK: ${article.title} → ${page.id}`);
+      created++;
+    } catch (err) {
+      console.error(`  ERROR: ${file}: ${err.message}`);
+      errors++;
     }
-
-    // Step 4: Determine metadata
-    const date = meta.date || outerMeta.ingested || file.match(/^(\d{4}-\d{2}-\d{2})/)?.[1] || '2026-05-05'
-    const pageType = 'concept'
-    const tags = Array.isArray(meta.tags) ? meta.tags : []
-    const source = meta.source_type || meta.source || 'grahify-kb'
-    const topic = meta.topic || ''
-
-    // Add source tag if not present
-    if (!tags.includes('grahify-kb') && !tags.includes('grahify-kb')) {
-      tags.push('grahify-kb')
-    }
-
-    // Step 5: Generate wiki-content .md file
-    const pageId = randomUUID()
-    const slug = titleToSlug(title)
-    const mdContent = `---
-id: ${pageId}
-title: "${title}"
-type: ${pageType}
-tags: [${tags.map(t => `"${t}"`).join(', ')}]
-created: ${date}
-updated: ${date}
-source: ${source}
----
-
-${body}`
-
-    const mdPath = resolve(CONTENT_DIR, `${slug}.md`)
-    writeFileSync(mdPath, mdContent, 'utf-8')
-    existingTitles.add(title)
-
-    // Step 6: Write to database
-    await prisma.wikiPage.create({
-      data: {
-        id: pageId,
-        title,
-        content: body,
-        pageType,
-        tags: JSON.stringify(tags),
-        backlinks: '[]',
-      },
-    })
-
-    // Step 7: Log activity
-    await prisma.activityLog.create({
-      data: {
-        actionType: 'ingest',
-        summary: `摄入 grahify-kb 文章: ${title}`,
-        relatedPages: JSON.stringify([pageId]),
-      },
-    })
-
-    created++
-    console.log(`  [created] "${title}" → ${slug}.md`)
   }
 
-  console.log(`\n[ingest] Done: ${created} created, ${skipped} skipped`)
-  console.log(`[ingest] Total pages in DB: ${await prisma.wikiPage.count()}`)
+  const total = await prisma.wikiPage.count();
+  console.log(`\nDone! Created: ${created}, Errors: ${errors}, Total pages: ${total}`);
 }
 
-main()
-  .catch(err => { console.error('[ingest] Error:', err); process.exit(1) })
-  .finally(() => prisma.$disconnect())
+main().catch(console.error).finally(() => prisma.$disconnect());

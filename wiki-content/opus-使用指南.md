@@ -1,12 +1,11 @@
 ---
+id: cmpgzaff0000eorunbjfme7af
 title: Opus 使用指南
 type: concept
 tags:
-  - Opus
-  - AI
-  - LLM
-  - API
-  - z.ai
+
+created: 2026-05-22T13:51:40.428Z
+updated: 2026-05-22T14:36:56.645Z
 ---
 
 # Opus 使用指南

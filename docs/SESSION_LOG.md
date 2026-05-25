@@ -14,7 +14,7 @@
 | **AI Agent 平台** | z.ai 的 Agent 模式，提供 AI 编程能力 |
 | **沟通渠道** | 微信 (WeChat)，用户通过微信发送需求、截图、反馈 |
 | **开发环境** | 云端沙盒 Linux 服务器，Agent 直接操作文件系统和终端 |
-| **预览网站** | `https://zengsipei.space-z.ai/`（用户在 PC 网页上查看效果） |
+| **预览网站** | `https://preview-chat-{chat_id}.space-z.ai/`（chat_id 来自 IM metadata） |
 | **部署方式** | 手动在 PC 网页上发布更新，PM2 重启 + Caddy 反向代理 |
 | **代码托管** | GitHub: `https://github.com/zengsipei/llm-wiki` |
 | **数据库** | SQLite (沙盒内文件型) |
@@ -236,6 +236,100 @@ Agent 提出四步改进计划，用户批准：
 - 双层 YAML frontmatter 解析 + 标题修复（14 个）
 - 摄入脚本: `scripts/ingest-grahify-kb.mjs`, `scripts/fix-grahify-titles.mjs`
 - Commit: bbcfcb7
+
+---
+
+---
+
+## 会话 8: AI Provider 抽象 + Agentation 集成（2026-05-22 晚）
+
+### 任务 1: 提交并推送
+
+> 用户: "提交并推送"
+
+上下文：上一会话已完成 AI Provider 抽象层重构和 Agentation 集成，本地有 3 个未推送的 commit。
+
+- 推送 3 个 commit 到 `origin/main`（`478e32c..d86b4a1`）
+
+### 任务 2: AI 多 Provider 抽象层
+
+> 用户: "现在 ai 依赖 z-ai-web-dev-sdk，扩展为支持自定义 provider"
+
+**背景**: 系统原有 4 个 API 路由（query、ingest、lint、widgets）全部硬编码调用 `z-ai-web-dev-sdk`，每个路由独立 `import ZAI` 和 `await ZAI.create()`，代码高度重复，无法切换 LLM 后端。
+
+**实现方案**:
+
+1. 创建 `src/lib/ai-provider.ts` — 统一 AI Provider 抽象层：
+   - 定义 `AIProvider` 接口（`complete()` 方法）
+   - 实现 4 个内置 Provider：
+     - `ZAIProvider` — 原有 z-ai-web-dev-sdk（动态 import，默认）
+     - `OpenAIProvider` — OpenAI API（openai npm 包）
+     - `AnthropicProvider` — Claude API（@anthropic-ai/sdk npm 包）
+     - `CustomProvider` — 任意 OpenAI-compatible 端点
+   - 工厂函数 `createProvider()` + 单例缓存
+   - 便捷方法 `aiComplete()` 一行调用
+   - 工具函数 `cleanJsonResponse()`、`parseAIJson()` 消除重复的 JSON 清理代码
+
+2. 环境变量驱动配置：
+   ```
+   AI_PROVIDER=z-ai|openai|anthropic|custom
+   AI_MODEL=
+   AI_BASE_URL=
+   AI_API_KEY=
+   AI_MAX_TOKENS=
+   AI_TEMPERATURE=
+   ```
+
+3. 重构 4 个 API 路由：
+   - `src/app/api/wiki/query/route.ts`
+   - `src/app/api/wiki/ingest/route.ts`
+   - `src/app/api/wiki/lint/route.ts`
+   - `src/app/api/wiki/[id]/widgets/route.ts`
+   - 全部替换为 `import { aiComplete, parseAIJson, cleanJsonResponse } from '@/lib/ai-provider'`
+   - 不再直接 import z-ai-web-dev-sdk
+
+4. 安装依赖：`openai@6.39.0`、`@anthropic-ai/sdk@0.98.0`
+
+5. 更新 `.env.example` 添加完整配置文档
+
+**构建验证**: `npx next build` 编译成功，所有路由正常
+
+### 任务 3: Next.js 类似 Agentation 的工具调研
+
+> 用户: "react 有 enjitaylor/agentation ，next.js 有类似的吗？"
+
+**调研结论**: 没有Next.js 专属的 Agentation 替代品，但 Agentation 本身可在 Next.js 中使用。
+
+找到以下分类的替代方案：
+
+| 类别 | 推荐工具 |
+|------|--------|
+| DOM 反馈（最接近 Agentation） | fubi、@ntheanh201/react-user-feedback |
+| 截图标注 | simple-screenshot-feedback、Marker.io (商业) |
+| 图片标注 | react-image-annotation (~2k⭐)、marker.js 3 |
+| 文本标注 | react-text-annotate、text-annotator-js (Recogito) |
+| 元素高亮/引导 | react-joyride (~6k⭐) |
+| 协作白板 | @excalidraw/excalidraw (~95k⭐) |
+
+**核心区别**: Agentation 的独特价值是「视觉反馈 → AI Agent 结构化上下文」（MCP Server、Claude Code skill），上面这些库只是给人看的标注，不具备 AI Agent 集成能力。
+
+### 任务 4: 集成 Agentation
+
+> 用户: "那就给 llm-wiki 加入 Agentation，验证没问题后提交并推送"
+
+**实现**: 
+
+1. 安装 `agentation@3.0.2` 作为 devDependency
+2. 创建 `src/components/agentation-wrapper.tsx`：
+   - 使用 `next/dynamic({ ssr: false })` 禁用 SSR（需要 DOM API）
+   - 仅在开发环境加载（`process.env.NODE_ENV === 'production'` 时返回 null）
+   - 注册 `onCopy` 和 `onSubmit` 回调打印日志
+3. 在 `src/app/layout.tsx` 中引入 `<AgentationWrapper />`
+4. 构建成功，PM2 重启服务正常
+
+### 任务 5: 更新文档
+
+> 用户: "1. 更新 readme 文档 2. 记录当前session中关于 llm-wiki 系统重要的原始对话 3. 审查无误后，提交推送"
 
 ---
 

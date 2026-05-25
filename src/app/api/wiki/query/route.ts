@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
-import ZAI from 'z-ai-web-dev-sdk'
+import { aiComplete, parseAIJson } from '@/lib/ai-provider'
 
 // Helper: parse JSON array string safely
 function parseJsonArray(str: string): string[] {
@@ -109,34 +109,19 @@ export async function POST(request: NextRequest) {
       )
       .join('\n\n---\n\n')
 
-    // Step 4: Send to GLM with question + context
-    const zai = await ZAI.create()
-    const completion = await zai.chat.completions.create({
-      messages: [
-        { role: 'system', content: QUERY_SYSTEM_PROMPT },
-        {
-          role: 'user',
-          content: `Question: ${question}\n\nRelevant wiki pages:\n\n${context}`,
-        },
-      ],
-    })
+    // Step 4: Call AI with question + context
+    const { content: rawResponse } = await aiComplete([
+      { role: 'system', content: QUERY_SYSTEM_PROMPT },
+      {
+        role: 'user',
+        content: `Question: ${question}\n\nRelevant wiki pages:\n\n${context}`,
+      },
+    ])
 
-    const rawResponse = completion.choices?.[0]?.message?.content || ''
-
-    let parsedResponse: { answer: string; sources: Array<{ id: string; title: string; relevance?: string }> }
-    try {
-      const cleaned = rawResponse
-        .replace(/```json\n?/g, '')
-        .replace(/```\n?/g, '')
-        .trim()
-      parsedResponse = JSON.parse(cleaned)
-    } catch {
-      // If parsing fails, use the raw text as the answer
-      parsedResponse = {
-        answer: rawResponse,
-        sources: relevantPages.map((p) => ({ id: p.id, title: p.title })),
-      }
-    }
+    const parsedResponse = parseAIJson<{ answer: string; sources: Array<{ id: string; title: string; relevance?: string }> }>(
+      rawResponse,
+      { answer: rawResponse, sources: relevantPages.map((p) => ({ id: p.id, title: p.title })) },
+    )
 
     // Step 5: Create ActivityLog
     await db.activityLog.create({

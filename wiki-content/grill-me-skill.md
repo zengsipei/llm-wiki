@@ -1,13 +1,18 @@
 ---
-id: 40488654-e3d9-46db-b276-447c024d12c5
-title: "Grill-Me — Claude Code 计划压力测试 Skill"
+id: cmpgyj6en000forxt4i89v9ni
+title: grill-me-skill
 type: concept
-tags: ["grahify-kb"]
-created: 2026-05-14
-updated: 2026-05-14
-source: grahify-kb
+tags:
+
+created: 2026-05-22T13:51:40.417Z
+updated: 2026-05-22T14:36:56.625Z
 ---
 
+---
+source_url: https://github.com/RobMitt/grill-me-skill
+ingested: 2026-05-14
+sha256: 4ed31ccf8a5f5250a8620c09e02bde51a5bd08bded555f3c7219b74e7b640e9d
+---
 
 # grill-me-skill
 

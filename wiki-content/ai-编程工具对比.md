@@ -1,12 +1,11 @@
 ---
+id: cmpgzafe10004orunvh6rsm2s
 title: AI 编程工具对比
 type: concept
 tags:
-  - AI
-  - 编程
-  - Copilot
-  - Cursor
-  - 对比
+
+created: 2026-05-22T13:51:40.393Z
+updated: 2026-05-22T14:36:56.598Z
 ---
 
 # AI 编程工具对比

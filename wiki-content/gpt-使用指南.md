@@ -1,11 +1,11 @@
 ---
+id: cmpgzafel0009orun4b41owzw
 title: GPT 使用指南
 type: entity
 tags:
-  - GPT
-  - OpenAI
-  - AI
-  - 使用指南
+
+created: 2026-05-22T13:51:40.414Z
+updated: 2026-05-22T14:36:56.622Z
 ---
 
 # GPT 使用指南

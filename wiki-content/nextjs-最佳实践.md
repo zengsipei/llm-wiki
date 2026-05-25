@@ -1,11 +1,11 @@
 ---
+id: cmpgzafey000dorun33pvtovn
 title: Next.js 最佳实践
 type: concept
 tags:
-  - Next.js
-  - React
-  - 前端
-  - 最佳实践
+
+created: 2026-05-22T13:51:40.426Z
+updated: 2026-05-22T14:36:56.642Z
 ---
 
 # Next.js 最佳实践

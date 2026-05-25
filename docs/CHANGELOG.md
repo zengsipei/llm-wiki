@@ -153,6 +153,8 @@ for (let i = 0; i < headingOffsets.length; i++) {
 | TOC 偏移计算 | getBoundingClientRect 公式 | 唯一不受 CSS 定位影响的方案 |
 | TOC Hover | 单容器包裹 | 零死区、无定时器、代码更少 |
 | AI SDK | z-ai-web-dev-sdk | 平台内置，无需额外配置 |
+| AI 抽象层 | ai-provider.ts 多 Provider | 解耦路由代码，支持一键切换 LLM 后端 |
+| 视觉反馈 | Agentation (dev-only, dynamic import) | SSR 不兼容，仅开发环境加载 |
 | 进程管理 | PM2 (npx) | 持久化、自动重启 |
 
 ---
@@ -272,3 +274,57 @@ for (let i = 0; i < headingOffsets.length; i++) {
 ### 7.3 关联仓库
 - `zengsipei/grahify-kb` — 知识库原始调研素材（raw/articles/ + entities/ + concepts/ + comparisons/）
 - `zengsipei/llm-wiki` — Wiki 系统（产品化实现）
+
+---
+
+## 阶段八：AI Provider 抽象 + Agentation 集成（2026-05-22 晚）
+
+### 8.1 AI 多 Provider 抽象层
+
+**问题**: 4 个 AI 路由全部硬编码 `import ZAI from 'z-ai-web-dev-sdk'`，代码重复，无法切换 LLM 后端。
+
+**解决方案**: 创建 `src/lib/ai-provider.ts` 统一抽象层。
+
+- **接口设计**: `AIProvider` 接口定义 `complete()` 方法
+- **内置 Provider**: ZAIProvider / OpenAIProvider / AnthropicProvider / CustomProvider
+- **工厂模式**: `createProvider()` 根据环境变量创建对应 Provider（单例缓存）
+- **便捷 API**: `aiComplete(messages, options)` 一行调用，`parseAIJson()` 安全解析
+- **配置方式**: 环境变量 `AI_PROVIDER` + `AI_BASE_URL` + `AI_API_KEY` + `AI_MODEL`
+- **重构路由**: 4 个 AI 路由全部改用 `aiComplete()`，不再直接依赖 z-ai-web-dev-sdk
+- **新增依赖**: `openai@6.39.0`、`@anthropic-ai/sdk@0.98.0`
+
+**路由变更**:
+- `src/app/api/wiki/query/route.ts` — `ZAI.create()` → `aiComplete()`
+- `src/app/api/wiki/ingest/route.ts` — 同上
+- `src/app/api/wiki/lint/route.ts` — 同上
+- `src/app/api/wiki/[id]/widgets/route.ts` — 同上
+
+Commit: 5695fdd
+
+### 8.2 Agentation 视觉反馈工具集成
+
+**需求**: 集成 [Agentation](https://github.com/benjitaylor/agentation) — 将 UI 元素批注转化为 AI Agent 可理解的结构化上下文。
+
+**实现**:
+- 安装 `agentation@3.0.2` (devDependency)
+- 创建 `src/components/agentation-wrapper.tsx`:
+  - `next/dynamic({ ssr: false })` — 禁用 SSR（需要 DOM API）
+  - 生产环境自动排除（`NODE_ENV === 'production'` 时返回 null）
+  - 注册 `onCopy`、`onSubmit` 回调
+- 集成到 `src/app/layout.tsx` 全局布局
+- 使用方式：页面右下角浮动按钮 → 点击任意元素添加批注 → 生成结构化 Markdown → 粘贴给 AI Agent
+
+**技术决策**:
+
+| 决策 | 选择 | 原因 |
+|------|------|------|
+| SSR | `next/dynamic({ ssr: false })` | Agentation 依赖 window/document API |
+| 生产环境 | 条件渲染返回 null | Agentation 是开发者工具，不应影响用户体验 |
+| 安装方式 | devDependency | 生产构建不包含 |
+
+Commit: 5695fdd
+
+### 8.3 文档更新
+- 更新 README.md：补充 AI Provider 配置、Agentation、Widget、Git 历史等新特性
+- 更新 SESSION_LOG.md：记录会话 8 的完整对话和决策
+- 更新 CHANGELOG.md：本文件

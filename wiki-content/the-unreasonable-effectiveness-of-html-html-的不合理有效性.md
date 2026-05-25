@@ -1,17 +1,11 @@
 ---
-id: cmpgk1soh0000qa3bjohjwblf
+id: cmpgyibui0000orvgn8pocf8w
 title: The Unreasonable Effectiveness of HTML（HTML 的不合理有效性）
 type: concept
 tags:
-  - AI
-  - HTML
-  - Agent
-  - Output-Format
-  - Design
-  - Prototyping
-  - Artifact
-created: 2026-05-22T06:45:03.473Z
-updated: 2026-05-22T06:45:03.473Z
+
+created: 2026-05-22T13:51:40.440Z
+updated: 2026-05-22T14:36:56.665Z
 ---
 
 # HTML 的不合理有效性

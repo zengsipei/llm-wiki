@@ -1,11 +1,11 @@
 ---
+id: cmpgzafeg0007orunkjn7lsfz
 title: Gemini 使用指南
 type: entity
 tags:
-  - Gemini
-  - Google
-  - AI
-  - 使用指南
+
+created: 2026-05-22T13:51:40.408Z
+updated: 2026-05-22T14:36:56.615Z
 ---
 
 # Gemini 使用指南

@@ -1,11 +1,11 @@
 ---
+id: cmpgzafef0006orunxtlheza2
 title: Function Calling 实践指南
 type: concept
 tags:
-  - Function-Calling
-  - AI
-  - Tool-Use
-  - API
+
+created: 2026-05-22T13:51:40.407Z
+updated: 2026-05-22T14:36:56.613Z
 ---
 
 # Function Calling 实践指南

@@ -1,13 +1,18 @@
 ---
-id: a8efccae-59b4-4c7e-9bcf-41d65f37d259
-title: "rtk-ai/rtk — Rust Token Killer"
+id: cmpgyj6eo000gorxt3spzamv9
+title: rtk-ai/rtk — Rust Token Killer
 type: concept
-tags: ["grahify-kb"]
-created: 2026-05-14
-updated: 2026-05-14
-source: grahify-kb
+tags:
+
+created: 2026-05-22T13:51:40.434Z
+updated: 2026-05-22T14:36:56.657Z
 ---
 
+---
+source_url: https://github.com/rtk-ai/rtk
+ingested: 2026-05-14
+sha256: e97ed6b9134de9e1e1da834043db7ebc2464f367dcab6c1b2cbf4b00a97a726d
+---
 
 # rtk-ai/rtk — Rust Token Killer
 

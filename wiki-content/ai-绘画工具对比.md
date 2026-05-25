@@ -1,11 +1,11 @@
 ---
+id: cmpgzafdz0003orunoiwoauwe
 title: AI 绘画工具对比
 type: entity
 tags:
-  - AI
-  - 绘画
-  - Midjourney
-  - DALL-E
+
+created: 2026-05-22T13:51:40.392Z
+updated: 2026-05-22T14:36:56.596Z
 ---
 
 # AI 绘画工具对比

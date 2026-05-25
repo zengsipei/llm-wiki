@@ -1,12 +1,11 @@
 ---
+id: cmpgzafdx0001orun0xmx2t7y
 title: AI Agent 输出格式研究
 type: concept
 tags:
-  - AI
-  - Agent
-  - HTML
-  - Markdown
-  - Output-Format
+
+created: 2026-05-22T13:51:40.389Z
+updated: 2026-05-22T14:36:56.591Z
 ---
 
 # AI Agent 输出格式研究

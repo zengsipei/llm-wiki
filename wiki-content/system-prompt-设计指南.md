@@ -1,11 +1,11 @@
 ---
+id: cmpgzaff8000iorun7yvt6ljn
 title: System Prompt 设计指南
 type: concept
 tags:
-  - System-Prompt
-  - Prompt
-  - AI
-  - 设计
+
+created: 2026-05-22T13:51:40.436Z
+updated: 2026-05-22T14:36:56.660Z
 ---
 
 # System Prompt 设计指南
