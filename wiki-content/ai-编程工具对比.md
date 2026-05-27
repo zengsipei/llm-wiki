@@ -1,11 +1,11 @@
 ---
-id: cmpgzafe10004orunvh6rsm2s
+id: cmpnqrx11000jl9x7xste75q4
 title: AI 编程工具对比
 type: concept
 tags:
 
-created: 2026-05-22T13:51:40.393Z
-updated: 2026-05-22T14:36:56.598Z
+created: 2026-05-27T07:27:43.093Z
+updated: 2026-05-27T07:27:43.093Z
 ---
 
 # AI 编程工具对比

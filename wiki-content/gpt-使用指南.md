@@ -1,11 +1,11 @@
 ---
-id: cmpgzafel0009orun4b41owzw
+id: cmpnqrx1w000wl9x79c0nhlzn
 title: GPT 使用指南
 type: entity
 tags:
 
-created: 2026-05-22T13:51:40.414Z
-updated: 2026-05-22T14:36:56.622Z
+created: 2026-05-27T07:27:43.124Z
+updated: 2026-05-27T07:27:43.124Z
 ---
 
 # GPT 使用指南

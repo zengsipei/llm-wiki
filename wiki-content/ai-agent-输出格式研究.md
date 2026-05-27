@@ -1,11 +1,11 @@
 ---
-id: cmpgzafdx0001orun0xmx2t7y
+id: cmpnqrx0v000gl9x72aacxxgp
 title: AI Agent 输出格式研究
 type: concept
 tags:
 
-created: 2026-05-22T13:51:40.389Z
-updated: 2026-05-22T14:36:56.591Z
+created: 2026-05-27T07:27:43.087Z
+updated: 2026-05-27T07:27:43.087Z
 ---
 
 # AI Agent 输出格式研究

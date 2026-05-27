@@ -1,11 +1,11 @@
 ---
-id: cmpgyibui0000orvgn8pocf8w
+id: cmpnqrx3j001jl9x77t1lr4uc
 title: The Unreasonable Effectiveness of HTML（HTML 的不合理有效性）
 type: concept
 tags:
 
-created: 2026-05-22T13:51:40.440Z
-updated: 2026-05-22T14:36:56.665Z
+created: 2026-05-27T07:27:43.184Z
+updated: 2026-05-27T07:27:43.184Z
 ---
 
 # HTML 的不合理有效性

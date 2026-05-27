@@ -1,11 +1,11 @@
 ---
-id: agentation-visual-feedback
+id: cmpnqrx0s000fl9x70w97plwu
 title: Agentation — AI 编码 Agent 的视觉反馈工具
 type: tool
 tags:
 
-created: 2026-05-22T14:14:57.802Z
-updated: 2026-05-22T14:36:56.589Z
+created: 2026-05-27T07:27:43.084Z
+updated: 2026-05-27T07:27:43.084Z
 ---
 
 # Agentation — AI 编码 Agent 的视觉反馈工具

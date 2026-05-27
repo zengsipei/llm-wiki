@@ -1,11 +1,11 @@
 ---
-id: cmpgzafdy0002orunl2l94ua5
+id: cmpnqrx0x000hl9x7iygfzbf9
 title: AI 安全与对齐
 type: concept
 tags:
 
-created: 2026-05-22T13:51:40.391Z
-updated: 2026-05-22T14:36:56.593Z
+created: 2026-05-27T07:27:43.089Z
+updated: 2026-05-27T07:27:43.089Z
 ---
 
 # AI 安全与对齐

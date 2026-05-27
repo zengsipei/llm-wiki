@@ -1,11 +1,11 @@
 ---
-id: cmpgzafef0006orunxtlheza2
+id: cmpnqrx1l000rl9x7zzihl2ad
 title: Function Calling 实践指南
 type: concept
 tags:
 
-created: 2026-05-22T13:51:40.407Z
-updated: 2026-05-22T14:36:56.613Z
+created: 2026-05-27T07:27:43.113Z
+updated: 2026-05-27T07:27:43.113Z
 ---
 
 # Function Calling 实践指南

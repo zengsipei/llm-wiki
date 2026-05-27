@@ -1,11 +1,11 @@
 ---
-id: cmpgzafet000aorung7wggsrf
+id: cmpnqrx2b0011l9x7ij1ttwp1
 title: LLM 评测方法
 type: concept
 tags:
 
-created: 2026-05-22T13:51:40.422Z
-updated: 2026-05-22T14:36:56.634Z
+created: 2026-05-27T07:27:43.139Z
+updated: 2026-05-27T07:27:43.139Z
 ---
 
 # LLM 评测方法

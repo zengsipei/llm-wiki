@@ -1,11 +1,11 @@
 ---
-id: cmpgzaff2000forunvd1ioyje
+id: cmp8w7ycm0006okil7zo726bf
 title: Prisma ORM 使用指南
 type: concept
 tags:
 
-created: 2026-05-22T13:51:40.431Z
-updated: 2026-05-22T14:36:56.651Z
+created: 2026-05-16T22:03:36.742Z
+updated: 2026-05-27T07:27:43.164Z
 ---
 
 # Prisma ORM 使用指南

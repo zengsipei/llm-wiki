@@ -1,11 +1,11 @@
 ---
-id: cmpgyj6en000forxt4i89v9ni
+id: cmpnqrx20000yl9x7geb6tdf0
 title: grill-me-skill
 type: concept
 tags:
 
-created: 2026-05-22T13:51:40.417Z
-updated: 2026-05-22T14:36:56.625Z
+created: 2026-05-27T07:27:43.128Z
+updated: 2026-05-27T07:27:43.128Z
 ---
 
 ---

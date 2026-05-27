@@ -1,11 +1,11 @@
 ---
-id: cmpgzafdu0000orunnbgtjg8p
+id: cmpnqrx0p000el9x76dpxef8o
 title: Agent 架构设计模式
 type: concept
 tags:
 
-created: 2026-05-22T13:51:40.387Z
-updated: 2026-05-22T14:36:56.586Z
+created: 2026-05-27T07:27:43.082Z
+updated: 2026-05-27T07:27:43.082Z
 ---
 
 # Agent 架构设计模式

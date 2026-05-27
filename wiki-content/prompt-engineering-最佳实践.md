@@ -1,11 +1,11 @@
 ---
-id: cmpgzaff3000gorun3g9rduw8
+id: cmpnqrx32001cl9x7n5f75908
 title: Prompt Engineering 最佳实践
 type: concept
 tags:
 
-created: 2026-05-22T13:51:40.432Z
-updated: 2026-05-22T14:36:56.653Z
+created: 2026-05-27T07:27:43.167Z
+updated: 2026-05-27T07:27:43.167Z
 ---
 
 # Prompt Engineering 最佳实践

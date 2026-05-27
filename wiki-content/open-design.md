@@ -1,15 +1,11 @@
 ---
-id: bfc37692-beba-410f-923a-1329254ad469
+id: cmpnqrx2n0017l9x7h7xgpcuw
 title: Open Design
 type: entity
 tags:
-  - AI设计工具
-  - 开源
-  - 设计系统
-  - BYOK
-  - Agent
-created: 2026-05-22T18:45:00.000Z
-updated: 2026-05-22T18:45:00.000Z
+
+created: 2026-05-27T07:27:43.152Z
+updated: 2026-05-27T07:27:43.152Z
 ---
 
 # Open Design

@@ -1,11 +1,11 @@
 ---
-id: cmpgzaff0000eorunbjfme7af
+id: cmpnqrx2q0018l9x7us5moq4p
 title: Opus 使用指南
 type: concept
 tags:
 
-created: 2026-05-22T13:51:40.428Z
-updated: 2026-05-22T14:36:56.645Z
+created: 2026-05-27T07:27:43.154Z
+updated: 2026-05-27T07:27:43.154Z
 ---
 
 # Opus 使用指南
