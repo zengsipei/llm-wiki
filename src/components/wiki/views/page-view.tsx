@@ -241,10 +241,12 @@ function WidgetPanel({ pageId }: { pageId: string }) {
   const [widgets, setWidgets] = useState<WidgetInfo[]>([])
   const [loading, setLoading] = useState(false)
   const [generating, setGenerating] = useState(false)
+  const [generateProgress, setGenerateProgress] = useState(0)
   const [activeWidget, setActiveWidget] = useState<string | null>(null)
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [hint, setHint] = useState('')
   const iframeRef = useRef<HTMLIFrameElement>(null)
+  const progressTimerRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   // Fetch existing widgets
   const fetchWidgets = useCallback(async () => {
@@ -269,6 +271,16 @@ function WidgetPanel({ pageId }: { pageId: string }) {
 
   const handleGenerate = useCallback(async () => {
     setGenerating(true)
+    setGenerateProgress(0)
+
+    // Animated progress: 0→30% in 2s, 30→70% in 10s, 70→90% in 20s, then slow to 95%
+    let progress = 0
+    progressTimerRef.current = setInterval(() => {
+      progress += progress < 30 ? 2 : progress < 70 ? 1 : progress < 90 ? 0.3 : 0.05
+      if (progress > 95) progress = 95
+      setGenerateProgress(Math.min(progress, 95))
+    }, 100)
+
     try {
       const body: { hint?: string } = {}
       if (hint.trim()) body.hint = hint.trim()
@@ -278,6 +290,9 @@ function WidgetPanel({ pageId }: { pageId: string }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       })
+
+      if (progressTimerRef.current) clearInterval(progressTimerRef.current)
+      setGenerateProgress(100)
 
       if (!res.ok) {
         const err = await res.json()
@@ -289,7 +304,6 @@ function WidgetPanel({ pageId }: { pageId: string }) {
         toast({ title: 'Widget 生成成功', description: `已生成: ${data.widget.filename}` })
         setActiveWidget(data.widget.url)
         setHint('')
-        // Re-fetch to update the list
         await fetchWidgets()
       }
     } catch (err) {
@@ -299,7 +313,9 @@ function WidgetPanel({ pageId }: { pageId: string }) {
         variant: 'destructive',
       })
     } finally {
+      if (progressTimerRef.current) clearInterval(progressTimerRef.current)
       setGenerating(false)
+      setGenerateProgress(0)
     }
   }, [pageId, hint, fetchWidgets])
 
@@ -396,7 +412,7 @@ function WidgetPanel({ pageId }: { pageId: string }) {
 
         {/* Widget Preview */}
         <div className={`flex-1 min-h-0 ${isFullscreen ? 'min-h-0' : ''}`}>
-          {activeWidget ? (
+          {activeWidget && !generating ? (
             <iframe
               ref={iframeRef}
               src={activeWidget}
@@ -405,6 +421,38 @@ function WidgetPanel({ pageId }: { pageId: string }) {
               sandbox="allow-scripts allow-same-origin"
               title="Widget Preview"
             />
+          ) : generating ? (
+            /* Generating progress view */
+            <div className="flex items-center justify-center rounded-lg border border-border/60 bg-background" style={{ minHeight: '360px' }}>
+              <div className="text-center p-8 max-w-xs w-full">
+                <div className="relative w-16 h-16 mx-auto mb-5">
+                  <svg className="w-full h-full -rotate-90" viewBox="0 0 64 64">
+                    <circle cx="32" cy="32" r="28" fill="none" stroke="currentColor" strokeWidth="4" className="text-muted/20" />
+                    <circle
+                      cx="32" cy="32" r="28" fill="none" stroke="currentColor" strokeWidth="4"
+                      strokeDasharray={`${2 * Math.PI * 28}`}
+                      strokeDashoffset={`${2 * Math.PI * 28 * (1 - generateProgress / 100)}`}
+                      strokeLinecap="round"
+                      className="text-primary transition-all duration-300 ease-out"
+                    />
+                  </svg>
+                  <Sparkles className="absolute inset-0 m-auto size-5 text-primary animate-pulse" />
+                </div>
+                <p className="text-sm font-medium mb-2">
+                  {generateProgress < 20 ? '正在分析页面内容...' : generateProgress < 50 ? '正在设计交互组件...' : generateProgress < 80 ? '正在生成 HTML 代码...' : '即将完成...'}
+                </p>
+                <p className="text-xs text-muted-foreground/60 mb-4">
+                  AI 正在为这个页面创建知识组件，通常需要 30~60 秒
+                </p>
+                <div className="w-full h-1.5 rounded-full bg-muted overflow-hidden">
+                  <div
+                    className="h-full rounded-full bg-primary transition-all duration-300 ease-out"
+                    style={{ width: `${generateProgress}%` }}
+                  />
+                </div>
+                <p className="text-[10px] text-muted-foreground/40 mt-2 tabular-nums">{Math.round(generateProgress)}%</p>
+              </div>
+            </div>
           ) : (
             <div className="flex items-center justify-center rounded-lg border border-dashed border-border/60 bg-muted/20" style={{ minHeight: '360px' }}>
               <div className="text-center p-6">

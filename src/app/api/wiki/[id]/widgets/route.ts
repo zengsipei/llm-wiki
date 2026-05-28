@@ -6,6 +6,44 @@ import { aiComplete } from '@/lib/ai-provider'
 
 const WIDGETS_DIR = resolve(process.cwd(), 'wiki-content', 'widgets')
 
+/**
+ * Extract HTML from AI response, handling various wrapping formats:
+ * - ```html ... ```
+ * - ``` ... ```
+ * - Text before/after the HTML
+ * - Multiple code blocks (pick the one with <!DOCTYPE or <html)
+ */
+function extractHtml(raw: string): string | null {
+  let text = raw.trim()
+
+  // 1. Remove ALL markdown code fences (```...```)
+  text = text.replace(/```[a-z]*\n?/gi, '').replace(/```/g, '').trim()
+
+  // 2. Try to find <!DOCTYPE or <html tag and extract from there
+  const doctypeIdx = text.search(/<!doctype\s+html/i)
+  const htmlIdx = text.search(/<html[\s>]/i)
+
+  let startIdx = -1
+  if (doctypeIdx >= 0 && htmlIdx >= 0) {
+    startIdx = Math.min(doctypeIdx, htmlIdx)
+  } else if (doctypeIdx >= 0) {
+    startIdx = doctypeIdx
+  } else if (htmlIdx >= 0) {
+    startIdx = htmlIdx
+  }
+
+  if (startIdx > 0) {
+    text = text.substring(startIdx)
+  }
+
+  // 3. Validate we now have something HTML-like
+  if (!text.match(/^\s*<!doctype/i) && !text.match(/^\s*<html/i)) {
+    return null
+  }
+
+  return text.trim()
+}
+
 function slugify(title: string): string {
   return title
     .toLowerCase()
@@ -65,19 +103,13 @@ export async function POST(
       { role: 'user', content: userPrompt },
     ], { temperature: 0.7 })
 
-    let html = rawHtml
+    // Clean up and extract HTML from AI response
+    const html = extractHtml(rawHtml)
 
-    // Clean up markdown code fences if the model wrapped them
-    html = html
-      .replace(/^```html\n?/i, '')
-      .replace(/^```\n?/i, '')
-      .replace(/\n?```\n?$/i, '')
-      .trim()
-
-    // Validate it starts with <!DOCTYPE or <html
-    if (!html.match(/^\s*<!doctype/i) && !html.match(/^\s*<html/i)) {
+    if (!html) {
+      console.error('[widget] Failed to extract valid HTML. Raw length:', rawHtml.length, 'Preview:', rawHtml.substring(0, 300))
       return NextResponse.json(
-        { error: 'Widget generation failed: invalid HTML', rawResponse: html },
+        { error: 'Widget generation failed: AI returned invalid content', rawPreview: rawHtml.substring(0, 200) },
         { status: 500 }
       )
     }
