@@ -1,11 +1,11 @@
 ---
-id: cmpnqrx3c001hl9x7trpmja9r
+id: cmppumdhi0000mwnihatz13gp
 title: Tailwind CSS 实战技巧
 type: concept
 tags:
 
-created: 2026-05-27T07:27:43.177Z
-updated: 2026-05-27T07:27:43.177Z
+created: 2026-05-28T18:50:55.303Z
+updated: 2026-05-28T18:50:55.303Z
 ---
 
 # Tailwind CSS 实战技巧
