@@ -343,8 +343,15 @@ function WidgetPanel({ pageId }: { pageId: string }) {
       setGenerateProgress(100)
 
       if (!res.ok) {
-        const err = await res.json()
-        throw new Error(err.error || '生成失败')
+        let errMsg = `生成失败 (HTTP ${res.status})`
+        try {
+          const err = await res.json()
+          errMsg = err.error || errMsg
+        } catch {
+          // API returned non-JSON (e.g. HTML error page), use generic message
+          errMsg = `生成失败: 服务端返回异常 (${res.status})`
+        }
+        throw new Error(errMsg)
       }
 
       const data = await res.json()
