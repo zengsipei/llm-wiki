@@ -37,11 +37,49 @@ function extractHtml(raw: string): string | null {
   }
 
   // 3. Validate we now have something HTML-like
-  if (!text.match(/^\s*<!doctype/i) && !text.match(/^\s*<html/i)) {
-    return null
+  if (text.match(/^\s*<!doctype/i) || text.match(/^\s*<html/i)) {
+    return text.trim()
   }
 
-  return text.trim()
+  // 4. Fallback: if the content contains substantial HTML tags but lacks doctype/html,
+  //    it's likely an HTML fragment — wrap it in a basic template
+  const hasSubstantialHtml = /<(body|div|section|main|style|script|table|form|canvas|svg)[\s>]/i.test(text)
+  if (hasSubstantialHtml) {
+    return `<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+${text}
+</body>
+</html>`.trim()
+  }
+
+  // 5. Last resort: if it has <head> or <body> tag somewhere, extract from there
+  const headIdx = text.search(/<head[\s>]/i)
+  const bodyIdx = text.search(/<body[\s>]/i)
+  if (headIdx > 0 || bodyIdx > 0) {
+    const extractFrom = headIdx > 0 && bodyIdx > 0 ? Math.min(headIdx, bodyIdx) : Math.max(headIdx, bodyIdx)
+    const fragment = text.substring(extractFrom)
+    if (/<\/html>/i.test(text)) {
+      const endIdx = text.search(/<\/html>/i) + '</html>'.length
+      return text.substring(extractFrom, endIdx).trim()
+    }
+    return `<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+${fragment}
+</body>
+</html>`.trim()
+  }
+
+  return null
 }
 
 function slugify(title: string): string {

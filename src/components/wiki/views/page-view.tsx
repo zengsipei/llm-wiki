@@ -235,6 +235,54 @@ function BackToTopButton({ visible, onClick }: { visible: boolean; onClick: () =
   )
 }
 
+// ============ Widget Loading HTML (rendered inside iframe via srcdoc) ============
+
+function LOADING_IFRAME_HTML(progress: number): string {
+  const pct = Math.round(progress)
+  const circumference = 2 * Math.PI * 28
+  const offset = circumference * (1 - progress / 100)
+  const statusText = progress < 20 ? '正在分析页面内容...' : progress < 50 ? '正在设计交互组件...' : progress < 80 ? '正在生成 HTML 代码...' : '即将完成...'
+
+  return `<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{display:flex;align-items:center;justify-content:center;min-height:100vh;background:#fafafa;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#333}
+.wrap{text-align:center;padding:32px;max-width:280px;width:100%}
+.ring{position:relative;width:64px;height:64px;margin:0 auto 20px}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .bg{fill:none;stroke:#e5e7eb;stroke-width:4}
+.ring .fg{fill:none;stroke:#6366f1;stroke-width:4;stroke-linecap:round;stroke-dasharray:${circumference};stroke-dashoffset:${offset};transition:stroke-dashoffset .3s ease-out}
+.ring .icon{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:18px;animation:pulse 1.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.9)}}
+.status{font-size:14px;font-weight:500;margin-bottom:4px}
+.hint{font-size:12px;color:#999;margin-bottom:16px}
+.bar-bg{width:100%;height:6px;border-radius:3px;background:#e5e7eb;overflow:hidden}
+.bar-fg{height:100%;border-radius:3px;background:linear-gradient(90deg,#6366f1,#8b5cf6);transition:width .3s ease-out;width:${pct}%}
+.pct{font-size:10px;color:#bbb;margin-top:8px;font-variant-numeric:tabular-nums}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="ring">
+    <svg viewBox="0 0 64 64">
+      <circle class="bg" cx="32" cy="32" r="28"/>
+      <circle class="fg" cx="32" cy="32" r="28"/>
+    </svg>
+    <div class="icon">&#10024;</div>
+  </div>
+  <p class="status">${statusText}</p>
+  <p class="hint">AI 正在为这个页面创建知识组件，通常需要 30~60 秒</p>
+  <div class="bar-bg"><div class="bar-fg"></div></div>
+  <p class="pct">${pct}%</p>
+</div>
+</body>
+</html>`
+}
+
 // ============ Widget Panel Component ============
 
 function WidgetPanel({ pageId }: { pageId: string }) {
@@ -422,37 +470,14 @@ function WidgetPanel({ pageId }: { pageId: string }) {
               title="Widget Preview"
             />
           ) : generating ? (
-            /* Generating progress view */
-            <div className="flex items-center justify-center rounded-lg border border-border/60 bg-background" style={{ minHeight: '360px' }}>
-              <div className="text-center p-8 max-w-xs w-full">
-                <div className="relative w-16 h-16 mx-auto mb-5">
-                  <svg className="w-full h-full -rotate-90" viewBox="0 0 64 64">
-                    <circle cx="32" cy="32" r="28" fill="none" stroke="currentColor" strokeWidth="4" className="text-muted/20" />
-                    <circle
-                      cx="32" cy="32" r="28" fill="none" stroke="currentColor" strokeWidth="4"
-                      strokeDasharray={`${2 * Math.PI * 28}`}
-                      strokeDashoffset={`${2 * Math.PI * 28 * (1 - generateProgress / 100)}`}
-                      strokeLinecap="round"
-                      className="text-primary transition-all duration-300 ease-out"
-                    />
-                  </svg>
-                  <Sparkles className="absolute inset-0 m-auto size-5 text-primary animate-pulse" />
-                </div>
-                <p className="text-sm font-medium mb-2">
-                  {generateProgress < 20 ? '正在分析页面内容...' : generateProgress < 50 ? '正在设计交互组件...' : generateProgress < 80 ? '正在生成 HTML 代码...' : '即将完成...'}
-                </p>
-                <p className="text-xs text-muted-foreground/60 mb-4">
-                  AI 正在为这个页面创建知识组件，通常需要 30~60 秒
-                </p>
-                <div className="w-full h-1.5 rounded-full bg-muted overflow-hidden">
-                  <div
-                    className="h-full rounded-full bg-primary transition-all duration-300 ease-out"
-                    style={{ width: `${generateProgress}%` }}
-                  />
-                </div>
-                <p className="text-[10px] text-muted-foreground/40 mt-2 tabular-nums">{Math.round(generateProgress)}%</p>
-              </div>
-            </div>
+            /* Generating: show progress inside iframe via srcdoc */
+            <iframe
+              className={fullscreenIframe}
+              style={{ minHeight: isFullscreen ? '100%' : '360px', maxHeight: isFullscreen ? '100%' : '600px' }}
+              sandbox="allow-scripts allow-same-origin"
+              title="Generating Widget..."
+              srcDoc={LOADING_IFRAME_HTML(generateProgress)}
+            />
           ) : (
             <div className="flex items-center justify-center rounded-lg border border-dashed border-border/60 bg-muted/20" style={{ minHeight: '360px' }}>
               <div className="text-center p-6">
