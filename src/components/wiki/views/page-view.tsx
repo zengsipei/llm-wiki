@@ -235,14 +235,9 @@ function BackToTopButton({ visible, onClick }: { visible: boolean; onClick: () =
   )
 }
 
-// ============ Widget Loading HTML (rendered inside iframe via srcdoc) ============
+// ============ Widget Loading HTML (self-animating, no external state updates) ============
 
-function LOADING_IFRAME_HTML(progress: number): string {
-  const pct = Math.round(progress)
-  const circumference = 2 * Math.PI * 28
-  const offset = circumference * (1 - progress / 100)
-  const statusText = progress < 20 ? '正在分析页面内容...' : progress < 50 ? '正在设计交互组件...' : progress < 80 ? '正在生成 HTML 代码...' : '即将完成...'
-
+function LOADING_IFRAME_HTML(): string {
   return `<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -255,13 +250,13 @@ body{display:flex;align-items:center;justify-content:center;min-height:100vh;bac
 .ring{position:relative;width:64px;height:64px;margin:0 auto 20px}
 .ring svg{width:100%;height:100%;transform:rotate(-90deg)}
 .ring .bg{fill:none;stroke:#e5e7eb;stroke-width:4}
-.ring .fg{fill:none;stroke:#6366f1;stroke-width:4;stroke-linecap:round;stroke-dasharray:${circumference};stroke-dashoffset:${offset};transition:stroke-dashoffset .3s ease-out}
+.ring .fg{fill:none;stroke:#6366f1;stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset .4s ease-out}
 .ring .icon{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:18px;animation:pulse 1.5s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.9)}}
-.status{font-size:14px;font-weight:500;margin-bottom:4px}
+.status{font-size:14px;font-weight:500;margin-bottom:4px;min-height:20px}
 .hint{font-size:12px;color:#999;margin-bottom:16px}
 .bar-bg{width:100%;height:6px;border-radius:3px;background:#e5e7eb;overflow:hidden}
-.bar-fg{height:100%;border-radius:3px;background:linear-gradient(90deg,#6366f1,#8b5cf6);transition:width .3s ease-out;width:${pct}%}
+.bar-fg{height:100%;border-radius:3px;background:linear-gradient(90deg,#6366f1,#8b5cf6);transition:width .4s ease-out}
 .pct{font-size:10px;color:#bbb;margin-top:8px;font-variant-numeric:tabular-nums}
 </style>
 </head>
@@ -270,15 +265,32 @@ body{display:flex;align-items:center;justify-content:center;min-height:100vh;bac
   <div class="ring">
     <svg viewBox="0 0 64 64">
       <circle class="bg" cx="32" cy="32" r="28"/>
-      <circle class="fg" cx="32" cy="32" r="28"/>
+      <circle class="fg" cx="32" cy="32" r="28" id="arc"/>
     </svg>
     <div class="icon">&#10024;</div>
   </div>
-  <p class="status">${statusText}</p>
+  <p class="status" id="status">正在分析页面内容...</p>
   <p class="hint">AI 正在为这个页面创建知识组件，通常需要 30~60 秒</p>
-  <div class="bar-bg"><div class="bar-fg"></div></div>
-  <p class="pct">${pct}%</p>
+  <div class="bar-bg"><div class="bar-fg" id="bar"></div></div>
+  <p class="pct" id="pct">0%</p>
 </div>
+<script>
+(function(){
+  var C=2*Math.PI*28, arc=document.getElementById('arc'), bar=document.getElementById('bar'),
+      pct=document.getElementById('pct'), status=document.getElementById('status'), p=0;
+  arc.style.strokeDasharray=C;
+  function tick(){
+    p += p<30?2:p<70?1:p<90?0.3:0.05;
+    if(p>95)p=95;
+    arc.style.strokeDashoffset=C*(1-p/100);
+    bar.style.width=p+'%';
+    pct.textContent=Math.round(p)+'%';
+    status.textContent=p<20?'正在分析页面内容...':p<50?'正在设计交互组件...':p<80?'正在生成 HTML 代码...':'即将完成...';
+    requestAnimationFrame(function(){setTimeout(tick,100);});
+  }
+  tick();
+})();
+</script>
 </body>
 </html>`
 }
@@ -289,12 +301,10 @@ function WidgetPanel({ pageId }: { pageId: string }) {
   const [widgets, setWidgets] = useState<WidgetInfo[]>([])
   const [loading, setLoading] = useState(false)
   const [generating, setGenerating] = useState(false)
-  const [generateProgress, setGenerateProgress] = useState(0)
   const [activeWidget, setActiveWidget] = useState<string | null>(null)
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [hint, setHint] = useState('')
   const iframeRef = useRef<HTMLIFrameElement>(null)
-  const progressTimerRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   // Fetch existing widgets
   const fetchWidgets = useCallback(async () => {
@@ -303,15 +313,13 @@ function WidgetPanel({ pageId }: { pageId: string }) {
       const data = await res.json()
       if (data.widgets) {
         setWidgets(data.widgets)
-        // Auto-select the latest widget
-        if (data.widgets.length > 0 && !activeWidget) {
-          setActiveWidget(data.widgets[0].url)
-        }
+        // Auto-select the latest widget only if nothing is selected
+        setActiveWidget(prev => prev || (data.widgets.length > 0 ? data.widgets[0].url : null))
       }
     } catch {
       // silently fail
     }
-  }, [pageId, activeWidget])
+  }, [pageId])
 
   useEffect(() => {
     fetchWidgets()
@@ -319,15 +327,6 @@ function WidgetPanel({ pageId }: { pageId: string }) {
 
   const handleGenerate = useCallback(async () => {
     setGenerating(true)
-    setGenerateProgress(0)
-
-    // Animated progress: 0→30% in 2s, 30→70% in 10s, 70→90% in 20s, then slow to 95%
-    let progress = 0
-    progressTimerRef.current = setInterval(() => {
-      progress += progress < 30 ? 2 : progress < 70 ? 1 : progress < 90 ? 0.3 : 0.05
-      if (progress > 95) progress = 95
-      setGenerateProgress(Math.min(progress, 95))
-    }, 100)
 
     try {
       const body: { hint?: string } = {}
@@ -339,16 +338,12 @@ function WidgetPanel({ pageId }: { pageId: string }) {
         body: JSON.stringify(body),
       })
 
-      if (progressTimerRef.current) clearInterval(progressTimerRef.current)
-      setGenerateProgress(100)
-
       if (!res.ok) {
         let errMsg = `生成失败 (HTTP ${res.status})`
         try {
           const err = await res.json()
           errMsg = err.error || errMsg
         } catch {
-          // API returned non-JSON (e.g. HTML error page), use generic message
           errMsg = `生成失败: 服务端返回异常 (${res.status})`
         }
         throw new Error(errMsg)
@@ -368,15 +363,29 @@ function WidgetPanel({ pageId }: { pageId: string }) {
         variant: 'destructive',
       })
     } finally {
-      if (progressTimerRef.current) clearInterval(progressTimerRef.current)
       setGenerating(false)
-      setGenerateProgress(0)
     }
   }, [pageId, hint, fetchWidgets])
 
   const toggleFullscreen = useCallback(() => {
     setIsFullscreen(prev => !prev)
   }, [])
+
+  const handleDeleteWidget = useCallback(async (filename: string, url: string) => {
+    try {
+      const res = await fetch(`/api/wiki/${pageId}/widgets/${encodeURIComponent(filename)}`, {
+        method: 'DELETE',
+      })
+      if (!res.ok) throw new Error('删除失败')
+      toast({ title: '已删除', description: filename })
+      if (activeWidget === url) {
+        setActiveWidget(null)
+      }
+      await fetchWidgets()
+    } catch {
+      toast({ title: '删除失败', variant: 'destructive' })
+    }
+  }, [pageId, activeWidget, fetchWidgets])
 
   const fullscreenContainer = isFullscreen
     ? 'fixed inset-0 z-50 bg-background'
@@ -444,22 +453,36 @@ function WidgetPanel({ pageId }: { pageId: string }) {
           {widgets.length > 0 && (
             <div className={`flex flex-row ${isFullscreen ? 'lg:flex-col' : ''} gap-1.5 overflow-x-auto lg:overflow-x-visible`}>
               {widgets.map((w, idx) => (
-                <button
+                <div
                   key={w.filename}
-                  onClick={() => setActiveWidget(w.url)}
-                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs whitespace-nowrap transition-colors shrink-0 ${
+                  className={`flex items-center gap-1 shrink-0 ${
                     activeWidget === w.url
                       ? 'bg-primary text-primary-foreground'
                       : 'bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground'
-                  }`}
+                  } rounded-md overflow-hidden transition-colors`}
                 >
-                  <span>#{idx + 1}</span>
-                  {w.generatedAt && (
-                    <span className="opacity-60">
-                      {new Date(w.generatedAt).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}
-                    </span>
-                  )}
-                </button>
+                  <button
+                    onClick={() => setActiveWidget(w.url)}
+                    className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs whitespace-nowrap"
+                  >
+                    <span>#{idx + 1}</span>
+                    {w.generatedAt && (
+                      <span className="opacity-60">
+                        {new Date(w.generatedAt).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}
+                      </span>
+                    )}
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleDeleteWidget(w.filename, w.url)
+                    }}
+                    className="p-1.5 hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
+                    title="删除此组件"
+                  >
+                    <Trash2 className="size-3" />
+                  </button>
+                </div>
               ))}
             </div>
           )}
@@ -483,7 +506,7 @@ function WidgetPanel({ pageId }: { pageId: string }) {
               style={{ minHeight: isFullscreen ? '100%' : '360px', maxHeight: isFullscreen ? '100%' : '600px' }}
               sandbox="allow-scripts allow-same-origin"
               title="Generating Widget..."
-              srcDoc={LOADING_IFRAME_HTML(generateProgress)}
+              srcDoc={LOADING_IFRAME_HTML()}
             />
           ) : (
             <div className="flex items-center justify-center rounded-lg border border-dashed border-border/60 bg-muted/20" style={{ minHeight: '360px' }}>
