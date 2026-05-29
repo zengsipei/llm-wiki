@@ -1,22 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
-import { writeFileSync, readFileSync, readdirSync, mkdirSync, unlinkSync } from 'fs'
+import { writeFileSync, readFileSync, readdirSync, mkdirSync, unlinkSync, existsSync } from 'fs'
 import { resolve } from 'path'
 import { aiComplete } from '@/lib/ai-provider'
 
 const WIDGETS_DIR = resolve(process.cwd(), 'wiki-content', 'widgets')
 
+// ============ In-memory task tracking ============
+interface WidgetTask {
+  status: 'pending' | 'generating' | 'done' | 'error'
+  progress?: string
+  widget?: { filename: string; url: string; generatedAt: string }
+  error?: string
+  createdAt: number
+}
+
+const tasks = new Map<string, WidgetTask>()
+
+function generateTaskId(): string {
+  return `task_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`
+}
+
 /**
- * Extract HTML from AI response, handling various wrapping formats:
- * - ```html ... ```
- * - ``` ... ```
- * - Text before/after the HTML
- * - Multiple code blocks (pick the one with <!DOCTYPE or <html)
+ * Extract HTML from AI response, handling various wrapping formats.
  */
 function extractHtml(raw: string): string | null {
   let text = raw.trim()
 
-  // 1. Remove ALL markdown code fences (```...```)
+  // 1. Remove ALL markdown code fences
   text = text.replace(/```[a-z]*\n?/gi, '').replace(/```/g, '').trim()
 
   // 2. Try to find <!DOCTYPE or <html tag and extract from there
@@ -36,13 +47,12 @@ function extractHtml(raw: string): string | null {
     text = text.substring(startIdx)
   }
 
-  // 3. Validate we now have something HTML-like
+  // 3. Standard case
   if (text.match(/^\s*<!doctype/i) || text.match(/^\s*<html/i)) {
     return text.trim()
   }
 
-  // 4. Fallback: if the content contains substantial HTML tags but lacks doctype/html,
-  //    it's likely an HTML fragment — wrap it in a basic template
+  // 4. Fallback: HTML fragment — wrap in template
   const hasSubstantialHtml = /<(body|div|section|main|style|script|table|form|canvas|svg)[\s>]/i.test(text)
   if (hasSubstantialHtml) {
     return `<!DOCTYPE html>
@@ -57,7 +67,7 @@ ${text}
 </html>`.trim()
   }
 
-  // 5. Last resort: if it has <head> or <body> tag somewhere, extract from there
+  // 5. Last resort
   const headIdx = text.search(/<head[\s>]/i)
   const bodyIdx = text.search(/<body[\s>]/i)
   if (headIdx > 0 || bodyIdx > 0) {
@@ -115,96 +125,155 @@ TYPES OF WIDGETS (pick the best fit):
 
 OUTPUT: Return ONLY the HTML code. No markdown fences, no explanation.`
 
-// POST /api/wiki/[id]/widgets — Generate a widget for a wiki page
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  try {
-    const { id } = await params
-    const body = await request.json()
-    const { hint } = body || {}
+/**
+ * Background task: generate widget (fire-and-forget from the request)
+ */
+async function runWidgetGeneration(taskId: string, pageId: string, hint: string) {
+  const task = tasks.get(taskId)
+  if (!task) return
 
-    // Fetch the page
-    const page = await db.wikiPage.findUnique({ where: { id } })
+  try {
+    task.status = 'generating'
+    task.progress = '正在分析页面内容...'
+
+    const page = await db.wikiPage.findUnique({ where: { id: pageId } })
     if (!page) {
-      return NextResponse.json({ error: 'Page not found' }, { status: 404 })
+      task.status = 'error'
+      task.error = 'Page not found'
+      return
     }
 
-    // Call AI to generate the widget
+    task.progress = '正在设计交互组件...'
+
     const userPrompt = hint
       ? `Based on this wiki page, create an interactive HTML widget. Focus on: ${hint}\n\nPage title: ${page.title}\nPage type: ${page.pageType}\nTags: ${page.tags}\n\nContent:\n${page.content}`
       : `Based on this wiki page, create an interactive HTML widget.\n\nPage title: ${page.title}\nPage type: ${page.pageType}\nTags: ${page.tags}\n\nContent:\n${page.content}`
+
+    task.progress = '正在生成 HTML 代码...'
 
     const { content: rawHtml } = await aiComplete([
       { role: 'system', content: WIDGET_SYSTEM_PROMPT },
       { role: 'user', content: userPrompt },
     ], { temperature: 0.7 })
 
-    // Clean up and extract HTML from AI response
     const html = extractHtml(rawHtml)
 
     if (!html) {
-      console.error('[widget] Failed to extract valid HTML. Raw length:', rawHtml.length, 'Preview:', rawHtml.substring(0, 300))
-      return NextResponse.json(
-        { error: 'Widget generation failed: AI returned invalid content', rawPreview: rawHtml.substring(0, 200) },
-        { status: 500 }
-      )
+      task.status = 'error'
+      task.error = 'AI 返回的内容无法解析为有效 HTML'
+      return
     }
 
     // Save to file
-    try {
-      mkdirSync(WIDGETS_DIR, { recursive: true })
-    } catch { /* exists */ }
+    try { mkdirSync(WIDGETS_DIR, { recursive: true }) } catch { /* exists */ }
 
     const slug = slugify(page.title)
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-').substring(0, 19)
     const filePath = resolve(WIDGETS_DIR, `${slug}-${timestamp}.html`)
 
-    // Add widget metadata as a comment
     const metadata = `<!-- Wiki Widget | Page: ${page.title} | Page ID: ${page.id} | Generated: ${new Date().toISOString()} -->\n`
     writeFileSync(filePath, metadata + html, 'utf-8')
 
     // Log activity
-    await db.activityLog.create({
-      data: {
-        actionType: 'create',
-        summary: `Generated widget for page: ${page.title}`,
-        relatedPages: JSON.stringify([page.id]),
-        pageId: page.id,
-      },
-    })
+    try {
+      await db.activityLog.create({
+        data: {
+          actionType: 'create',
+          summary: `Generated widget for page: ${page.title}`,
+          relatedPages: JSON.stringify([page.id]),
+          pageId: page.id,
+        },
+      })
+    } catch { /* non-critical */ }
 
     const widgetFilename = `${slug}-${timestamp}.html`
+    task.status = 'done'
+    task.widget = {
+      filename: widgetFilename,
+      url: `/api/wiki/${pageId}/widgets/${widgetFilename}`,
+      generatedAt: new Date().toISOString(),
+    }
+  } catch (error) {
+    task.status = 'error'
+    task.error = error instanceof Error ? error.message : '生成失败'
+  }
+}
 
+// Clean up old tasks (older than 5 minutes)
+function cleanOldTasks() {
+  const now = Date.now()
+  for (const [id, task] of tasks) {
+    if (now - task.createdAt > 5 * 60 * 1000) {
+      tasks.delete(id)
+    }
+  }
+}
+
+// POST /api/wiki/[id]/widgets — Start async widget generation
+export async function POST(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  cleanOldTasks()
+
+  try {
+    const { id } = await params
+    const body = await request.json()
+    const { hint } = body || {}
+
+    // Quick check: page exists?
+    const page = await db.wikiPage.findUnique({ where: { id } })
+    if (!page) {
+      return NextResponse.json({ error: 'Page not found' }, { status: 404 })
+    }
+
+    // Create task and start background generation
+    const taskId = generateTaskId()
+    tasks.set(taskId, {
+      status: 'pending',
+      progress: '准备中...',
+      createdAt: Date.now(),
+    })
+
+    // Fire-and-forget: don't await
+    runWidgetGeneration(taskId, id, hint?.trim() || '').catch(() => {})
+
+    // Return immediately with task ID
     return NextResponse.json({
-      message: 'Widget generated successfully',
-      widget: {
-        filename: widgetFilename,
-        url: `/api/wiki/${id}/widgets/${widgetFilename}`,
-        pageId: page.id,
-        pageTitle: page.title,
-        generatedAt: new Date().toISOString(),
-      },
+      message: 'Widget generation started',
+      taskId,
     })
   } catch (error) {
-    console.error('Error generating widget:', error)
+    console.error('Error starting widget generation:', error)
     return NextResponse.json(
-      { error: 'Failed to generate widget' },
+      { error: 'Failed to start widget generation' },
       { status: 500 }
     )
   }
 }
 
-// GET /api/wiki/[id]/widgets — List and serve widgets for a page
+// GET /api/wiki/[id]/widgets — List widgets, or poll task status
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  cleanOldTasks()
+
   try {
     const { id } = await params
+    const { searchParams } = new URL(request.url)
+    const taskId = searchParams.get('task')
 
-    // Fetch the page to get the slug
+    // If task ID is provided, return task status
+    if (taskId) {
+      const task = tasks.get(taskId)
+      if (!task) {
+        return NextResponse.json({ error: 'Task not found' }, { status: 404 })
+      }
+      return NextResponse.json({ task })
+    }
+
+    // Otherwise, list widgets for the page
     const page = await db.wikiPage.findUnique({ where: { id } })
     if (!page) {
       return NextResponse.json({ error: 'Page not found' }, { status: 404 })
@@ -212,7 +281,6 @@ export async function GET(
 
     const slug = slugify(page.title)
 
-    // Find all widget files for this page
     let widgetFiles: string[] = []
     try {
       mkdirSync(WIDGETS_DIR, { recursive: true })
@@ -221,14 +289,11 @@ export async function GET(
         .sort()
         .reverse()
       widgetFiles = allFiles.filter(f => f.startsWith(slug + '-'))
-    } catch {
-      // directory doesn't exist yet
-    }
+    } catch { /* no dir yet */ }
 
     const widgets = widgetFiles.map(filename => {
-      // Extract timestamp from filename
       const match = filename.match(/^(.+)-(\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2})\.html$/)
-      const generatedAt = match ? match[2].replace(/-/g, (c, i) => i === 4 || i === 7 ? '-' : (i === 10 ? 'T' : ':')).replace(/T(\d{2})-(\d{2})-(\d{2})/, 'T$1:$2:$3') : ''
+      const generatedAt = match ? match[2].replace(/-/g, (_c, i) => i === 4 || i === 7 ? '-' : (i === 10 ? 'T' : ':')).replace(/T(\d{2})-(\d{2})-(\d{2})/, 'T$1:$2:$3') : ''
       return {
         filename,
         url: `/api/wiki/${id}/widgets/${filename}`,

@@ -235,9 +235,9 @@ function BackToTopButton({ visible, onClick }: { visible: boolean; onClick: () =
   )
 }
 
-// ============ Widget Loading HTML (self-animating, no external state updates) ============
+// ============ Widget Loading HTML (self-animating, status text updated via React) ============
 
-function LOADING_IFRAME_HTML(): string {
+function LOADING_IFRAME_HTML(status: string): string {
   return `<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -269,7 +269,7 @@ body{display:flex;align-items:center;justify-content:center;min-height:100vh;bac
     </svg>
     <div class="icon">&#10024;</div>
   </div>
-  <p class="status" id="status">正在分析页面内容...</p>
+  <p class="status" id="status">${status}</p>
   <p class="hint">AI 正在为这个页面创建知识组件，通常需要 30~60 秒</p>
   <div class="bar-bg"><div class="bar-fg" id="bar"></div></div>
   <p class="pct" id="pct">0%</p>
@@ -277,7 +277,7 @@ body{display:flex;align-items:center;justify-content:center;min-height:100vh;bac
 <script>
 (function(){
   var C=2*Math.PI*28, arc=document.getElementById('arc'), bar=document.getElementById('bar'),
-      pct=document.getElementById('pct'), status=document.getElementById('status'), p=0;
+      pct=document.getElementById('pct'), p=0;
   arc.style.strokeDasharray=C;
   function tick(){
     p += p<30?2:p<70?1:p<90?0.3:0.05;
@@ -285,7 +285,6 @@ body{display:flex;align-items:center;justify-content:center;min-height:100vh;bac
     arc.style.strokeDashoffset=C*(1-p/100);
     bar.style.width=p+'%';
     pct.textContent=Math.round(p)+'%';
-    status.textContent=p<20?'正在分析页面内容...':p<50?'正在设计交互组件...':p<80?'正在生成 HTML 代码...':'即将完成...';
     requestAnimationFrame(function(){setTimeout(tick,100);});
   }
   tick();
@@ -304,7 +303,9 @@ function WidgetPanel({ pageId }: { pageId: string }) {
   const [activeWidget, setActiveWidget] = useState<string | null>(null)
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [hint, setHint] = useState('')
+  const [loadingStatus, setLoadingStatus] = useState('准备中...')
   const iframeRef = useRef<HTMLIFrameElement>(null)
+  const pollTimerRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   // Fetch existing widgets
   const fetchWidgets = useCallback(async () => {
@@ -325,8 +326,16 @@ function WidgetPanel({ pageId }: { pageId: string }) {
     fetchWidgets()
   }, [fetchWidgets])
 
+  // Cleanup poll timer on unmount
+  useEffect(() => {
+    return () => {
+      if (pollTimerRef.current) clearTimeout(pollTimerRef.current)
+    }
+  }, [])
+
   const handleGenerate = useCallback(async () => {
     setGenerating(true)
+    setLoadingStatus('准备中...')
 
     try {
       const body: { hint?: string } = {}
@@ -350,19 +359,37 @@ function WidgetPanel({ pageId }: { pageId: string }) {
       }
 
       const data = await res.json()
-      if (data.widget) {
-        toast({ title: 'Widget 生成成功', description: `已生成: ${data.widget.filename}` })
-        setActiveWidget(data.widget.url)
-        setHint('')
-        await fetchWidgets()
+      const taskId: string = data.taskId
+      if (!taskId) throw new Error('未返回任务 ID')
+
+      // Poll task status every 2 seconds
+      const poll = async (): Promise<void> => {
+        const taskRes = await fetch(`/api/wiki/${pageId}/widgets?task=${taskId}`)
+        if (!taskRes.ok) throw new Error('轮询任务状态失败')
+        const taskData = await taskRes.json()
+        const task = taskData.task
+
+        if (task.status === 'generating' || task.status === 'pending') {
+          setLoadingStatus(task.progress || '生成中...')
+          pollTimerRef.current = setTimeout(poll, 2000) as unknown as ReturnType<typeof setTimeout>
+        } else if (task.status === 'done' && task.widget) {
+          toast({ title: 'Widget 生成成功', description: `已生成: ${task.widget.filename}` })
+          setActiveWidget(task.widget.url)
+          setHint('')
+          setGenerating(false)
+          await fetchWidgets()
+        } else if (task.status === 'error') {
+          throw new Error(task.error || '生成失败')
+        }
       }
+
+      pollTimerRef.current = setTimeout(poll, 1500) as unknown as ReturnType<typeof setTimeout>
     } catch (err) {
       toast({
         title: '生成失败',
         description: err instanceof Error ? err.message : '未知错误',
         variant: 'destructive',
       })
-    } finally {
       setGenerating(false)
     }
   }, [pageId, hint, fetchWidgets])
@@ -506,7 +533,7 @@ function WidgetPanel({ pageId }: { pageId: string }) {
               style={{ minHeight: isFullscreen ? '100%' : '360px', maxHeight: isFullscreen ? '100%' : '600px' }}
               sandbox="allow-scripts allow-same-origin"
               title="Generating Widget..."
-              srcDoc={LOADING_IFRAME_HTML()}
+              srcDoc={LOADING_IFRAME_HTML(loadingStatus)}
             />
           ) : (
             <div className="flex items-center justify-center rounded-lg border border-dashed border-border/60 bg-muted/20" style={{ minHeight: '360px' }}>
