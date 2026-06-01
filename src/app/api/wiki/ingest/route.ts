@@ -46,6 +46,11 @@ OUTPUT FORMAT (return ONLY this JSON):
   ]
 }`
 
+// GET /api/wiki/ingest — Return JSON 405 instead of HTML error page
+export async function GET() {
+  return NextResponse.json({ error: '请使用 POST 方法摄入文档' }, { status: 405 })
+}
+
 // POST /api/wiki/ingest — Ingest a document and generate wiki pages
 export async function POST(request: NextRequest) {
   try {

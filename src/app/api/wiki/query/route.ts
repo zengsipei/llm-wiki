@@ -28,6 +28,11 @@ Output ONLY valid JSON in this format:
   ]
 }`
 
+// GET /api/wiki/query — Return JSON 405 instead of HTML error page
+export async function GET() {
+  return NextResponse.json({ error: '请使用 POST 方法查询' }, { status: 405 })
+}
+
 // POST /api/wiki/query — Query the wiki with a question
 export async function POST(request: NextRequest) {
   try {

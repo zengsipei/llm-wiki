@@ -20,6 +20,21 @@ import { ExportView } from '@/components/wiki/views/export-view'
 import type { WikiPage, ActivityLog, ActiveTab, QueryResult, LintReport } from '@/types/wiki'
 import { PAGE_TYPE_LABELS, PAGE_TYPE_COLORS } from '@/types/wiki'
 
+/**
+ * Safe JSON fetch helper: prevents "Unexpected token '<'" when server returns HTML error pages.
+ * Reads response as text first, then parses JSON with error handling.
+ */
+async function safeFetchJson<T = any>(res: Response): Promise<T> {
+  const text = await res.text()
+  try {
+    return JSON.parse(text) as T
+  } catch {
+    // Server returned non-JSON (likely an HTML error page)
+    const preview = text.substring(0, 200).replace(/<[^>]*>/g, '').trim()
+    throw new Error(`服务器返回了非 JSON 响应 (${res.status}): ${preview || 'HTML 页面'}`)
+  }
+}
+
 export default function WikiPage() {
   // === State ===
   const [pages, setPages] = useState<WikiPage[]>([])
@@ -39,24 +54,32 @@ export default function WikiPage() {
   const fetchPages = useCallback(async () => {
     try {
       const res = await fetch('/api/wiki')
-      const data = await res.json()
+      if (!res.ok) {
+        console.error('fetchPages failed:', res.status)
+        return
+      }
+      const data = await safeFetchJson<{ pages?: WikiPage[] }>(res)
       if (data.pages) {
         setPages(data.pages)
       }
-    } catch {
-      // silently fail on first load
+    } catch (err) {
+      console.error('fetchPages error:', err)
     }
   }, [])
 
   const fetchLogs = useCallback(async () => {
     try {
       const res = await fetch('/api/wiki/logs')
-      const data = await res.json()
+      if (!res.ok) {
+        console.error('fetchLogs failed:', res.status)
+        return
+      }
+      const data = await safeFetchJson<{ logs?: ActivityLog[] }>(res)
       if (data.logs) {
         setLogs(data.logs)
       }
-    } catch {
-      // silently fail
+    } catch (err) {
+      console.error('fetchLogs error:', err)
     }
   }, [])
 
@@ -101,13 +124,17 @@ export default function WikiPage() {
           body: JSON.stringify(data),
         })
         if (!res.ok) {
-          const err = await res.json()
-          throw new Error(err.error || '保存失败')
+          try {
+            const err = await safeFetchJson<{ error?: string }>(res)
+            throw new Error(err.error || '保存失败')
+          } catch (e) {
+            throw new Error(e instanceof Error ? e.message : '保存失败')
+          }
         }
-        const result = await res.json()
+        const result = await safeFetchJson<{ page?: WikiPage }>(res)
         if (result.page) {
           setPages((prev) =>
-            prev.map((p) => (p.id === selectedPageId ? result.page : p))
+            prev.map((p) => (p.id === selectedPageId ? result.page! : p))
           )
           setSelectedPageId(selectedPageId)
           setActiveTab('view')
@@ -121,10 +148,14 @@ export default function WikiPage() {
           body: JSON.stringify(data),
         })
         if (!res.ok) {
-          const err = await res.json()
-          throw new Error(err.error || '创建失败')
+          try {
+            const err = await safeFetchJson<{ error?: string }>(res)
+            throw new Error(err.error || '创建失败')
+          } catch (e) {
+            throw new Error(e instanceof Error ? e.message : '创建失败')
+          }
         }
-        const result = await res.json()
+        const result = await safeFetchJson(res)
         const newPage = result
         setPages((prev) => [newPage, ...prev])
         setSelectedPageId(newPage.id)
@@ -146,8 +177,12 @@ export default function WikiPage() {
     try {
       const res = await fetch(`/api/wiki/${selectedPageId}`, { method: 'DELETE' })
       if (!res.ok) {
-        const err = await res.json()
-        throw new Error(err.error || '删除失败')
+        try {
+          const err = await safeFetchJson<{ error?: string }>(res)
+          throw new Error(err.error || '删除失败')
+        } catch (e) {
+          throw new Error(e instanceof Error ? e.message : '删除失败')
+        }
       }
       setPages((prev) => prev.filter((p) => p.id !== selectedPageId))
       setSelectedPageId(null)
@@ -170,7 +205,10 @@ export default function WikiPage() {
     }
     try {
       const res = await fetch(`/api/wiki/search?q=${encodeURIComponent(searchQuery.trim())}`)
-      const data = await res.json()
+      if (!res.ok) {
+        throw new Error('搜索请求失败')
+      }
+      const data = await safeFetchJson<{ pages?: WikiPage[]; total?: number }>(res)
       if (data.pages) {
         setSearchResults(data.pages)
         setSelectedPageId(null)
@@ -195,12 +233,12 @@ export default function WikiPage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ question }),
     })
-    const data = await res.json()
+    const data = await safeFetchJson<{ error?: string; answer?: string; sources?: any[] }>(res)
     if (!res.ok) {
       throw new Error(data.error || '查询失败')
     }
     fetchLogs()
-    return { answer: data.answer, sources: data.sources || [] }
+    return { answer: data.answer || '', sources: data.sources || [] }
   }
 
   const handleLint = async (): Promise<LintReport | null> => {
@@ -209,7 +247,7 @@ export default function WikiPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
       })
-      const data = await res.json()
+      const data = await safeFetchJson<{ error?: string } & LintReport>(res)
       if (!res.ok) {
         throw new Error(data.error || '检查失败')
       }

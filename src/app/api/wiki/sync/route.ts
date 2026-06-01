@@ -3,6 +3,11 @@ import { db } from '@/lib/db'
 import { execSync } from 'child_process'
 import { existsSync } from 'fs'
 
+// GET /api/wiki/sync — Return JSON 405 instead of HTML error page
+export async function GET() {
+  return NextResponse.json({ error: '请使用 POST 方法同步' }, { status: 405 })
+}
+
 // POST /api/wiki/sync — Sync .md files from wiki-content/ to the database
 // This is the "auto-sync" endpoint: call it when .md files are edited externally
 export async function POST() {
