@@ -323,3 +323,12 @@ consider low-severity. Do not filter for importance at this stage.
 
 - 原文：https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
 - Interactive Tutorial：https://github.com/anthropics/prompt-eng-interactive-tutorial
+
+## 相关页面
+
+- [[Claude 使用指南]] — Claude 的通用使用方法和技巧
+- [[Prompt Engineering 最佳实践]] — 通用提示工程方法论（不限于 Claude）
+- [[System Prompt 设计指南]] — System Prompt 的设计方法论
+- [[Function Calling 实践指南]] — Function Calling 实现细节
+- [[AI 模型提供商对比]] — GPT/Claude/Gemini 三大提供商横向对比
+- [[Agent 架构设计模式]] — Agent 系统中的提示词设计原则

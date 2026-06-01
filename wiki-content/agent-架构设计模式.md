@@ -110,6 +110,14 @@ Manager Agent: 汇总三个 Agent 的反馈，给出综合评价
 | Short-term | 向量数据库 | 数天/数周 | 最近操作记录 |
 | Long-term | 知识库/文档 | 永久 | 项目文档、用户偏好 |
 
+## 相关页面
+
+- [[Claude Code Operator模式与5种Agentic工作流]] — Claude Code 中 Agent 模式的具体产品实现
+- [[Hermes Agent 中的 Operator 模式：三维框架与 Claude Code 的深度对比]] — Hermes vs Claude Code Operator 对比
+- [[三个极简Agent开源项目——从骨架到工程化]] — Agent 开源项目实战分析
+- [[AI 编程工具对比]] — IDE 层面的 AI 编程工具选型
+- [[Function Calling 实践指南]] — 工具调用的实现细节
+
 ## 工具设计原则
 
 1. **单一职责**：每个工具只做一件事

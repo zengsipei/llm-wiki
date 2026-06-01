@@ -85,3 +85,15 @@ A: 在系统提示中明确 "回答简洁，不超过 200 字" 或 "直接给出
 
 **Q: Claude 适合写代码吗？**
 A: 非常适合。Claude 在代码生成、调试、重构和代码解释方面表现优秀。特别擅长阅读和理解大型代码库。
+
+## 相关页面
+
+- [[GPT 使用指南]] — OpenAI GPT 的详细使用方法
+- [[Gemini 使用指南]] — Google Gemini 的使用指南
+- [[AI 模型提供商对比]] — GPT/Claude/Gemini 三大提供商横向对比
+- [[Anthropic Claude Prompting Best Practices]] — Claude 专属提示工程实践
+- [[Claude Code Operator模式与5种Agentic工作流]] — Claude Code 的 Agentic 工作流
+- [[Hermes Agent 中的 Operator 模式：三维框架与 Claude Code 的深度对比]] — Hermes vs Claude Code 对比
+- [[Claude.md 内容筛选原则]] — Claude Code 配置原则
+- [[Prompt Engineering 最佳实践]] — 通用提示工程技巧
+- [[Function Calling 实践指南]] — Function Calling 实现指南

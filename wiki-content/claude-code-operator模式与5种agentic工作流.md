@@ -405,6 +405,12 @@ jobs:
 
 ---
 
+## 与通用 Agent 架构的关系
+
+Claude Code 的 5 种 Agentic Workflow 是 [[Agent 架构设计模式]] 中通用模式（ReAct、Plan-and-Execute、Multi-Agent）在 Claude Code 产品中的具体实现。理解通用模式有助于理解 Claude Code 各 Workflow 的设计动机。
+
+---
+
 ## Anthropic Agent 三件套
 
 | 产品 | 类比 | 目标用户 | 部署 |
@@ -427,6 +433,13 @@ jobs:
    - 成熟可重复 → Headless
 
 2. **黄金法则：比你认为需要的更简单开始。** 一个稳定运行的 Sequential Flow 比偶尔惊艳但会意外失败的 Agent Teams 有价值得多。
+
+## 相关页面
+
+- [[Agent 架构设计模式]] — 通用 Agent 架构理论（ReAct、Plan-and-Execute、Multi-Agent）
+- [[Hermes Agent 中的 Operator 模式：三维框架与 Claude Code 的深度对比]] — Hermes 与 Claude Code Operator 的深度对比
+- [[三个极简Agent开源项目——从骨架到工程化]] — Agent 开源项目分析
+- [[AI 编程工具对比]] — IDE 层面的 AI 编程工具对比
 
 ## 相关链接
 

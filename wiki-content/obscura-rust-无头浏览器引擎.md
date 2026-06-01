@@ -76,6 +76,12 @@ Target、Page、Runtime、DOM、Network、Fetch、Storage、Input、LP（DOM 转
 - 自动化测试：替代 Chrome，更快的测试执行
 - 反检测爬虫：内置 stealth 绕过反爬机制
 
+## 相关页面
+
+- [[Browser Harness]] — 自愈型浏览器控制框架，Python 实现，与 Obscura 互补
+- [[Pretext - 纯 JS 文本测量库]] — 同为 Rust/高性能工具
+- [[Agent 架构设计模式]] — Obscura 可作为 Agent 的工具组件
+
 ## 与其他工具的关系
 
 - **vs Playwright/Puppeteer**：Obscura 是底层引擎替代，不是上层 API 替代（通过 CDP 兼容）

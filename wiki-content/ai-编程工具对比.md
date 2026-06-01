@@ -63,6 +63,14 @@ updated: 2026-06-01T10:37:22.390Z
 ### 全栈独立开发
 推荐 **Cursor** 或 **Windsurf**，Agent 模式可以独立完成从需求到部署的全流程。
 
+## 相关页面
+
+- [[Claude Code Operator模式与5种Agentic工作流]] — Claude Code 的 Agentic 工作流详解
+- [[Agent 架构设计模式]] — Agent 架构的通用设计模式
+- [[Cursor Debug 模式]] — Cursor IDE 的调试模式
+- [[Windsurf Codemaps — AI 注释的代码结构地图]] — Windsurf 的代码理解能力
+- [[Codex CLI /goal 命令]] — OpenAI Codex 的 goal 命令
+
 ## 使用最佳实践
 
 1. **明确意图**：在提示中清楚描述需要做什么，而不是让 AI 猜

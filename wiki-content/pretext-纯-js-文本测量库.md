@@ -89,6 +89,13 @@ npm install @chenglou/pretext
 - Web Font 需确保 `font-display: block` 或在 `font.load()` resolve 后调用
 - 当前仅支持 `white-space: normal` + `word-break: normal` + `overflow-wrap: break-word`，不支持 `pre-wrap`
 
+## 相关页面
+
+- [[Browser Harness]] — 自愈型浏览器控制框架，同为 Claude Code 生态工具
+- [[Obscura - Rust 无头浏览器引擎]] — 轻量无头浏览器引擎
+- [[Tailwind CSS 实战技巧]] — 前端布局中可能需要文本测量
+- [[Next.js 最佳实践]] — SSR 场景下 Pretext 可用于消除 CLS
+
 ## 与其他工具关系
 
 - **vs DOM 测量**：Pretext 零 reflow，适合高频调用场景

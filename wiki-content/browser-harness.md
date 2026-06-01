@@ -107,6 +107,13 @@ Agent 会自动打开 `chrome://inspect/#remote-debugging`，用户需：
 | 自愈能力 | 框架级 | Agent 级（自己写代码） |
 | Skill | 预设 | Agent 自生成 |
 
+## 相关页面
+
+- [[Obscura - Rust 无头浏览器引擎]] — Rust 实现的轻量无头浏览器引擎，可作为 CDP 底层替代
+- [[Pretext - 纯 JS 文本测量库]] — 同为 Claude Code 生态发现的高性能工具
+- [[Agent 架构设计模式]] — Browser Harness 是 Agent 工具设计原则的实践案例
+- [[HereOS — GUI 交互驱动的 Agent]] — GUI 交互驱动的 Agent 模式
+
 ## 技术栈
 
 | 层面 | 技术 |

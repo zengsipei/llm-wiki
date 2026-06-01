@@ -94,3 +94,12 @@ response = model.generate_content(
 2. **多轮对话**：使用 `chat` 模式维持上下文连续性
 3. **安全过滤**：通过 `safety_settings` 调整内容过滤级别
 4. **温度设置**：创意任务用 0.9，精确任务用 0.1
+
+## 相关页面
+
+- [[GPT 使用指南]] — OpenAI GPT 的详细使用方法
+- [[Claude 使用指南]] — Anthropic Claude 的使用指南
+- [[AI 模型提供商对比]] — GPT/Claude/Gemini 三大提供商横向对比
+- [[Prompt Engineering 最佳实践]] — 通用提示工程技巧
+- [[System Prompt 设计指南]] — System Prompt 设计方法论
+- [[Function Calling 实践指南]] — Function Calling 实现细节
