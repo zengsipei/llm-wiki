@@ -204,17 +204,25 @@ export default function WikiPage() {
   }
 
   const handleLint = async (): Promise<LintReport | null> => {
-    const res = await fetch('/api/wiki/lint', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-    })
-    const data = await res.json()
-    if (!res.ok) {
-      throw new Error(data.error || '检查失败')
+    try {
+      const res = await fetch('/api/wiki/lint', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        throw new Error(data.error || '检查失败')
+      }
+      fetchLogs()
+      fetchPages()
+      return data
+    } catch (err: any) {
+      // Network errors / timeout / DNS failure etc.
+      if (err instanceof TypeError && err.message === 'Failed to fetch') {
+        throw new Error('网络错误：无法连接到服务，请检查网络或稍后重试')
+      }
+      throw err
     }
-    fetchLogs()
-    fetchPages()
-    return data
   }
 
   const handleIngestDone = async () => {

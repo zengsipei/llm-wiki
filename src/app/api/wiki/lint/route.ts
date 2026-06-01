@@ -138,10 +138,11 @@ Last updated: ${page.updatedAt.toISOString()}`
         totalPages: pages.length,
       },
     })
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error running lint check:', error)
+ const msg = error?.message || error?.toString() || 'Unknown error'
     return NextResponse.json(
-      { error: 'Failed to run lint check' },
+      { error: `健康检查失败: ${msg}` },
       { status: 500 }
     )
   }

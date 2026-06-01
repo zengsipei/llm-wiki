@@ -39,9 +39,11 @@ export function LintView({ onLint }: LintViewProps) {
       const result = await onLint()
       if (result) {
         setReport(result)
+      } else {
+        setError('未获取到检查结果')
       }
-    } catch {
-      setError('检查失败，请重试')
+    } catch (err: any) {
+      setError(err?.message || '检查失败，请重试')
     } finally {
       setLoading(false)
     }
