@@ -11,7 +11,8 @@ updated: 2026-06-01T10:37:42.941Z
 ---
 source_type: chat
 date: 2026-05-05
-topic: Graphify - 给人看的双链知识图谱（Karpathy LLM Wiki 的产品化实现）
+topic: Graphify - 给人看的双链知识图谱
+description: 基于 Tree-sitter + LLM 的知识图谱工具，将代码仓库、论文、文档转化为可交互查询的知识图谱
 tags: [工具, AI, 知识图谱, LLM Wiki, 代码索引, 可视化]
 ---
 
@@ -19,7 +20,7 @@ tags: [工具, AI, 知识图谱, LLM Wiki, 代码索引, 可视化]
 
 ## 概述
 
-Graphify 是 Karpathy LLM Wiki 理念的产品化实现。通过 Tree-sitter 静态分析 + LLM 语义提取，将代码仓库、论文、文档、图表统一转化为可交互查询的知识图谱。
+Graphify 是一个独立的知识图谱工具，灵感来源于 Karpathy 的 LLM Wiki 理念（将代码仓库转化为知识图谱进行查询）。与 Karpathy 的概念原型不同，Graphify 是一个完整的产品化实现，通过 Tree-sitter 静态分析 + LLM 语义提取，将代码仓库、论文、文档、图表统一转化为可交互查询的知识图谱。
 
 核心卖点：71.5× token 压缩，支持多模态输入（代码、Markdown、PDF、图片），输出人可读的双链 HTML + 审计报告。
 

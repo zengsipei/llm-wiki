@@ -8,14 +8,6 @@ created: 2026-06-01T08:52:57.739Z
 updated: 2026-06-01T10:37:42.945Z
 ---
 
----
-title: "暗壳AI - 室内AI设计平台"
-date: 2026-05-05
-source: Web Search + Web Fetch
-tags: [AI设计, 室内设计, AIGC, 家居, Agent]
-status: raw
----
-
 # 暗壳AI - 室内AI设计平台
 
 ## 基本信息
