@@ -1,11 +1,11 @@
 ---
-id: cmpnqrx0d0009l9x7si2jxq1r
+id: 05fd54eb-ea7a-4622-abcc-a03edc9a47b2
 title: "Codex CLI /goal 命令（v0.128.0+）"
 type: concept
 tags:
   - ["grahify-kb"]
-created: 2026-05-27T07:27:43.069Z
-updated: 2026-05-27T07:27:43.069Z
+created: 2026-06-01T08:52:57.746Z
+updated: 2026-06-01T08:52:57.746Z
 ---
 
 1|---

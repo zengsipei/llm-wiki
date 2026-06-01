@@ -1,11 +1,11 @@
 ---
-id: cmpnqrwzu0002l9x7cit6m9bw
+id: 86958675-f8a2-4180-999d-dee51fc67514
 title: "GitNexus - 给 Agent 用的仓库索引"
 type: concept
 tags:
   - ["grahify-kb"]
-created: 2026-05-27T07:27:43.051Z
-updated: 2026-05-27T07:27:43.051Z
+created: 2026-06-01T08:52:57.728Z
+updated: 2026-06-01T08:52:57.728Z
 ---
 
 1|---

@@ -1,11 +1,11 @@
 ---
-id: cmpnqrwzw0003l9x7vas4ghmw
+id: 4189b324-e457-4b3a-9c19-c820f605310c
 title: "Graphify - 给人看的双链知识图谱"
 type: concept
 tags:
   - ["grahify-kb"]
-created: 2026-05-27T07:27:43.053Z
-updated: 2026-05-27T07:27:43.053Z
+created: 2026-06-01T08:52:57.730Z
+updated: 2026-06-01T08:52:57.730Z
 ---
 
 1|---
