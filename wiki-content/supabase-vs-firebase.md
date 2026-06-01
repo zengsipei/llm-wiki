@@ -1,11 +1,11 @@
 ---
 id: 75b0d3e9-0c1a-4811-8742-f83f9e1cdd69
-title: "Supabase vs Firebase"
+title: Supabase vs Firebase
 type: concept
 tags:
-  - ["grahify-kb"]
+
 created: 2026-06-01T08:52:57.751Z
-updated: 2026-06-01T08:52:57.751Z
+updated: 2026-06-01T10:37:42.949Z
 ---
 
 ---

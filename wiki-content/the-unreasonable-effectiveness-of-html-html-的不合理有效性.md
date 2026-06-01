@@ -4,8 +4,8 @@ title: The Unreasonable Effectiveness of HTML（HTML 的不合理有效性）
 type: concept
 tags:
 
-created: 2026-05-27T07:27:43.184Z
-updated: 2026-05-27T07:27:43.184Z
+created: 2026-06-01T08:52:57.855Z
+updated: 2026-06-01T10:37:22.466Z
 ---
 
 # HTML 的不合理有效性

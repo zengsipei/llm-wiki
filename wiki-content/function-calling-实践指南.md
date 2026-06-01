@@ -4,8 +4,8 @@ title: Function Calling 实践指南
 type: concept
 tags:
 
-created: 2026-05-27T07:27:43.113Z
-updated: 2026-05-27T07:27:43.113Z
+created: 2026-06-01T08:52:57.789Z
+updated: 2026-06-01T10:37:22.413Z
 ---
 
 # Function Calling 实践指南

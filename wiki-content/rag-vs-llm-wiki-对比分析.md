@@ -4,8 +4,8 @@ title: RAG vs LLM Wiki 对比分析
 type: concept
 tags:
 
-created: 2026-05-16T22:03:36.737Z
-updated: 2026-05-25T15:29:34.342Z
+created: 2026-06-01T08:52:57.842Z
+updated: 2026-06-01T10:37:22.455Z
 ---
 
 # RAG vs LLM Wiki

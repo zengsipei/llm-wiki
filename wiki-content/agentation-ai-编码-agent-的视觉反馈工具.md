@@ -4,8 +4,8 @@ title: Agentation — AI 编码 Agent 的视觉反馈工具
 type: tool
 tags:
 
-created: 2026-05-27T07:27:43.084Z
-updated: 2026-05-27T07:27:43.084Z
+created: 2026-06-01T08:52:57.757Z
+updated: 2026-06-01T10:37:22.382Z
 ---
 
 # Agentation — AI 编码 Agent 的视觉反馈工具

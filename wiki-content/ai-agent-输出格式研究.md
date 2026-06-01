@@ -4,8 +4,8 @@ title: AI Agent 输出格式研究
 type: concept
 tags:
 
-created: 2026-05-27T07:27:43.087Z
-updated: 2026-05-27T07:27:43.087Z
+created: 2026-06-01T08:52:57.760Z
+updated: 2026-06-01T10:37:22.384Z
 ---
 
 # AI Agent 输出格式研究

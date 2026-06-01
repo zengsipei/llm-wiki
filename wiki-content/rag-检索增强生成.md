@@ -4,8 +4,8 @@ title: RAG 检索增强生成
 type: concept
 tags:
 
-created: 2026-05-27T07:27:43.169Z
-updated: 2026-05-27T07:27:43.169Z
+created: 2026-06-01T08:52:57.844Z
+updated: 2026-06-01T10:37:22.457Z
 ---
 
 # RAG 检索增强生成

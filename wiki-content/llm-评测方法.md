@@ -4,8 +4,8 @@ title: LLM 评测方法
 type: concept
 tags:
 
-created: 2026-05-27T07:27:43.139Z
-updated: 2026-05-27T07:27:43.139Z
+created: 2026-06-01T08:52:57.811Z
+updated: 2026-06-01T10:37:22.434Z
 ---
 
 # LLM 评测方法

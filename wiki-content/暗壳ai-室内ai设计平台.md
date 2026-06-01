@@ -1,11 +1,11 @@
 ---
 id: ddf5e6a1-b1bc-4078-b00d-af1dfaa0a0a1
-title: "暗壳AI - 室内AI设计平台"
+title: 暗壳AI - 室内AI设计平台
 type: concept
 tags:
-  - ["grahify-kb"]
+
 created: 2026-06-01T08:52:57.739Z
-updated: 2026-06-01T08:52:57.739Z
+updated: 2026-06-01T10:37:42.945Z
 ---
 
 ---

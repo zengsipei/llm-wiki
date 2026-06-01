@@ -4,8 +4,8 @@ title: AI 安全与对齐
 type: concept
 tags:
 
-created: 2026-05-27T07:27:43.089Z
-updated: 2026-05-27T07:27:43.089Z
+created: 2026-06-01T08:52:57.762Z
+updated: 2026-06-01T10:37:22.386Z
 ---
 
 # AI 安全与对齐

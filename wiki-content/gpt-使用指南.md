@@ -4,8 +4,8 @@ title: GPT 使用指南
 type: entity
 tags:
 
-created: 2026-05-27T07:27:43.124Z
-updated: 2026-05-27T07:27:43.124Z
+created: 2026-06-01T08:52:57.798Z
+updated: 2026-06-01T10:37:22.422Z
 ---
 
 # GPT 使用指南

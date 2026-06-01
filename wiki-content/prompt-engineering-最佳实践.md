@@ -4,8 +4,8 @@ title: Prompt Engineering 最佳实践
 type: concept
 tags:
 
-created: 2026-05-27T07:27:43.167Z
-updated: 2026-05-27T07:27:43.167Z
+created: 2026-06-01T08:52:57.841Z
+updated: 2026-06-01T10:37:22.454Z
 ---
 
 # Prompt Engineering 最佳实践

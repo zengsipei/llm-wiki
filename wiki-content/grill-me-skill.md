@@ -4,8 +4,8 @@ title: grill-me-skill
 type: concept
 tags:
 
-created: 2026-05-27T07:27:43.128Z
-updated: 2026-05-27T07:27:43.128Z
+created: 2026-06-01T08:52:57.801Z
+updated: 2026-06-01T10:37:22.426Z
 ---
 
 ---

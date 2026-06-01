@@ -1,11 +1,11 @@
 ---
 id: 86958675-f8a2-4180-999d-dee51fc67514
-title: "GitNexus - 给 Agent 用的仓库索引"
+title: GitNexus - 给 Agent 用的仓库索引
 type: concept
 tags:
-  - ["grahify-kb"]
+
 created: 2026-06-01T08:52:57.728Z
-updated: 2026-06-01T08:52:57.728Z
+updated: 2026-06-01T10:37:42.940Z
 ---
 
 ---

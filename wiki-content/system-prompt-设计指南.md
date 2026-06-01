@@ -4,8 +4,8 @@ title: System Prompt 设计指南
 type: concept
 tags:
 
-created: 2026-05-27T07:27:43.175Z
-updated: 2026-05-27T07:27:43.175Z
+created: 2026-06-01T08:52:57.848Z
+updated: 2026-06-01T10:37:22.461Z
 ---
 
 # System Prompt 设计指南

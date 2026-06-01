@@ -1,11 +1,11 @@
 ---
 id: c47505af-1406-426f-a95a-62cb715e50f5
-title: "Pretext - 纯 JS 文本测量库"
+title: Pretext - 纯 JS 文本测量库
 type: concept
 tags:
-  - ["grahify-kb"]
+
 created: 2026-06-01T08:52:57.733Z
-updated: 2026-06-01T08:52:57.733Z
+updated: 2026-06-01T10:37:42.943Z
 ---
 
 ---

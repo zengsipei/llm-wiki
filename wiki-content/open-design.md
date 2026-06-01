@@ -4,8 +4,8 @@ title: Open Design
 type: entity
 tags:
 
-created: 2026-05-27T07:27:43.152Z
-updated: 2026-05-27T07:27:43.152Z
+created: 2026-06-01T08:52:57.823Z
+updated: 2026-06-01T10:37:22.445Z
 ---
 
 # Open Design

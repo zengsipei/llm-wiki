@@ -4,8 +4,8 @@ title: Prisma ORM 使用指南
 type: concept
 tags:
 
-created: 2026-05-16T22:03:36.742Z
-updated: 2026-05-27T07:27:43.164Z
+created: 2026-06-01T08:52:57.839Z
+updated: 2026-06-01T10:37:22.452Z
 ---
 
 # Prisma ORM 使用指南

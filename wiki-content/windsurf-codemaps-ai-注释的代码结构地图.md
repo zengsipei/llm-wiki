@@ -1,11 +1,11 @@
 ---
 id: 7ce3efd1-143f-4dbf-80c3-3d007a3354f4
-title: "Windsurf Codemaps — AI 注释的代码结构地图"
+title: Windsurf Codemaps — AI 注释的代码结构地图
 type: concept
 tags:
-  - ["grahify-kb"]
+
 created: 2026-06-01T08:52:57.753Z
-updated: 2026-06-01T08:52:57.753Z
+updated: 2026-06-01T10:37:42.949Z
 ---
 
 ---

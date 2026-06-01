@@ -4,8 +4,8 @@ title: Hermes Agent 中的 Operator 模式：三维框架与 Claude Code 的深�
 type: concept
 tags:
 
-created: 2026-05-27T07:27:43.134Z
-updated: 2026-05-27T07:27:43.134Z
+created: 2026-06-01T08:52:57.807Z
+updated: 2026-06-01T10:37:22.430Z
 ---
 
 ---

@@ -1,11 +1,11 @@
 ---
 id: bc5cece5-0667-4c9d-bf80-da8d3215b48f
-title: "Anthropic Claude Prompting Best Practices"
+title: Anthropic Claude Prompting Best Practices
 type: concept
 tags:
-  - ["grahify-kb"]
+
 created: 2026-06-01T08:52:57.743Z
-updated: 2026-06-01T08:52:57.743Z
+updated: 2026-06-01T10:37:42.946Z
 ---
 
 ---

@@ -1,11 +1,11 @@
 ---
 id: c4a667e7-1fb6-4667-bd55-09ca3f042eff
-title: "Cursor Debug 模式"
+title: Cursor Debug 模式
 type: concept
 tags:
-  - ["grahify-kb"]
+
 created: 2026-06-01T08:52:57.726Z
-updated: 2026-06-01T08:52:57.726Z
+updated: 2026-06-01T10:37:42.939Z
 ---
 
 ---

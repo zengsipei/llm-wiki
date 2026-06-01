@@ -4,8 +4,8 @@ title: Agent 架构设计模式
 type: concept
 tags:
 
-created: 2026-05-27T07:27:43.082Z
-updated: 2026-05-27T07:27:43.082Z
+created: 2026-06-01T08:52:57.755Z
+updated: 2026-06-01T10:37:22.379Z
 ---
 
 # Agent 架构设计模式

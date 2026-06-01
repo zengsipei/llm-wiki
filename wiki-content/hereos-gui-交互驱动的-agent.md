@@ -1,11 +1,11 @@
 ---
 id: 3900f6d5-1653-403c-87d5-052423dee120
-title: "HereOS — GUI 交互驱动的 Agent"
+title: HereOS — GUI 交互驱动的 Agent
 type: concept
 tags:
-  - ["grahify-kb"]
+
 created: 2026-06-01T08:52:57.747Z
-updated: 2026-06-01T08:52:57.747Z
+updated: 2026-06-01T10:37:42.947Z
 ---
 
 ---
