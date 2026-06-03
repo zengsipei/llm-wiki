@@ -92,3 +92,9 @@ TypeScript, JavaScript, Python, Java, Kotlin, C#, Go, Rust, PHP, Ruby, Swift, C,
 - GitHub: https://github.com/abhigyanpatwari/GitNexus
 - npm: https://www.npmjs.com/package/gitnexus
 - Web UI: https://gitnexus.vercel.app
+
+## 相关页面
+
+- [[Git 工作流最佳实践]]
+- [[Agent 架构设计模式]]
+- [[AI 编程工具对比]]

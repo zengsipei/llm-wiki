@@ -1,0 +1,70 @@
+2026-06-03T05:06:56Z INF Thank you for trying Cloudflare Tunnel. Doing so, without a Cloudflare account, is a quick way to experiment and try it out. However, be aware that these account-less Tunnels have no uptime guarantee, are subject to the Cloudflare Online Services Terms of Use (https://www.cloudflare.com/website-terms/), and Cloudflare reserves the right to investigate your use of Tunnels for violations of such terms. If you intend to use Tunnels in production you should use a pre-created named tunnel by following: https://developers.cloudflare.com/cloudflare-one/connections/connect-apps
+2026-06-03T05:06:56Z INF Requesting new quick Tunnel on trycloudflare.com...
+2026-06-03T05:07:00Z INF +--------------------------------------------------------------------------------------------+
+2026-06-03T05:07:00Z INF |  Your quick Tunnel has been created! Visit it at (it may take some time to be reachable):  |
+2026-06-03T05:07:00Z INF |  https://appeared-unto-islamic-tex.trycloudflare.com                                       |
+2026-06-03T05:07:00Z INF +--------------------------------------------------------------------------------------------+
+2026-06-03T05:07:00Z INF Cannot determine default configuration path. No file [config.yml config.yaml] in [~/.cloudflared ~/.cloudflare-warp ~/cloudflare-warp /etc/cloudflared /usr/local/etc/cloudflared]
+2026-06-03T05:07:00Z INF Version 2026.5.2 (Checksum 5286698547f03df745adb2355f04c12dde52ef425491e81f433642d695521886)
+2026-06-03T05:07:00Z INF GOOS: linux, GOVersion: go1.26.3, GoArch: amd64
+2026-06-03T05:07:00Z INF Settings: map[ha-connections:1 protocol:quic url:http://localhost:3000]
+2026-06-03T05:07:00Z INF Autoupdate frequency is set autoupdateFreq=86400000
+2026-06-03T05:07:00Z INF Generated Connector ID: 6a6ad8d6-c758-4e44-af55-c87490e5096e
+2026-06-03T05:07:00Z INF Initial protocol quic
+2026-06-03T05:07:00Z INF ICMP proxy will use 172.16.31.95 as source for IPv4
+2026-06-03T05:07:00Z INF ICMP proxy will use fe80::5054:ff:fe8d:467c in zone eth0 as source for IPv6
+2026-06-03T05:07:00Z WRN The user running cloudflared process has a GID (group ID) that is not within ping_group_range. You might need to add that user to a group within that range, or instead update the range to encompass a group the user is already in by modifying /proc/sys/net/ipv4/ping_group_range. Otherwise cloudflared will not be able to ping this network error="Group ID 0 is not between ping group 1 to 0"
+2026-06-03T05:07:00Z WRN ICMP proxy feature is disabled error="cannot create ICMPv4 proxy: Group ID 0 is not between ping group 1 to 0 nor ICMPv6 proxy: socket: permission denied"
+2026-06-03T05:07:00Z INF ICMP proxy will use 172.16.31.95 as source for IPv4
+2026-06-03T05:07:00Z INF ICMP proxy will use fe80::5054:ff:fe8d:467c in zone eth0 as source for IPv6
+2026-06-03T05:07:00Z INF Starting metrics server on 127.0.0.1:20241/metrics
+2026-06-03T05:07:00Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveID(65074) CurveP256] connIndex=0 event=0 ip=198.41.200.13
+2026-06-03T05:07:01Z INF Registered tunnel connection connIndex=0 connection=a712a33d-5f6d-4541-a855-014b8980931b event=0 ip=198.41.200.13 location=sjc10 protocol=quic
+2026-06-03T05:07:08Z INF +-------------------------------------------------------------------------------------+
+2026-06-03T05:07:08Z INF |                               CONNECTIVITY PRE-CHECKS                               |
+2026-06-03T05:07:08Z INF +-------------------------------------------------------------------------------------+
+2026-06-03T05:07:08Z INF |  COMPONENT         TARGET                     STATUS  DETAILS                       |
+2026-06-03T05:07:08Z INF |  DNS Resolution    region1.v2.argotunnel.com  PASS    DNS Resolved successfully     |
+2026-06-03T05:07:08Z INF |  DNS Resolution    region2.v2.argotunnel.com  PASS    DNS Resolved successfully     |
+2026-06-03T05:07:08Z INF |  UDP Connectivity  region1.v2.argotunnel.com  PASS    QUIC connection successful    |
+2026-06-03T05:07:08Z INF |  UDP Connectivity  region2.v2.argotunnel.com  PASS    QUIC connection successful    |
+2026-06-03T05:07:08Z INF |  TCP Connectivity  region1.v2.argotunnel.com  PASS    HTTP/2 connection successful  |
+2026-06-03T05:07:08Z INF |  TCP Connectivity  region2.v2.argotunnel.com  PASS    HTTP/2 connection successful  |
+2026-06-03T05:07:08Z INF |  Cloudflare API    api.cloudflare.com:443     PASS    API is reachable              |
+2026-06-03T05:07:08Z INF |                                                                                     |
+2026-06-03T05:07:08Z INF |  SUMMARY: Environment is healthy. cloudflared will use 'quic' as primary protocol.  |
+2026-06-03T05:07:08Z INF +-------------------------------------------------------------------------------------+
+2026-06-03T05:07:08Z INF precheck component="DNS Resolution" details="DNS Resolved successfully" run_id=4a32e943-70ac-4083-a886-a9f967c6c6a1 status=pass target=region1.v2.argotunnel.com
+2026-06-03T05:07:08Z INF precheck component="DNS Resolution" details="DNS Resolved successfully" run_id=4a32e943-70ac-4083-a886-a9f967c6c6a1 status=pass target=region2.v2.argotunnel.com
+2026-06-03T05:07:08Z INF precheck component="UDP Connectivity" details="QUIC connection successful" run_id=4a32e943-70ac-4083-a886-a9f967c6c6a1 status=pass target=region1.v2.argotunnel.com
+2026-06-03T05:07:08Z INF precheck component="UDP Connectivity" details="QUIC connection successful" run_id=4a32e943-70ac-4083-a886-a9f967c6c6a1 status=pass target=region2.v2.argotunnel.com
+2026-06-03T05:07:08Z INF precheck component="TCP Connectivity" details="HTTP/2 connection successful" run_id=4a32e943-70ac-4083-a886-a9f967c6c6a1 status=pass target=region1.v2.argotunnel.com
+2026-06-03T05:07:08Z INF precheck component="TCP Connectivity" details="HTTP/2 connection successful" run_id=4a32e943-70ac-4083-a886-a9f967c6c6a1 status=pass target=region2.v2.argotunnel.com
+2026-06-03T05:07:08Z INF precheck component="Cloudflare API" details="API is reachable" run_id=4a32e943-70ac-4083-a886-a9f967c6c6a1 status=pass target=api.cloudflare.com:443
+2026-06-03T05:07:08Z INF precheck complete hard_fail=false run_id=4a32e943-70ac-4083-a886-a9f967c6c6a1 suggested_protocol=quic
+2026-06-03T05:12:08Z ERR  error="Unable to reach the origin service. The service may be down or it may not be responding to traffic from cloudflared: dial tcp 127.0.0.1:3000: connect: connection refused" connIndex=0 event=1 ingressRule=0 originService=http://localhost:3000
+2026-06-03T05:12:08Z ERR Request failed error="Unable to reach the origin service. The service may be down or it may not be responding to traffic from cloudflared: dial tcp 127.0.0.1:3000: connect: connection refused" connIndex=0 dest=https://appeared-unto-islamic-tex.trycloudflare.com/_next/webpack-hmr?id=TkWsdcllVej5TgdV7feeS event=0 ip=198.41.200.13 type=ws
+2026-06-03T05:12:11Z ERR  error="Unable to reach the origin service. The service may be down or it may not be responding to traffic from cloudflared: dial tcp 127.0.0.1:3000: connect: connection refused" connIndex=0 event=1 ingressRule=0 originService=http://localhost:3000
+2026-06-03T05:12:11Z ERR Request failed error="Unable to reach the origin service. The service may be down or it may not be responding to traffic from cloudflared: dial tcp 127.0.0.1:3000: connect: connection refused" connIndex=0 dest=https://appeared-unto-islamic-tex.trycloudflare.com/_next/webpack-hmr?id=TkWsdcllVej5TgdV7feeS event=0 ip=198.41.200.13 type=ws
+2026-06-03T05:32:46Z ERR  error="Unable to reach the origin service. The service may be down or it may not be responding to traffic from cloudflared: dial tcp 127.0.0.1:3000: connect: connection refused" connIndex=0 event=1 ingressRule=0 originService=http://localhost:3000
+2026-06-03T05:32:46Z ERR Request failed error="Unable to reach the origin service. The service may be down or it may not be responding to traffic from cloudflared: dial tcp 127.0.0.1:3000: connect: connection refused" connIndex=0 dest=https://appeared-unto-islamic-tex.trycloudflare.com/_next/webpack-hmr?id=JBGsBTVJ7prwDFUmAA9SL event=0 ip=198.41.200.13 type=ws
+2026-06-03T05:38:54Z ERR  error="Incoming request ended abruptly: context canceled" connIndex=0 event=1 ingressRule=0 originService=http://localhost:3000
+2026-06-03T05:38:54Z ERR Request failed error="Incoming request ended abruptly: context canceled" connIndex=0 dest=https://appeared-unto-islamic-tex.trycloudflare.com/_next/webpack-hmr?id=ZfOc-kMCbgl4h2oXUuUmr event=0 ip=198.41.200.13 type=ws
+2026-06-03T05:44:58Z ERR  error="Unable to reach the origin service. The service may be down or it may not be responding to traffic from cloudflared: dial tcp 127.0.0.1:3000: connect: connection refused" connIndex=0 event=1 ingressRule=0 originService=http://localhost:3000
+2026-06-03T05:44:58Z ERR Request failed error="Unable to reach the origin service. The service may be down or it may not be responding to traffic from cloudflared: dial tcp 127.0.0.1:3000: connect: connection refused" connIndex=0 dest=https://appeared-unto-islamic-tex.trycloudflare.com/_next/webpack-hmr?id=FTNHVNar-BBTHul5DXPiq event=0 ip=198.41.200.13 type=ws
+2026-06-03T05:45:02Z ERR  error="Unable to reach the origin service. The service may be down or it may not be responding to traffic from cloudflared: dial tcp 127.0.0.1:3000: connect: connection refused" connIndex=0 event=1 ingressRule=0 originService=http://localhost:3000
+2026-06-03T05:45:02Z ERR Request failed error="Unable to reach the origin service. The service may be down or it may not be responding to traffic from cloudflared: dial tcp 127.0.0.1:3000: connect: connection refused" connIndex=0 dest=https://appeared-unto-islamic-tex.trycloudflare.com/_next/webpack-hmr?id=FTNHVNar-BBTHul5DXPiq event=0 ip=198.41.200.13 type=ws
+2026-06-03T06:24:33Z ERR  error="Unable to reach the origin service. The service may be down or it may not be responding to traffic from cloudflared: dial tcp 127.0.0.1:3000: connect: connection refused" connIndex=0 event=1 ingressRule=0 originService=http://localhost:3000
+2026-06-03T06:24:33Z ERR Request failed error="Unable to reach the origin service. The service may be down or it may not be responding to traffic from cloudflared: dial tcp 127.0.0.1:3000: connect: connection refused" connIndex=0 dest=https://appeared-unto-islamic-tex.trycloudflare.com/_next/webpack-hmr?id=FMm6T_ECyZ9jMDFIyYGcQ event=0 ip=198.41.200.13 type=ws
+2026-06-03T06:24:35Z ERR  error="Unable to reach the origin service. The service may be down or it may not be responding to traffic from cloudflared: dial tcp 127.0.0.1:3000: connect: connection refused" connIndex=0 event=1 ingressRule=0 originService=http://localhost:3000
+2026-06-03T06:24:35Z ERR Request failed error="Unable to reach the origin service. The service may be down or it may not be responding to traffic from cloudflared: dial tcp 127.0.0.1:3000: connect: connection refused" connIndex=0 dest=https://appeared-unto-islamic-tex.trycloudflare.com/_next/webpack-hmr?id=FMm6T_ECyZ9jMDFIyYGcQ event=0 ip=198.41.200.13 type=ws
+2026-06-03T06:41:04Z INF Initiating graceful shutdown due to signal terminated ...
+2026-06-03T06:41:04Z INF Unregistered tunnel connection connIndex=0 event=0 ip=198.41.200.13
+2026-06-03T06:41:15Z ERR failed to run the datagram handler error="context canceled" connIndex=0 event=0 ip=198.41.200.13
+2026-06-03T06:41:15Z ERR failed to serve tunnel connection error="accept stream listener encountered a failure while serving" connIndex=0 event=0 ip=198.41.200.13
+2026-06-03T06:41:15Z ERR Serve tunnel error error="accept stream listener encountered a failure while serving" connIndex=0 event=0 ip=198.41.200.13
+2026-06-03T06:41:15Z INF Retrying connection in up to 1s connIndex=0 event=0 ip=198.41.200.13
+2026-06-03T06:41:15Z ERR Connection terminated connIndex=0
+2026-06-03T06:41:15Z ERR no more connections active and exiting
+2026-06-03T06:41:15Z INF Tunnel server stopped
+2026-06-03T06:41:15Z INF Metrics server stopped

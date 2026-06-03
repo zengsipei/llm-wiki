@@ -80,3 +80,9 @@ Claude Code、OpenAI Codex、OpenCode、任何支持 shell 的助手
 
 - 官网: https://graphify.net/
 - Karpathy 原始理念: https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
+
+## 相关页面
+
+- [[Agent 架构设计模式]]
+- [[知识管理系统设计]]
+- [[LLM Wiki 入门指南]]

@@ -108,26 +108,4 @@ Agent 会自动打开 `chrome://inspect/#remote-debugging`，用户需：
 | Skill | 预设 | Agent 自生成 |
 
 ## 相关页面
-
-- [[Obscura - Rust 无头浏览器引擎]] — Rust 实现的轻量无头浏览器引擎，可作为 CDP 底层替代
-- [[Pretext - 纯 JS 文本测量库]] — 同为 Claude Code 生态发现的高性能工具
-- [[Agent 架构设计模式]] — Browser Harness 是 Agent 工具设计原则的实践案例
-- [[HereOS — GUI 交互驱动的 Agent]] — GUI 交互驱动的 Agent 模式
-
-## 技术栈
-
-| 层面 | 技术 |
-|------|------|
-| 语言 | Python |
-| 浏览器通信 | Chrome DevTools Protocol (CDP) |
-| 连接方式 | WebSocket |
-| 包管理 | pyproject.toml |
-| 目标 LLM | Claude Code、Codex (OpenAI) |
-| 云服务 | Browser Use Cloud |
-
-## 设计哲学启示
-
-1. **少即是多**：去除不必要抽象，反而给 AI 更大自由度
-2. **Agent 即开发者**：Agent 不只是使用者，更是 contributor，执行中同时改进工具
-3. **Bitter Lesson**：让 Agent 自己学习和积累，而非人工预设所有规则
-4. **社区技能生态**：去中心化的知识共享，类似"插件市场"
+- [[mindfold-ai/Trellis — AI Coding Agent Harness]]

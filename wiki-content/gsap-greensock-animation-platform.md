@@ -251,7 +251,6 @@ gsap.to(element, {
 - 许可证全文：[gsap.com/community/standard-license](https://gsap.com/community/standard-license)
 
 ## 相关页面
-
-- [[Tailwind CSS 实战技巧]] — GSAP 常与 Tailwind 配合，Tailwind 处理布局/样式，GSAP 处理动画
-- [[Next.js 技术栈速查]] — Next.js 项目中集成 GSAP 需注意 SSR/CSR 限制
-- [[Open Design]] — AI 设计工具，可生成使用 GSAP 的交互动效
+- [[Next.js 技术栈速查]] — Next.js 技术栈速查
+- [[Next.js 最佳实践]] — Next.js 最佳实践
+- [[Open Design]] — Open Design 设计理念

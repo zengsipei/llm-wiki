@@ -200,6 +200,26 @@ async function reconcile() {
     }
   }
 
+  // Compute backlinks from [[wiki-links]] in content
+  const _ap = await prisma.wikiPage.findMany()
+  const _pbt = new Map(_ap.map(p => [p.title, p]))
+  const _blm = new Map()
+  for (const _p of _ap) {
+    const _ms = [..._p.content.matchAll(/\[\[([^\]]+)\]\]/g)]
+    for (const _m of _ms) {
+      const _lt = _m[1].trim()
+      let _t = _pbt.get(_lt)
+      if (!_t) _t = _pbt.get(_lt.replace(/ - /g, " — "))
+      if (!_t || _t.id === _p.id) continue
+      if (!_blm.has(_t.id)) _blm.set(_t.id, [])
+      if (!_blm.get(_t.id).includes(_p.id)) _blm.get(_t.id).push(_p.id)
+    }
+  }
+  for (const [_tid, _refs] of _blm) {
+    await prisma.wikiPage.update({ where: { id: _tid }, data: { backlinks: JSON.stringify(_refs) } })
+  }
+  console.log("[sync] Backlinks: " + _blm.size + " pages updated")
+
   console.log(`[sync] Reconcile done: ${mdToDb} md→DB, ${dbToMd} DB→md, ${both} unchanged`);
 }
 

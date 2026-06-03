@@ -111,3 +111,9 @@ npm run start
 # 使用 PM2 持久化
 pm2 start "npm run start" --name wiki
 ```
+
+## 相关页面
+
+- [[Next.js 技术栈速查]]
+- [[Tailwind CSS 实战技巧]]
+- [[Prisma ORM 使用指南]]

@@ -733,6 +733,14 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
     }
   }, [getScrollContainer])
 
+  // Scroll to top when page changes
+  useEffect(() => {
+    const mainEl = getScrollContainer()
+    if (mainEl) {
+      mainEl.scrollTo({ top: 0, behavior: 'instant' })
+    }
+  }, [page.id, getScrollContainer])
+
   return (
     <div>
       {/* ===== Sticky Action Bar (appears on scroll) ===== */}
@@ -846,7 +854,12 @@ export function PageView({ page, allPages, onEdit, onDelete, onNavigateToPage, o
 
         {/* Content */}
         <CardContent className="p-0">
-          <MarkdownRenderer content={page.content} headingIds={headingIds} />
+          <MarkdownRenderer
+            content={page.content}
+            headingIds={headingIds}
+            pages={allPages?.map(p => ({ id: p.id, title: p.title }))}
+            onWikiLinkClick={(id) => onNavigateToPage(id)}
+          />
         </CardContent>
 
         {/* Widget Panel */}

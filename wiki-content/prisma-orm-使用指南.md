@@ -134,3 +134,6 @@ npx prisma db push
 3. **分页**：使用 `cursor` 分页（性能优于 skip/take）
 4. **事务**：多个操作用 `prisma.$transaction()`
 5. **连接池**：配置合理的 connection_limit
+
+## 相关页面
+- [[Supabase vs Firebase]]

@@ -135,3 +135,9 @@ Use a token budget of <N> tokens.
 | 新会话找不到 thread | 第一条消息不要直接用 /goal |
 | 声称完成但跑偏 | 用具体数字而非虚词 |
 | Token 烧光 | 永远设 budget |
+
+## 相关页面
+
+- [[Claude 使用指南]]
+- [[AI 编程工具对比]]
+- [[Agent 架构设计模式]]

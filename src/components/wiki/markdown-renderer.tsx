@@ -1,8 +1,9 @@
 'use client'
 
-import React, { useState, useCallback, useRef, useEffect, useId } from 'react'
+import React, { useState, useCallback, useRef, useEffect, useId, useMemo } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import rehypeRaw from 'rehype-raw'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { Check, Copy, Terminal, Play, ExternalLink, Loader2, AlertTriangle, Info, Lightbulb, AlertCircle, XCircle } from 'lucide-react'
@@ -12,6 +13,8 @@ import { Check, Copy, Terminal, Play, ExternalLink, Loader2, AlertTriangle, Info
 interface MarkdownRendererProps {
   content: string
   headingIds?: string[]
+  pages?: Array<{ id: string; title: string }>
+  onWikiLinkClick?: (title: string) => void
 }
 
 // ============ Callout Types ============
@@ -416,10 +419,26 @@ function extractText(children: React.ReactNode): string {
 
 // ============ Main MarkdownRenderer ============
 
-export function MarkdownRenderer({ content, headingIds }: MarkdownRendererProps) {
+export function MarkdownRenderer({ content, headingIds, pages = [], onWikiLinkClick }: MarkdownRendererProps) {
   if (!content) {
     return <p className="text-muted-foreground italic">暂无内容</p>
   }
+
+  // Build a map from title -> id for wiki-links resolution
+  const titleToId = useMemo(() => {
+    const m = new Map<string, string>()
+    for (const p of pages) m.set(p.title, p.id)
+    return m
+  }, [pages])
+
+  // Pre-process content: convert [[title]] to span elements with data-wiki-id
+  const processedContent = useMemo(() => {
+    return content.replace(/\[\[([^\]]+)\]\]/g, (_, title) => {
+      const id = titleToId.get(title.trim())
+      if (id) return `<span data-wiki-id="${id}" class="wiki-link cursor-pointer text-primary underline underline-offset-4 hover:text-primary/80 transition-colors">${title}</span>`
+      return `<span class="text-muted-foreground line-through">${title}</span>`
+    })
+  }, [content, titleToId])
 
   // Index into headingIds — resets synchronously when headingIds changes
   const headingIndexRef = useRef(0)
@@ -446,9 +465,17 @@ export function MarkdownRenderer({ content, headingIds }: MarkdownRendererProps)
   const H4 = createHeadingComponent('h4', 'text-base font-semibold mt-4 mb-2')
 
   return (
-    <div className="markdown-content prose prose-neutral dark:prose-invert max-w-none">
+    <div className="markdown-content prose prose-neutral dark:prose-invert max-w-none" onClick={(e) => {
+      const target = (e.target as HTMLElement).closest('[data-wiki-id]')
+      if (target) {
+        e.preventDefault()
+        const pageId = target.getAttribute('data-wiki-id')
+        if (pageId) onWikiLinkClick?.(pageId)
+      }
+    }}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
+        rehypePlugins={[rehypeRaw]}
         components={{
           h1: H1,
           h2: H2,
@@ -547,16 +574,29 @@ export function MarkdownRenderer({ content, headingIds }: MarkdownRendererProps)
               </div>
             )
           },
-          a: ({ href, children }) => (
-            <a
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary underline underline-offset-4 hover:text-primary/80 transition-colors"
-            >
-              {children}
-            </a>
-          ),
+          a: ({ href, children }) => {
+            if (href?.startsWith('wiki://')) {
+              const pageId = decodeURIComponent(href.replace('wiki://', ''))
+              return (
+                <button
+                  onClick={() => onWikiLinkClick?.(pageId)}
+                  className="text-primary underline underline-offset-4 hover:text-primary/80 transition-colors cursor-pointer bg-transparent border-none p-0 font-inherit"
+                >
+                  {children}
+                </button>
+              )
+            }
+            return (
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary underline underline-offset-4 hover:text-primary/80 transition-colors"
+              >
+                {children}
+              </a>
+            )
+          },
           hr: () => (
             <hr className="my-6 border-border" />
           ),
@@ -603,7 +643,7 @@ export function MarkdownRenderer({ content, headingIds }: MarkdownRendererProps)
           ),
         }}
       >
-        {content}
+        {processedContent}
       </ReactMarkdown>
     </div>
   )

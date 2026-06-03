@@ -1,7 +1,8 @@
 'use client'
 
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { Menu, FileText, Loader2, Plus } from 'lucide-react'
+import { useSearchParams, useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -49,6 +50,38 @@ export default function WikiPage() {
   // Derived state
   const selectedPage = pages.find((p) => p.id === selectedPageId) || null
   const displayPages = searchResults !== null ? searchResults : pages
+
+  // === URL Routing ===
+  const router = useRouter()
+  const searchParams = useSearchParams()
+
+  // Sync state from URL on mount / popstate
+  useEffect(() => {
+    const pageParam = searchParams.get('page')
+    const tabParam = searchParams.get('tab')
+    if (pageParam) setSelectedPageId(pageParam)
+    if (tabParam) setActiveTab(tabParam as ActiveTab)
+    setLoading(false)
+  }, [searchParams])
+
+  // Push state to URL (debounced by React's batching)
+  const syncToUrl = useCallback((pageId: string | null, tab: ActiveTab) => {
+    const params = new URLSearchParams()
+    if (pageId) params.set('page', pageId)
+    if (tab !== 'view') params.set('tab', tab)
+    const qs = params.toString()
+    router.push(qs ? `/?${qs}` : '/')
+  }, [router])
+
+  // Sync state changes to URL (only after initial load)
+  const initialLoadDone = useRef(false)
+  useEffect(() => {
+    if (!initialLoadDone.current) {
+      initialLoadDone.current = true
+      return
+    }
+    syncToUrl(selectedPageId, activeTab)
+  }, [selectedPageId, activeTab, syncToUrl])
 
   // === Data Fetching ===
   const fetchPages = useCallback(async () => {

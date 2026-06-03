@@ -103,3 +103,6 @@ Slogan：**"点击，说话 · 告别打字"**
 - 仅支持 macOS Apple Silicon
 - 官网无技术文档、无 changelog、无定价
 - 无公开评测或社区反馈
+
+## 相关页面
+- [[Agent 架构设计模式]] — Agent 工具设计原则

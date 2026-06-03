@@ -86,3 +86,9 @@ Debug 面板 Variables 区域，右键变量 → **"Explain value"**，AI 解释
 
 - 实测观察
 - Cursor 官方文档：https://docs.cursor.com
+
+## 相关页面
+
+- [[AI 编程工具对比]]
+- [[Claude 使用指南]]
+- [[Browser Harness]]

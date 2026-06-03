@@ -77,6 +77,8 @@ Target、Page、Runtime、DOM、Network、Fetch、Storage、Input、LP（DOM 转
 - 反检测爬虫：内置 stealth 绕过反爬机制
 
 ## 相关页面
+- [[rtk-ai/rtk — Rust Token Killer]] — Rust 工具链开发参考
+- [[Browser Harness]] — 同类浏览器控制框架
 
 - [[Browser Harness]] — 自愈型浏览器控制框架，Python 实现，与 Obscura 互补
 - [[Pretext - 纯 JS 文本测量库]] — 同为 Rust/高性能工具

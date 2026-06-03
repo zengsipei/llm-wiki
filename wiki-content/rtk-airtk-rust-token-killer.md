@@ -91,3 +91,8 @@ dev-0.40.0-rc.215 (2026-05-11)，支持 macOS (arm64/x64)、Linux (arm64/x64 mus
 ## Topics
 
 agentic-coding, ai-coding, anthropic, claude-code, cli, command-line-tool, cost-reduction, developer-tools, llm, open-source, productivity, rust, token-optimization
+
+## 相关页面
+- [[AI 编程工具对比]] — AI 编程工具全景对比
+- [[Git 工作流最佳实践]] — Git 工作流最佳实践
+- [[Open Design]] — Open Design 设计理念

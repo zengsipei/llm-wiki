@@ -106,3 +106,9 @@ final_results = merge_and_rerank(vector_results, bm25_results)
 | Answer Relevancy | 回答与问题的相关度 |
 | Context Precision | 检索到的上下文精确度 |
 | Context Recall | 检索到的上下文覆盖率 |
+
+## 相关页面
+
+- [[向量数据库入门]]
+- [[RAG vs LLM Wiki 对比分析]]
+- [[知识库架构设计]]

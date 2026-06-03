@@ -62,3 +62,8 @@ tags: [supabase, firebase, BaaS, database, backend, comparison]
 
 - **选 Supabase：** 需要关系型数据、复杂查询、数据可控性、自托管、标准 SQL
 - **选 Firebase：** 已在 Google 生态、需要快速原型、离线优先、简单文档存储
+
+## 相关页面
+- [[Prisma ORM 使用指南]] — Prisma ORM 使用指南
+- [[知识库架构设计]] — 知识库架构设计
+- [[向量数据库入门]] — 向量数据库入门

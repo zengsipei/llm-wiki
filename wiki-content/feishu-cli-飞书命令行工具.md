@@ -280,3 +280,10 @@ lark-cli event subscribe --pattern "mail:new" --format ndjson
 - 社区版 CLI：https://github.com/riba2534/feishu-cli
 - MCP 集成：https://github.com/cso1z/feishu-mcp
 - 飞书项目 CLI：https://github.com/larksuite/meegle-cli
+
+## 相关页面
+- [[Agent 架构设计模式]] — Agent 工具设计原则
+- [[AI 编程工具对比]] — AI 编程工具全景对比
+- [[飞书 CLI（Lark CLI）— 飞书官方命令行工具]] — 同类飞书工具
+- [[AI 编程工具对比]] — AI 编程工具全景对比
+- [[知识库架构设计]] — 知识库架构设计

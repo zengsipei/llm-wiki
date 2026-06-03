@@ -230,3 +230,9 @@ class WikiPage:
 
 - [GitHub 仓库](https://github.com/zengsipei/llm-wiki)
 - [预览地址](https://zengsipei.space-z.ai/)
+
+## 相关页面
+
+- [[Markdown 进阶语法]]
+- [[Markdown 语法速查]]
+- [[The Unreasonable Effectiveness of HTML（HTML 的不合理有效性）]]

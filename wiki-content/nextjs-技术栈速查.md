@@ -30,5 +30,4 @@ updated: 2026-06-01T10:37:22.441Z
 - 开发模式：npx next dev
 
 ## 相关页面
-
-- [[GSAP (GreenSock Animation Platform)]] — Next.js 中集成 GSAP 需注意 SSR 限制，动画代码必须在客户端执行（`"use client"` 或 `useEffect`）
+- [[Prisma ORM 使用指南]] — Prisma ORM 详细使用指南

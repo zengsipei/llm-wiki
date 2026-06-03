@@ -216,3 +216,6 @@ agentation/
 - 需要 React 18+
 - Self-Driving 模式依赖 `agent-browser` 技能
 - 自动设计评审的质量取决于页面复杂度
+
+## 相关页面
+- [[三个极简Agent开源项目——从骨架到工程化]] — Agent 开发学习路径

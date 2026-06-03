@@ -94,3 +94,9 @@ HTML 输出实现了真正的**人机协作闭环**：
 
 - [The Unreasonable Effectiveness of HTML](https://thariqs.github.io/html-effectiveness/) — Anthropic 工程师 Thariq 的博文及 20 个 Demo
 - [Claude Artifacts](https://docs.anthropic.com/en/docs/build-with-claude/artifacts) — Claude 的 Artifact 功能
+
+## 相关页面
+
+- [[The Unreasonable Effectiveness of HTML（HTML 的不合理有效性）]]
+- [[AI 安全与对齐]]
+- [[Agent 架构设计模式]]
