@@ -189,3 +189,8 @@ status: raw
 - 完全指南: https://www.nxcode.io/zh/resources/news/google-stitch-complete-guide-vibe-design-2026
 - 深度评测: https://geminizh.cn/stitch2
 - AI工具导航: https://aiproducthub.cn/sites/stitch-withgoogle.html
+
+## 相关页面
+
+- [[Kami - AI 文档排版设计系统]] — 同为 AI 设计工具：Stitch 做网页 UI 设计，Kami 做文档排版，互补领域
+- [[Open Design]] — 开源全设计系统平台，与 Stitch 形成竞争/互补关系

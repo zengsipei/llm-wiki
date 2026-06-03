@@ -150,3 +150,8 @@ Trellis 和 Hermes 都属于 AI Agent 生态的不同层面：
 - **Trellis** 是 Agent **工作框架层**——管理规范注入、任务生命周期、子 agent 编排、跨平台配置
 
 两者可以互补：在 Hermes 管理的项目中使用 Trellis 的 `workflow.md` + `spec/` 结构作为 skill 和 memory 的补充，或反过来将 Hermes 的 `delegate_task` + `kanban` 编排模式与 Trellis 的四阶段工作流结合。
+
+## 相关页面
+
+- [[Hapi - 手机远程控制 AI Coding Agent]] — 同为 Agent 辅助工具：Trellis 做本地规范注入和任务编排，Hapi 做远程手机控制和权限审批
+- [[Plannotator — AI Agent 的交互式计划与代码审查工具]] — 同为 Agent 编排工具，Plannotator 做可视化计划和代码审查

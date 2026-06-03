@@ -70,6 +70,7 @@ updated: 2026-06-01T10:37:22.390Z
 - [[Cursor Debug 模式]] — Cursor IDE 的调试模式
 - [[Windsurf Codemaps — AI 注释的代码结构地图]] — Windsurf 的代码理解能力
 - [[Codex CLI /goal 命令]] — OpenAI Codex 的 goal 命令
+- [[Hapi - 手机远程控制 AI Coding Agent]] — Claude Code/Codex/Gemini/Cursor Agent 的手机远程控制工具，离线时仍可审批 Agent 权限
 
 ## 使用最佳实践
 

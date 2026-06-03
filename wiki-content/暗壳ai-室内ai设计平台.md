@@ -147,3 +147,8 @@ updated: 2026-06-01T10:37:42.945Z
 - 百度百科: https://baike.baidu.com/item/暗壳AI/67628243
 - Agent 2.0发布新闻: https://finance.sina.com.cn/tech/roll/2026-03-31/doc-inhsvwpy3390509.shtml
 - AI工具导航: https://www.aiww.com/aitool/anke/jianjie
+
+## 相关页面
+
+- [[Kami - AI 文档排版设计系统]] — 同为 AI 设计工具：暗壳做室内设计，Kami 做文档排版
+- [[Google Stitch 2.0 - AI UI 设计工具]] — 同为垂直领域 AI 设计工具，Stitch 做网页 UI

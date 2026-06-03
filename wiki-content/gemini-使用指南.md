@@ -103,3 +103,4 @@ response = model.generate_content(
 - [[Prompt Engineering 最佳实践]] — 通用提示工程技巧
 - [[System Prompt 设计指南]] — System Prompt 设计方法论
 - [[Function Calling 实践指南]] — Function Calling 实现细节
+- [[Hapi - 手机远程控制 AI Coding Agent]] — Hapi 同样支持 Gemini CLI 的远程操控
