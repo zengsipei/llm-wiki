@@ -107,3 +107,7 @@ npx shadcn@latest add button card dialog
 # 组件文件在 components/ui/ 下
 # 可以自由修改样式和行为
 ```
+
+## 相关页面
+
+- [[GSAP (GreenSock Animation Platform)]] — 复杂动画用 GSAP，Tailwind 处理布局/样式和简单过渡，两者互补
