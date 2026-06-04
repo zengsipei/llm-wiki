@@ -138,6 +138,10 @@ Use a token budget of <N> tokens.
 
 ## 相关页面
 
-- [[Claude 使用指南]]
-- [[AI 编程工具对比]]
-- [[Agent 架构设计模式]]
+- [[Claude Code Operator模式与5种Agentic工作流]] — Claude Code 的 5 种 Agentic 工作流，Codex /goal 是 OpenAI 的对标方案
+- [[AI 编程工具对比]] — 主流 AI 编程工具的横向对比
+- [[Claude 使用指南]] — Anthropic Claude Code 的使用方法
+- [[Gemini 使用指南]] — Google Gemini 的使用指南
+- [[Agent 架构设计模式]] — 通用 Agent 架构设计模式
+- [[Hapi - 手机远程控制 AI Coding Agent]] — Hapi 支持 Codex Agent 的手机远程控制和权限审批
+- [[Kami - AI 文档排版设计系统]] — Claude Code Skill，同样可配合 Codex Agent 使用
