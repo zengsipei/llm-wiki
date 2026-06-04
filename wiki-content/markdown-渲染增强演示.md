@@ -1,11 +1,11 @@
 ---
-id: cmpnqrx2c0012l9x7wuiz8ap7
+id: cmpyz15da0018lm53oquezfil
 title: Markdown 渲染增强演示
 type: concept
 tags:
 
-created: 2026-06-01T08:52:57.813Z
-updated: 2026-06-01T10:37:22.435Z
+created: 2026-06-04T04:04:18.671Z
+updated: 2026-06-04T04:04:18.671Z
 ---
 
 # Markdown 渲染增强演示
@@ -230,9 +230,3 @@ class WikiPage:
 
 - [GitHub 仓库](https://github.com/zengsipei/llm-wiki)
 - [预览地址](https://zengsipei.space-z.ai/)
-
-## 相关页面
-
-- [[Markdown 进阶语法]]
-- [[Markdown 语法速查]]
-- [[The Unreasonable Effectiveness of HTML（HTML 的不合理有效性）]]

@@ -1,11 +1,11 @@
 ---
-id: cmpnqrx2b0011l9x7ij1ttwp1
+id: cmpyz15d90017lm533j6y03s4
 title: LLM 评测方法
 type: concept
 tags:
 
-created: 2026-06-01T08:52:57.811Z
-updated: 2026-06-01T10:37:22.434Z
+created: 2026-06-04T04:04:18.670Z
+updated: 2026-06-04T04:04:18.670Z
 ---
 
 # LLM 评测方法
@@ -89,11 +89,3 @@ def ab_test(model_a, model_b, test_cases, judge):
 2. **自动化流水线**：CI/CD 集成评测，每次模型更新自动跑分
 3. **用户反馈闭环**：点赞/点踩 → 标注 → 微调数据
 4. **监控指标**：上线后持续跟踪回答质量、用户满意度
-
-## 相关页面
-- [[AI 模型提供商对比]] — GPT/Claude/Gemini 横向对比
-- [[AI 安全与对齐]] — AI 安全与对齐
-
-- [[AI 模型提供商对比]]
-- [[RAG 检索增强生成]]
-- [[AI 安全与对齐]]

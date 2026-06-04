@@ -1,11 +1,11 @@
 ---
-id: cmpnqrx1l000rl9x7zzihl2ad
+id: cmpyz15cs000ulm53se104a8r
 title: Function Calling 实践指南
 type: concept
 tags:
 
-created: 2026-06-01T08:52:57.789Z
-updated: 2026-06-01T10:37:22.413Z
+created: 2026-06-04T04:04:18.653Z
+updated: 2026-06-04T04:04:18.653Z
 ---
 
 # Function Calling 实践指南
@@ -115,6 +115,3 @@ LLM: "根据查询结果，Claude 的输入价格略高于 GPT-4o..."
 2. **Mock 工具**：开发时用 mock 替代真实工具
 3. **参数校验**：在执行前验证参数合法性
 4. **超时设置**：每个工具调用应该有超时限制
-
-## 相关页面
-- [[Agent 架构设计模式]] — Agent 工具设计原则

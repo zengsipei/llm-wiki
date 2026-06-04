@@ -1,11 +1,11 @@
 ---
-id: cmpv7f9qc0000l4sqlkt0aq52
+id: cmpyz15cb000ilm53f2jdvnh9
 title: AI 模型提供商对比
 type: concept
 tags:
 
-created: 2026-06-01T12:48:09.733Z
-updated: 2026-06-01T12:48:09.733Z
+created: 2026-06-04T04:04:18.636Z
+updated: 2026-06-04T04:04:18.636Z
 ---
 
 # AI 模型提供商对比
@@ -105,5 +105,12 @@ updated: 2026-06-01T12:48:09.733Z
 | Gemini 2.5 Flash | $0.15 | $0.60 |
 
 ## 相关页面
-- [[z.ai Opus — AI Agent 开发环境]] — z.ai 平台 AI Agent 开发环境
-- [[Opus 使用指南]]
+
+- [[GPT 使用指南]] — OpenAI GPT 的详细使用方法
+- [[Claude 使用指南]] — Anthropic Claude 的使用技巧
+- [[Gemini 使用指南]] — Google Gemini 的使用方法
+- [[Anthropic Claude Prompting Best Practices]] — Claude 的提示工程最佳实践
+- [[Prompt Engineering 最佳实践]] — 通用提示工程技巧
+- [[System Prompt 设计指南]] — System Prompt 设计方法
+- [[LLM 评测方法]] — 如何系统评测 LLM
+- [[Function Calling 实践指南]] — Function Calling 的实现细节

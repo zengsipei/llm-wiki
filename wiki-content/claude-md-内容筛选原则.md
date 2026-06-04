@@ -1,5 +1,5 @@
 ---
-id: claude-md-content-filter
+id: cmpyz15cl000olm53nfc7tlcm
 title: Claude.md 内容筛选原则
 type: concept
 tags:

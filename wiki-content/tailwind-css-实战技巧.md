@@ -1,11 +1,11 @@
 ---
-id: cmpv130k60000mbc5hxsbb79i
+id: cmpyz15du001nlm53burzu0bc
 title: Tailwind CSS 实战技巧
 type: concept
 tags:
 
-created: 2026-06-01T09:50:40.278Z
-updated: 2026-06-01T10:37:22.463Z
+created: 2026-06-04T04:04:18.690Z
+updated: 2026-06-04T04:04:18.690Z
 ---
 
 # Tailwind CSS 实战技巧
@@ -110,6 +110,4 @@ npx shadcn@latest add button card dialog
 
 ## 相关页面
 
-- [[Next.js 技术栈速查]]
-- [[Next.js 最佳实践]]
-- [[Open Design]]
+- [[GSAP (GreenSock Animation Platform)]] — 复杂动画用 GSAP，Tailwind 处理布局/样式和简单过渡，两者互补

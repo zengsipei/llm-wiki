@@ -1,11 +1,11 @@
 ---
-id: cmpnqrx20000yl9x7geb6tdf0
+id: cmpyz15cz0011lm53hazuxg0a
 title: grill-me-skill
 type: concept
 tags:
 
-created: 2026-06-01T08:52:57.801Z
-updated: 2026-06-01T10:37:22.426Z
+created: 2026-06-04T04:04:18.659Z
+updated: 2026-06-04T04:04:18.659Z
 ---
 
 ---
@@ -74,8 +74,3 @@ For each question, provide 2–4 concrete multiple-choice options representing t
 - anvers/grill-me-skill
 - blackpiazhi/grill-me-skill
 - wymanwong/grill-me-skill
-
-## 相关页面
-- [[AI 编程工具对比]] — AI 编程工具全景对比
-- [[Browser Harness]] — 同类浏览器控制框架
-- [[Git 工作流最佳实践]] — Git 工作流最佳实践

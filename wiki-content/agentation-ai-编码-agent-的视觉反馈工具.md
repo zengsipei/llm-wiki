@@ -1,11 +1,11 @@
 ---
-id: cmpnqrx0s000fl9x70w97plwu
+id: cmpyz15c8000flm53wfh8vy11
 title: Agentation — AI 编码 Agent 的视觉反馈工具
 type: tool
 tags:
 
-created: 2026-06-01T08:52:57.757Z
-updated: 2026-06-01T10:37:22.382Z
+created: 2026-06-04T04:04:18.632Z
+updated: 2026-06-04T04:04:18.632Z
 ---
 
 # Agentation — AI 编码 Agent 的视觉反馈工具
@@ -216,6 +216,3 @@ agentation/
 - 需要 React 18+
 - Self-Driving 模式依赖 `agent-browser` 技能
 - 自动设计评审的质量取决于页面复杂度
-
-## 相关页面
-- [[三个极简Agent开源项目——从骨架到工程化]] — Agent 开发学习路径

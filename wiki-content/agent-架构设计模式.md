@@ -1,11 +1,11 @@
 ---
-id: cmpnqrx0p000el9x76dpxef8o
+id: cmpyz15c6000elm539f1il7qe
 title: Agent 架构设计模式
 type: concept
 tags:
 
-created: 2026-06-01T08:52:57.755Z
-updated: 2026-06-01T10:37:22.379Z
+created: 2026-06-04T04:04:18.631Z
+updated: 2026-06-04T04:04:18.631Z
 ---
 
 # Agent 架构设计模式
@@ -111,4 +111,17 @@ Manager Agent: 汇总三个 Agent 的反馈，给出综合评价
 | Long-term | 知识库/文档 | 永久 | 项目文档、用户偏好 |
 
 ## 相关页面
-- [[mindfold-ai/Trellis — AI Coding Agent Harness]]
+
+- [[Claude Code Operator模式与5种Agentic工作流]] — Claude Code 中 Agent 模式的具体产品实现
+- [[Hermes Agent 中的 Operator 模式：三维框架与 Claude Code 的深度对比]] — Hermes vs Claude Code Operator 对比
+- [[三个极简Agent开源项目——从骨架到工程化]] — Agent 开源项目实战分析
+- [[AI 编程工具对比]] — IDE 层面的 AI 编程工具选型
+- [[Function Calling 实践指南]] — 工具调用的实现细节
+
+## 工具设计原则
+
+1. **单一职责**：每个工具只做一件事
+2. **清晰描述**：工具名称和描述要让 LLM 理解何时使用
+3. **错误处理**：返回有意义的错误信息
+4. **幂等性**：相同输入应返回相同结果
+5. **安全边界**：限制工具的权限范围

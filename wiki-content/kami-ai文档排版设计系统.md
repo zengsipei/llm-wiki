@@ -1,5 +1,5 @@
 ---
-id: cmpkami001-ai-document-design-system
+id: cmpyz15d70016lm53mya5177m
 title: Kami - AI 文档排版设计系统
 type: concept
 tags:

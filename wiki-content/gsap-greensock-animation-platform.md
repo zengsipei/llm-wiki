@@ -1,11 +1,11 @@
 ---
-id: cmpxkhb300000ncei0893o8r8
+id: cmpyz15d00012lm539ekxqahu
 title: GSAP (GreenSock Animation Platform)
 type: concept
 tags:
 
-created: 2026-06-03T04:29:12.157Z
-updated: 2026-06-03T04:29:40.143Z
+created: 2026-06-04T04:04:18.660Z
+updated: 2026-06-04T04:04:18.660Z
 ---
 
 ---
@@ -254,6 +254,5 @@ gsap.to(element, {
 
 - [[Tailwind CSS 实战技巧]] — GSAP 常与 Tailwind 配合，Tailwind 处理布局/样式，GSAP 处理动画
 - [[Next.js 技术栈速查]] — Next.js 项目中集成 GSAP 需注意 SSR/CSR 限制
-- [[Next.js 最佳实践]] — Next.js 最佳实践
 - [[Open Design]] — AI 设计工具，可生成使用 GSAP 的交互动效
 - [[Kami - AI 文档排版设计系统]] — Kami 的 Landing Page 模板可配合 GSAP 动画使用，两者都是 AI Agent 的设计工具

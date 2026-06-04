@@ -1,5 +1,5 @@
 ---
-id: cmphapi001-remote-ai-agent-control
+id: cmpyz15d10013lm53j811qwh9
 title: Hapi - 手机远程控制 AI Coding Agent
 type: concept
 tags:

@@ -1,11 +1,11 @@
 ---
-id: plannotator-interactive-plan-code-review
+id: cmpyz15dk001flm53flv73903
 title: Plannotator — AI Agent 的交互式计划与代码审查工具
 type: tool
 tags:
 
-created: 2026-06-01T08:52:57.835Z
-updated: 2026-06-01T10:37:22.449Z
+created: 2026-06-04T04:04:18.680Z
+updated: 2026-06-04T04:04:18.680Z
 ---
 
 # Plannotator — AI Agent 的交互式计划与代码审查工具

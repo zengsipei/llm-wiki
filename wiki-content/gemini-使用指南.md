@@ -1,11 +1,11 @@
 ---
-id: cmpnqrx1n000sl9x75ks5e2jl
+id: cmpyz15ct000vlm53s2xwata7
 title: Gemini 使用指南
 type: entity
 tags:
 
-created: 2026-06-01T08:52:57.790Z
-updated: 2026-06-01T10:37:22.414Z
+created: 2026-06-04T04:04:18.654Z
+updated: 2026-06-04T04:04:18.654Z
 ---
 
 # Gemini 使用指南

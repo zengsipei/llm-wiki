@@ -1,11 +1,11 @@
 ---
-id: cmpnqrx0z000il9x7g5sw96oi
+id: cmpyz15cd000jlm53cwlwzwui
 title: AI 绘画工具对比
 type: entity
 tags:
 
-created: 2026-06-01T08:52:57.764Z
-updated: 2026-06-01T10:37:22.388Z
+created: 2026-06-04T04:04:18.637Z
+updated: 2026-06-04T04:04:18.637Z
 ---
 
 # AI 绘画工具对比
@@ -93,6 +93,9 @@ updated: 2026-06-01T10:37:22.388Z
 4. **迭代优化**：从简单提示词开始，逐步添加细节
 
 ## 相关页面
-- [[Google Stitch 2.0 - AI UI 设计工具]] — Google AI UI 设计工具
-- [[暗壳AI - 室内AI设计平台]] — 国内 AI 设计平台
-- [[暗壳AI - 室内AI设计平台]]
+
+- [[AI 编程工具对比]] — AI 辅助编程工具的横向对比
+- [[GPT 使用指南]] — GPT-4o 的 DALL-E 3 集成说明
+- [[Claude 使用指南]] — Claude 的多模态能力
+- [[AI Agent 输出格式研究]] — AI 输出格式设计研究
+- [[Open Design]] — AI 设计工具

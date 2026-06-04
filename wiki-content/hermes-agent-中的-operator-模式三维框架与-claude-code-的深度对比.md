@@ -1,11 +1,11 @@
 ---
-id: cmpnqrx250010l9x7xnr4j43b
+id: cmpyz15d50015lm53toe2byb9
 title: Hermes Agent 中的 Operator 模式：三维框架与 Claude Code 的深度对比
 type: concept
 tags:
 
-created: 2026-06-01T08:52:57.807Z
-updated: 2026-06-01T10:37:22.430Z
+created: 2026-06-04T04:04:18.665Z
+updated: 2026-06-04T04:04:18.665Z
 ---
 
 ---
@@ -431,5 +431,16 @@ Hermes 的 Operator 模式本质上是对 Claude Code 三维框架的**保留 + 
 ---
 
 ## 相关页面
-- [[Agentation — AI 编码 Agent 的视觉反馈工具]] — 基于 Hermes 构建
-- [[Plannotator — AI Agent 的交互式计划与代码审查工具]] — 基于 Hermes 构建
+
+- [[Claude Code Operator模式与5种Agentic工作流]] — Claude Code 5种模式的原始详解
+- [[Agent 架构设计模式]] — 通用 Agent 架构设计模式（ReAct、Multi-Agent 等）
+- [[三个极简Agent开源项目——从骨架到工程化]] — 开源 Agent 项目从骨架到工程化
+- [[Plannotator — AI Agent 的交互式计划与代码审查工具]] — Agent 计划工具
+- [[Agentation — AI 编码 Agent 的视觉反馈工具]] — Agent 视觉反馈
+
+## 参考
+
+- Claude Code Operator 模式详解：`raw/articles/2026-05-05-claude-code-operator模式.md`
+- Hermes subagent-driven-development skill
+- Hermes kanban-orchestrator skill
+- Hermes writing-plans skill

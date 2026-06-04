@@ -1,11 +1,11 @@
 ---
-id: cmpnqrx1p000tl9x7pxxx4azn
+id: cmpyz15cu000wlm53akiglia1
 title: Git 工作流最佳实践
 type: concept
 tags:
 
-created: 2026-06-01T08:52:57.792Z
-updated: 2026-06-01T10:37:22.416Z
+created: 2026-06-04T04:04:18.654Z
+updated: 2026-06-04T04:04:18.654Z
 ---
 
 # Git 工作流最佳实践
@@ -135,6 +135,3 @@ build/
 3. **Code Review**：PR 必须经过审查
 4. **保护分支**：main 分支设置保护规则
 5. **CI/CD**：自动化测试和部署
-
-## 相关页面
-- [[grill-me-skill]]

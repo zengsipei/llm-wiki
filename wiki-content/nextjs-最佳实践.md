@@ -1,11 +1,11 @@
 ---
-id: cmpnqrx2j0015l9x7klmkjqr6
+id: cmpyz15df001blm53hh6ihpok
 title: Next.js 最佳实践
 type: concept
 tags:
 
-created: 2026-06-01T08:52:57.820Z
-updated: 2026-06-01T10:37:22.442Z
+created: 2026-06-04T04:04:18.675Z
+updated: 2026-06-04T04:04:18.675Z
 ---
 
 # Next.js 最佳实践
@@ -111,9 +111,3 @@ npm run start
 # 使用 PM2 持久化
 pm2 start "npm run start" --name wiki
 ```
-
-## 相关页面
-
-- [[Next.js 技术栈速查]]
-- [[Tailwind CSS 实战技巧]]
-- [[Prisma ORM 使用指南]]

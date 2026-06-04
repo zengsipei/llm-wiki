@@ -1,11 +1,11 @@
 ---
-id: cmpnqrx3j001jl9x77t1lr4uc
+id: cmpyz15dx001plm53agjir6uf
 title: The Unreasonable Effectiveness of HTML（HTML 的不合理有效性）
 type: concept
 tags:
 
-created: 2026-06-01T08:52:57.855Z
-updated: 2026-06-01T10:37:22.466Z
+created: 2026-06-04T04:04:18.693Z
+updated: 2026-06-04T04:04:18.693Z
 ---
 
 # HTML 的不合理有效性
@@ -299,11 +299,3 @@ HTML 的「不合理有效性」本质上反映了一个深刻的认知原则：
 | 18 | [editor-triage-board](/html-effectiveness-demos/18-editor-triage-board.html) | 自定义编辑器 | Triage 看板编辑器 |
 | 19 | [editor-feature-flags](/html-effectiveness-demos/19-editor-feature-flags.html) | 自定义编辑器 | Feature Flag 管理界面 |
 | 20 | [editor-color-picker](/html-effectiveness-demos/20-editor-color-picker.html) | 自定义编辑器 | 颜色选择工具 |
-## 相关页面
-- [[知识库架构设计]] — 本 Wiki "md 做记忆，html 做展示" 理念的技术实现
-- [[Markdown 渲染增强演示]] — Markdown 渲染增强演示
-- [[Open Design]] — Open Design 设计理念
-- [[AI Agent 输出格式研究]] — AI Agent 输出格式研究
-
-- [[知识库架构设计]] — 本 Wiki "md 做记忆，html 做展示" 理念的技术实现
-- [[AI Agent 输出格式研究]] — AI Agent 输出格式研究与对比

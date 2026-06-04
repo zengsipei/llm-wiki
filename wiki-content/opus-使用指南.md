@@ -1,16 +1,16 @@
 ---
-id: opus-zai-agent-dev-env
-title: z.ai Opus — AI Agent 开发环境
+id: cmpyz15di001elm53jch261s9
+title: Opus 使用指南
 type: concept
 tags:
 
-created: 2026-06-03T05:05:30.035Z
-updated: 2026-06-03T05:57:40.581Z
+created: 2026-06-04T04:04:18.679Z
+updated: 2026-06-04T04:04:18.679Z
 ---
 
 # Opus 使用指南
 
-Opus 是 z.ai 平台提供的 AI Agent 开发环境 AI Agent 开发环境，基于强大的 LLM 模型，支持代码生成、文档处理、网页浏览等多种能力。本页面汇总了 Opus 的核心功能和最佳实践。
+Opus 是 z.ai 平台提供的 AI Agent 开发环境，基于强大的 LLM 模型，支持代码生成、文档处理、网页浏览等多种能力。本页面汇总了 Opus 的核心功能和最佳实践。
 
 ## 核心概念
 
@@ -116,11 +116,3 @@ Opus 支持通过 Skill 工具加载扩展能力：
 3. **文件持久化**：重要内容写入文件而非仅存在于对话中
 4. **Git 管理**：代码变更及时 commit 和 push
 5. **错误处理**：工具超时 2 次以上主动告知用户重启 session
-
-## 相关页面
-- [[AI 模型提供商对比]] — 模型提供商横向对比
-- [[AI Agent 输出格式研究]] — AI Agent 输出格式
-- [[Claude 使用指南]] — Claude 系列使用指南
-- [[Claude 使用指南]] — Claude 使用指南
-- [[AI 模型提供商对比]] — AI 模型提供商对比
-- [[Prompt Engineering 最佳实践]] — Prompt Engineering 最佳实践

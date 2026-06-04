@@ -1,11 +1,11 @@
 ---
-id: cmpnqrx2n0017l9x7h7xgpcuw
+id: cmpyz15dh001dlm534cjrdk08
 title: Open Design
 type: entity
 tags:
 
-created: 2026-06-01T08:52:57.823Z
-updated: 2026-06-01T10:37:22.445Z
+created: 2026-06-04T04:04:18.677Z
+updated: 2026-06-04T04:04:18.677Z
 ---
 
 # Open Design

@@ -1,16 +1,28 @@
 ---
-id: cmpnqrx2f0013l9x7erfr4omn
+id: cmpyz15dc0019lm53kxflxk4s
 title: Markdown 进阶语法
 type: concept
 tags:
 
-created: 2026-06-01T08:52:57.815Z
-updated: 2026-06-01T10:37:22.438Z
+created: 2026-06-04T04:04:18.672Z
+updated: 2026-06-04T04:04:18.672Z
 ---
 
 # Markdown 进阶语法
 
 Markdown 的进阶语法和扩展功能，涵盖 GFM、Frontmatter、Callout 和 Mermaid 图表。
+
+## 基础语法回顾
+
+| 语法 | 效果 |
+|------|------|
+| `# 标题` | H1 标题 |
+| `**粗体**` | **粗体** |
+| `*斜体*` | *斜体* |
+| `` `代码` `` | `行内代码` |
+| `[链接](url)` | 可点击链接 |
+| `![图片](url)` | 图片 |
+| `> 引用` | 引用块 |
 
 ## GFM 扩展
 
@@ -55,6 +67,23 @@ updated: 2026-05-22
 author: zengsipei
 ---
 ```
+
+## Callout 提示框
+
+> [!tip] 提示
+> 用于给出有用的建议和技巧。
+
+> [!warning] 警告
+> 提醒用户注意潜在的问题。
+
+> [!important] 重要
+> 标记不可忽略的关键信息。
+
+> [!caution] 注意
+> 标记可能导致数据丢失的操作。
+
+> [!note] 备注
+> 提供补充说明信息。
 
 ## Mermaid 图表
 
@@ -101,9 +130,3 @@ $$
 3. **列表使用**：超过 3 个并列项时用列表而非逗号分隔
 4. **代码标注**：代码块始终标注语言 ` ```python `
 5. **图片 Alt**：图片始终提供 alt 文本
-
-## 相关页面
-
-- [[Markdown 语法速查]]
-- [[Markdown 渲染增强演示]]
-- [[LLM Wiki 入门指南]]

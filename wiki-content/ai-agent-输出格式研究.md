@@ -1,11 +1,11 @@
 ---
-id: cmpnqrx0v000gl9x72aacxxgp
+id: cmpyz15c9000glm53dbr7rwxr
 title: AI Agent 输出格式研究
 type: concept
 tags:
 
-created: 2026-06-01T08:52:57.760Z
-updated: 2026-06-01T10:37:22.384Z
+created: 2026-06-04T04:04:18.634Z
+updated: 2026-06-04T04:04:18.634Z
 ---
 
 # AI Agent 输出格式研究
@@ -94,9 +94,3 @@ HTML 输出实现了真正的**人机协作闭环**：
 
 - [The Unreasonable Effectiveness of HTML](https://thariqs.github.io/html-effectiveness/) — Anthropic 工程师 Thariq 的博文及 20 个 Demo
 - [Claude Artifacts](https://docs.anthropic.com/en/docs/build-with-claude/artifacts) — Claude 的 Artifact 功能
-
-## 相关页面
-
-- [[The Unreasonable Effectiveness of HTML（HTML 的不合理有效性）]]
-- [[AI 安全与对齐]]
-- [[Agent 架构设计模式]]

@@ -1,11 +1,11 @@
 ---
-id: cmpnqrx1w000wl9x79c0nhlzn
+id: cmpyz15cx000zlm53bc0eqszk
 title: GPT 使用指南
 type: entity
 tags:
 
-created: 2026-06-01T08:52:57.798Z
-updated: 2026-06-01T10:37:22.422Z
+created: 2026-06-04T04:04:18.658Z
+updated: 2026-06-04T04:04:18.658Z
 ---
 
 # GPT 使用指南
@@ -116,4 +116,12 @@ response = client.chat.completions.create(
 - 使用 Batch API 做非实时任务
 
 ## 相关页面
-- [[AI 模型提供商对比]] — GPT/Claude/Gemini 横向对比
+
+- [[Claude 使用指南]] — Anthropic Claude 的使用方法和技巧
+- [[Gemini 使用指南]] — Google Gemini 的使用指南
+- [[AI 模型提供商对比]] — GPT/Claude/Gemini 三大提供商横向对比
+- [[Anthropic Claude Prompting Best Practices]] — Claude 专属提示工程最佳实践
+- [[Prompt Engineering 最佳实践]] — 通用提示工程技巧
+- [[System Prompt 设计指南]] — System Prompt 设计方法论
+- [[LLM 评测方法]] — LLM 系统评测方法
+- [[Function Calling 实践指南]] — Function Calling 实现指南
