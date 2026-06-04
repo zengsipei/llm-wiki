@@ -89,6 +89,16 @@ export async function GET() {
   }
 }
 
+// Dedup helper: check if a page with the same slugified title already exists
+async function findDuplicate(title: string) {
+  const slug = slugify(title)
+  const existing = await db.wikiPage.findFirst({ where: { title } })
+  if (existing) return existing
+  // Also check by slugified filename collision
+  const allPages = await db.wikiPage.findMany({ select: { id: true, title: true } })
+  return allPages.find((p) => slugify(p.title) === slug) || null
+}
+
 // POST /api/wiki — Create a new wiki page
 export async function POST(request: NextRequest) {
   try {
@@ -99,6 +109,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: 'Title and content are required' },
         { status: 400 }
+      )
+    }
+
+    // Dedup: reject if a page with the same title or slug already exists
+    const dup = await findDuplicate(title)
+    if (dup) {
+      return NextResponse.json(
+        { error: `页面已存在: "${title}"`, duplicateId: dup.id, title: dup.title },
+        { status: 409 }
       )
     }
 

@@ -70,7 +70,13 @@ async function reconcile() {
 
   const pageById = new Map(allPages.map(p => [p.id, p]));
   const pageByTitle = new Map(allPages.map(p => [p.title, p]));
-  let mdToDb = 0, dbToMd = 0, both = 0;
+  // Slug-based dedup map: slug -> first matching page
+  const pageBySlug = new Map();
+  for (const p of allPages) {
+    const s = slugify(p.title);
+    if (!pageBySlug.has(s)) pageBySlug.set(s, p);
+  }
+  let mdToDb = 0, dbToMd = 0, both = 0, skipped = 0;
 
   function contentHash(text) {
     return createHash('md5').update(text).digest('hex').slice(0, 12);
@@ -88,6 +94,11 @@ async function reconcile() {
 
     let dbPage = id ? pageById.get(id) : null;
     if (!dbPage) dbPage = pageByTitle.get(title);
+    // Also check by slugified title (catches hyphenation variants)
+    if (!dbPage) {
+      const fileSlug = slugify(title);
+      dbPage = pageBySlug.get(fileSlug);
+    }
 
     if (!dbPage) {
       await prisma.wikiPage.create({
@@ -153,7 +164,7 @@ async function reconcile() {
     }
   }
 
-  console.log(`[sync] Reconcile done: ${mdToDb} md→DB, ${dbToMd} DB→md, ${both} unchanged`);
+  console.log(`[sync] Reconcile done: ${mdToDb} md→DB, ${dbToMd} DB→md, ${both} unchanged, ${skipped} skipped (slug dup)`);
 }
 
 reconcile().catch(err => console.error(`[sync] Reconcile failed:`, err)).finally(() => prisma.$disconnect());

@@ -6,6 +6,25 @@ import { aiComplete, cleanJsonResponse } from '@/lib/ai-provider'
 
 const CONTENT_DIR = resolve(process.cwd(), 'wiki-content')
 
+function slugify(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[\s（）()【】[\]]+/g, '-')
+    .replace(/[^\w\u4e00-\u9fff-]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
+    .substring(0, 80) || 'untitled'
+}
+
+// Dedup helper: check if a page with the same title or slug exists
+async function findDuplicate(title: string) {
+  const slug = slugify(title)
+  const existing = await db.wikiPage.findFirst({ where: { title } })
+  if (existing) return existing
+  const allPages = await db.wikiPage.findMany({ select: { id: true, title: true } })
+  return allPages.find((p) => slugify(p.title) === slug) || null
+}
+
 // Helper: parse JSON array string safely
 function parseJsonArray(str: string): string[] {
   try {
@@ -119,9 +138,19 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    // Step 3: Create WikiPage records
-    const createdPages = []
+    // Step 3: Create WikiPage records (skip duplicates)
+    const createdPages: Array<Record<string, unknown>> = []
+    const skippedDuplicates: string[] = []
     for (const pageData of generatedPages) {
+      // Dedup check before creating
+      const dup = await findDuplicate(pageData.title)
+      if (dup) {
+        console.log(`[ingest] Skipping duplicate: "${pageData.title}" (matches existing: "${dup.title}", id: ${dup.id})`)
+        skippedDuplicates.push(pageData.title)
+        createdPages.push({ ...dup, crossReferences: pageData.crossReferences || [] } as unknown as Record<string, unknown>)
+        continue
+      }
+
       const page = await db.wikiPage.create({
         data: {
           title: pageData.title,
@@ -148,24 +177,26 @@ export async function POST(request: NextRequest) {
         console.error(`[sync] Failed to write .md for ${page.title}:`, err)
       }
 
-      createdPages.push({ ...page, crossReferences: pageData.crossReferences || [] })
+      createdPages.push({ ...page, crossReferences: pageData.crossReferences || [] } as unknown as Record<string, unknown>)
     }
 
     // Step 4: Resolve cross-references (match titles to IDs)
     for (const createdPage of createdPages) {
       const refIds: string[] = []
-      for (const refTitle of createdPage.crossReferences) {
+      const refs = createdPage.crossReferences as string[] | undefined
+      if (!refs) continue
+      for (const refTitle of refs) {
         const matchedPage = createdPages.find(
-          (p) => p.title.toLowerCase() === refTitle.toLowerCase()
+          (p) => String(p.title).toLowerCase() === refTitle.toLowerCase()
         )
         if (matchedPage) {
-          refIds.push(matchedPage.id)
+          refIds.push(String(matchedPage.id))
         }
       }
 
       if (refIds.length > 0) {
         await db.wikiPage.update({
-          where: { id: createdPage.id },
+          where: { id: String(createdPage.id) },
           data: { backlinks: JSON.stringify(refIds) },
         })
       }
@@ -192,9 +223,15 @@ export async function POST(request: NextRequest) {
       where: { sourceId: source.id },
     })
 
+    const newCount = createdPages.length - skippedDuplicates.length
+
     return NextResponse.json({
-      message: `Successfully processed document and created ${createdPages.length} wiki pages`,
+      message: skippedDuplicates.length > 0
+        ? `Ingested document: ${newCount} new pages created, ${skippedDuplicates.length} duplicates skipped (${skippedDuplicates.join(', ')})`
+        : `Successfully processed document and created ${newCount} wiki pages`,
       sourceId: source.id,
+      created: newCount,
+      skipped: skippedDuplicates,
       pages: finalPages.map((page) => ({
         ...page,
         tags: parseJsonArray(page.tags),
@@ -216,13 +253,7 @@ function syncToMd(page: { id: string; title: string; content: string; pageType: 
     mkdirSync(CONTENT_DIR, { recursive: true })
   } catch { /* already exists */ }
 
-  const slug = page.title
-    .toLowerCase()
-    .replace(/[\s（）()【】[\]]+/g, '-')
-    .replace(/[^\w\u4e00-\u9fff-]/g, '')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '')
-    .substring(0, 80) || 'untitled'
+  const slug = slugify(page.title)
 
   const filePath = resolve(CONTENT_DIR, `${slug}.md`)
 
