@@ -1,0 +1,472 @@
+<!-- Wiki Widget | Page: "飞书 CLI（Lark CLI）— 飞书官方命令行工具" | Page ID: cmpnqrx1i000ql9x7ju2svh2z | Generated: 2026-05-28T19:10:20.401Z -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>飞书 CLI 交互演示</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            min-height: 100vh;
+        }
+        
+        .header {
+            padding: 20px 0;
+            border-bottom: 1px solid #e8e9eb;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1f2329;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            color: #646a73;
+        }
+        
+        .section {
+            margin-bottom: 25px;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2329;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 16px;
+            background-color: #1e6fff;
+            margin-right: 8px;
+            border-radius: 2px;
+        }
+        
+        .tab-container {
+            display: flex;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #e8e9eb;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            color: #646a73;
+            transition: all 0.2s;
+        }
+        
+        .tab.active {
+            color: #1e6fff;
+            border-bottom: 2px solid #1e6fff;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .command-box {
+            background-color: #f7f8fa;
+            border: 1px solid #e8e9eb;
+            border-radius: 6px;
+            padding: 12px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 13px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .command-label {
+            position: absolute;
+            top: -8px;
+            left: 10px;
+            background-color: white;
+            padding: 0 6px;
+            font-size: 12px;
+            color: #646a73;
+        }
+        
+        .command {
+            color: #0969da;
+            font-weight: 600;
+        }
+        
+        .option {
+            color: #0550ae;
+        }
+        
+        .value {
+            color: #24292f;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background-color: #1e6fff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .copy-btn:hover {
+            background-color: #0052cc;
+        }
+        
+        .copy-btn.copied {
+            background-color: #2da44e;
+        }
+        
+        .domain-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .domain-card {
+            background-color: #f7f8fa;
+            border: 1px solid #e8e9eb;
+            border-radius: 6px;
+            padding: 12px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        
+        .domain-card:hover {
+            background-color: #e6f0ff;
+            border-color: #1e6fff;
+        }
+        
+        .domain-card.active {
+            background-color: #e6f0ff;
+            border-color: #1e6fff;
+        }
+        
+        .domain-icon {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        
+        .domain-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1f2329;
+        }
+        
+        .domain-desc {
+            font-size: 12px;
+            color: #646a73;
+            margin-top: 4px;
+        }
+        
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .skill-tag {
+            background-color: #e6f0ff;
+            color: #1e6fff;
+            border: 1px solid #a8c7fa;
+            border-radius: 16px;
+            padding: 4px 10px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .feature-box {
+            background-color: #f7f8fa;
+            border: 1px solid #e8e9eb;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .feature-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1f2329;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-icon {
+            margin-right: 6px;
+            color: #1e6fff;
+        }
+        
+        .feature-desc {
+            font-size: 13px;
+            color: #646a73;
+        }
+        
+        .usage-example {
+            background-color: #fffbe6;
+            border: 1px solid #ffe7ba;
+            border-radius: 6px;
+            padding: 12px;
+            margin-top: 10px;
+        }
+        
+        .usage-title {
+            font-size: 13px;
+            font-weight: 500;
+            color: #1a3057;
+            margin-bottom: 8px;
+        }
+        
+        .usage-code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 12px;
+            color: #0969da;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>飞书 CLI 交互演示</h1>
+            <p>探索飞书官方命令行工具的核心功能</p>
+        </div>
+        
+        <div class="tab-container">
+            <button class="tab active" onclick="switchTab('commands')">命令架构</button>
+            <button class="tab" onclick="switchTab('domains')">业务领域</button>
+            <button class="tab" onclick="switchTab('skills')">AI Skills</button>
+            <button class="tab" onclick="switchTab('features')">AI 特性</button>
+        </div>
+        
+        <!-- 命令架构 -->
+        <div id="commands" class="tab-content active">
+            <div class="section">
+                <div class="section-title">三层命令架构</div>
+                
+                <div class="command-box">
+                    <span class="command-label">快捷命令</span>
+                    <span class="command">lark-cli</span> <span class="option">calendar</span> <span class="option">+agenda</span>
+                    <button class="copy-btn" onclick="copyCommand(this)">复制</button>
+                </div>
+                <div class="usage-example">
+                    <div class="usage-title">快捷命令特点：</div>
+                    <div class="usage-code">+ 前缀，内置智能默认值、表格输出和 dry-run 预览</div>
+                </div>
+                
+                <div class="command-box">
+                    <span class="command-label">API 命令</span>
+                    <span class="command">lark-cli</span> <span class="option">calendar</span> <span class="option">calendars</span> <span class="option">list</span>
+                    <button class="copy-btn" onclick="copyCommand(this)">复制</button>
+                </div>
+                <div class="usage-example">
+                    <div class="usage-title">API 命令特点：</div>
+                    <div class="usage-code">从飞书 OAPI 元数据自动生成，100+ 精选命令</div>
+                </div>
+                
+                <div class="command-box">
+                    <span class="command-label">通用 API 调用</span>
+                    <span class="command">lark-cli</span> <span class="option">api</span> <span class="option">GET</span> <span class="option">/open-apis/calendar/v4/calendars</span>
+                    <button class="copy-btn" onclick="copyCommand(this)">复制</button>
+                </div>
+                <div class="usage-example">
+                    <div class="usage-title">通用 API 特点：</div>
+                    <div class="usage-code">直接调用任意飞书开放平台端点，覆盖 2500+ API</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 业务领域 -->
+        <div id="domains" class="tab-content">
+            <div class="section">
+                <div class="section-title">18 个业务域</div>
+                <div class="domain-grid">
+                    <div class="domain-card" onclick="toggleDomain(this)">
+                        <div class="domain-icon">💬</div>
+                        <div class="domain-name">即时通讯</div>
+                        <div class="domain-desc">发送/回复消息、群聊管理</div>
+                    </div>
+                    <div class="domain-card" onclick="toggleDomain(this)">
+                        <div class="domain-icon">📄</div>
+                        <div class="domain-name">云文档</div>
+                        <div class="domain-desc">创建/读取/更新文档</div>
+                    </div>
+                    <div class="domain-card" onclick="toggleDomain(this)">
+                        <div class="domain-icon">📝</div>
+                        <div class="domain-name">Markdown</div>
+                        <div class="domain-desc">原生 .md 文件操作</div>
+                    </div>
+                    <div class="domain-card" onclick="toggleDomain(this)">
+                        <div class="domain-icon">📊</div>
+                        <div class="domain-name">多维表格</div>
+                        <div class="domain-desc">数据表、字段、记录管理</div>
+                    </div>
+                    <div class="domain-card" onclick="toggleDomain(this)">
+                        <div class="domain-icon">📈</div>
+                        <div class="domain-name">电子表格</div>
+                        <div class="domain-desc">CRUD、追加、查找、导出</div>
+                    </div>
+                    <div class="domain-card" onclick="toggleDomain(this)">
+                        <div class="domain-icon">📅</div>
+                        <div class="domain-name">日历</div>
+                        <div class="domain-desc">日程 CRUD、忙闲查询</div>
+                    </div>
+                    <div class="domain-card" onclick="toggleDomain(this)">
+                        <div class="domain-icon">📧</div>
+                        <div class="domain-name">邮箱</div>
+                        <div class="domain-desc">邮件收发、草稿管理</div>
+                    </div>
+                    <div class="domain-card" onclick="toggleDomain(this)">
+                        <div class="domain-icon">✅</div>
+                        <div class="domain-name">任务</div>
+                        <div class="domain-desc">任务/子任务/清单管理</div>
+                    </div>
+                    <div class="domain-card" onclick="toggleDomain(this)">
+                        <div class="domain-icon">✍️</div>
+                        <div class="domain-name">审批</div>
+                        <div class="domain-desc">查询/同意/拒绝/转交</div>
+                    </div>
+                    <div class="domain-card" onclick="toggleDomain(this)">
+                        <div class="domain-icon">🎯</div>
+                        <div class="domain-name">OKR</div>
+                        <div class="domain-desc">目标/关键结果管理</div>
+                    </div>
+                    <div class="domain-card" onclick="toggleDomain(this)">
+                        <div class="domain-icon">📚</div>
+                        <div class="domain-name">知识库</div>
+                        <div class="domain-desc">知识空间、节点管理</div>
+                    </div>
+                    <div class="domain-card" onclick="toggleDomain(this)">
+                        <div class="domain-icon">🎥</div>
+                        <div class="domain-name">视频会议</div>
+                        <div class="domain-desc">会议记录查询</div>
+                    </div>
+                    <div class="domain-card" onclick="toggleDomain(this)">
+                        <div class="domain-icon">👤</div>
+                        <div class="domain-name">通讯录</div>
+                        <div class="domain-desc">用户搜索、信息获取</div>
+                    </div>
+                    <div class="domain-card" onclick="toggleDomain(this)">
+                        <div class="domain-icon">📁</div>
+                        <div class="domain-name">云空间</div>
+                        <div class="domain-desc">文件上传下载、搜索</div>
+                    </div>
+                    <div class="domain-card" onclick="toggleDomain(this)">
+                        <div class="domain-icon">🎨</div>
+                        <div class="domain-name">画板</div>
+                        <div class="domain-desc">画板/图表渲染</div>
+                    </div>
+                    <div class="domain-card" onclick="toggleDomain(this)">
+                        <div class="domain-icon">🔗</div>
+                        <div class="domain-name">应用</div>
+                        <div class="domain-desc">HTML/Web页面开发</div>
+                    </div>
+                </div>
+                
+                <div class="feature-box">
+                    <div class="feature-title">
+                        <span class="feature-icon">✨</span>
+                        使用场景示例
+                    </div>
+                    <div class="feature-desc">
+                        <div class="command-box" style="margin-top: 10px;">
+                            <span class="command-label">AI Agent 自动发送日报</span>
+                            <span class="command">lark-cli</span> <span class="option">im</span> <span class="option">+messages-send</span> <span class="option">--chat-id</span> <span class="value">"oc_xxx"</span> <span class="option">--text</span> <span class="value">"今日完成：1. 完成用户模块重构"</span>
+                            <button class="copy-btn" onclick="copyCommand(this)">复制</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- AI Skills -->
+        <div id="skills" class="tab-content">
+            <div class="section">
+                <div class="section-title">26 个 AI Agent Skills</div>
+                <div class="skill-list">
+                    <div class="skill-tag">lark-shared</div>
+                    <div class="skill-tag">lark-calendar</div>
+                    <div class="skill-tag">lark-im</div>
+                    <div class="skill-tag">lark-doc</div>
+                    <div class="skill-tag">lark-drive</div>
+                    <div class="skill-tag">lark-markdown</div>
+                    <div class="skill-tag">lark-sheets</div>
+                    <div class="skill-tag">lark-base</div>
+                    <div class="skill-tag">lark-task</div>
+                    <div class="skill-tag">lark-mail</div>
+                    <div class="skill-tag">lark-contact</div>
+                    <div class="skill-tag">lark-wiki</div>
+                    <div class="skill-tag">lark-event</div>
+                    <div class="skill-tag">lark-slides</div>
+                    <div class="skill-tag">lark-vc</div>
+                    <div class="skill-tag">lark-whiteboard</div>
+                    <div class="skill-tag">lark-minutes</div>
+                    <div class="skill-tag">lark-attendance</div>
+                    <div class="skill-tag">lark-approval</div>
+                    <div class="skill-tag">lark-okr</div>
+                    <div class="skill-tag">lark-openapi-explorer</div>
+                    <div class="skill-tag">lark-skill-maker</div>
+                    <div class="skill-tag">lark-workflow-meeting-summary</div>
+                    <div class="skill-tag">lark-workflow-standup-report</div>
+                </div>
+                
+                <div class="feature-box">
+                    <div class="feature-title">
+                        <span class="feature-icon">📦</span>
+                        安装 Skills
+                    </div>
+                    <div class="feature-desc">
+                        <div class="command-box" style="margin-top: 10px;">
+                            <span class="command">npx</span> <span class="option">skills</span> <span class="option">add</span> <span class="value">larksuite/cli</span> <span class="option">-y</span> <span class="option">-g</span>
+                            <button class="copy-btn" onclick="copyCommand(this)">复制</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="feature-box">
+                    <div class="feature-title">
+                        <span class="feature-icon">🔍</span>
+                        Skill 使用示例
+                    </div>
+                    <div class="feature-desc">
+                        <div class="

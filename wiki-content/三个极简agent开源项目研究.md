@@ -1,11 +1,14 @@
 ---
-id: cmpyz15e0001rlm530v6n8fx8
+id: three-minimal-agent-oss-projects
 title: 三个极简Agent开源项目——从骨架到工程化
 type: summary
 tags:
-
-created: 2026-06-04T04:04:18.697Z
-updated: 2026-06-04T04:04:18.697Z
+  - agent
+  - open-source
+  - ai-coding
+  - claude-code
+created: 2026-05-31T18:09:37.000Z
+updated: 2026-05-31T18:09:37.000Z
 ---
 
 # 三个极简Agent开源项目——从骨架到工程化

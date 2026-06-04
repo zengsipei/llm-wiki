@@ -1,11 +1,11 @@
 ---
-id: cmpz2xg760000lmgpgyo1bny5
+id: mini-swe-agent
 title: mini-swe-agent — 100行代码的极简 Coding Agent
 type: concept
 tags:
 
-created: 2026-06-04T05:53:24.546Z
-updated: 2026-06-04T05:53:24.621Z
+created: 2026-06-03T05:00:00.000Z
+updated: 2026-06-03T05:00:00.000Z
 ---
 
 ---
