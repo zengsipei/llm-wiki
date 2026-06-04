@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { BookOpen, Plus, MessageSquare, ShieldCheck, Clock, FileText, Download } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -35,6 +35,21 @@ export function WikiSidebar({
   isMobileOpen,
   onCloseMobile,
 }: WikiSidebarProps) {
+  const scrollViewportRef = useRef<HTMLDivElement>(null)
+
+  // Scroll active page into view in sidebar
+  useEffect(() => {
+    if (!selectedPageId) return
+    const raf = requestAnimationFrame(() => {
+      const viewport = scrollViewportRef.current?.querySelector('[data-slot="scroll-area-viewport"]') as HTMLElement | null
+      const activeBtn = viewport?.querySelector(`[data-page-id="${selectedPageId}"]`)
+      if (activeBtn) {
+        activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      }
+    })
+    return () => cancelAnimationFrame(raf)
+  }, [selectedPageId])
+
   // Group pages by type
   const groupedPages = {
     entity: pages.filter((p) => p.pageType === 'entity'),
@@ -115,7 +130,7 @@ export function WikiSidebar({
             新建
           </Button>
         </div>
-        <ScrollArea className="h-[calc(100%-2.5rem)] px-2">
+        <ScrollArea ref={scrollViewportRef} className="h-[calc(100%-2.5rem)] px-2">
           {(['entity', 'concept', 'summary'] as const).map((type) => {
             const typePages = groupedPages[type]
             if (typePages.length === 0) return null
@@ -135,6 +150,7 @@ export function WikiSidebar({
                 {typePages.map((page) => (
                   <button
                     key={page.id}
+                    data-page-id={page.id}
                     className={cn(
                       'w-full text-left px-3 py-1.5 rounded-md text-sm transition-colors truncate',
                       'hover:bg-accent hover:text-accent-foreground',
