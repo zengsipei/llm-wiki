@@ -1,11 +1,11 @@
 ---
-id: cmpyz15c5000dlm535ehdj102
+id: cmq0fbqev001tnckl45p5029n
 title: "Windsurf Codemaps — AI 注释的代码结构地图"
 type: concept
 tags:
-  - ["grahify-kb"]
-created: 2026-06-04T04:04:18.630Z
-updated: 2026-06-04T04:04:18.630Z
+
+created: 2026-06-05T04:28:12.535Z
+updated: 2026-06-05T04:28:12.535Z
 ---
 
 1|---

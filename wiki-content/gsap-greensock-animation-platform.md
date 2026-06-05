@@ -1,11 +1,11 @@
 ---
-id: cmpyz15d00012lm539ekxqahu
+id: cmq0fbqdu0013ncklaz5pmzd9
 title: GSAP (GreenSock Animation Platform)
 type: concept
 tags:
 
-created: 2026-06-04T04:04:18.660Z
-updated: 2026-06-04T04:04:18.660Z
+created: 2026-06-05T04:28:12.498Z
+updated: 2026-06-05T04:28:12.580Z
 ---
 
 ---

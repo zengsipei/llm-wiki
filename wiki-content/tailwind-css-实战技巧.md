@@ -1,11 +1,11 @@
 ---
-id: cmpyz15du001nlm53burzu0bc
+id: cmq0fbqer001rncklrodhpeqd
 title: Tailwind CSS 实战技巧
 type: concept
 tags:
 
-created: 2026-06-04T04:04:18.690Z
-updated: 2026-06-04T04:04:18.690Z
+created: 2026-06-05T04:28:12.531Z
+updated: 2026-06-05T04:28:12.577Z
 ---
 
 # Tailwind CSS 实战技巧
@@ -107,7 +107,3 @@ npx shadcn@latest add button card dialog
 # 组件文件在 components/ui/ 下
 # 可以自由修改样式和行为
 ```
-
-## 相关页面
-
-- [[GSAP (GreenSock Animation Platform)]] — 复杂动画用 GSAP，Tailwind 处理布局/样式和简单过渡，两者互补

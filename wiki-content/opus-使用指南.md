@@ -1,11 +1,11 @@
 ---
-id: cmpyz15di001elm53jch261s9
+id: cmq0fbqee001hnckl08v4cta7
 title: Opus 使用指南
 type: concept
 tags:
 
-created: 2026-06-04T04:04:18.679Z
-updated: 2026-06-04T04:04:18.679Z
+created: 2026-06-05T04:28:12.518Z
+updated: 2026-06-05T04:28:12.518Z
 ---
 
 # Opus 使用指南

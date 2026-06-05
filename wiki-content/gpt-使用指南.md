@@ -1,11 +1,11 @@
 ---
-id: cmpyz15cx000zlm53bc0eqszk
+id: cmq0fbqdr0010nckl8m4emf02
 title: GPT 使用指南
 type: entity
 tags:
 
-created: 2026-06-04T04:04:18.658Z
-updated: 2026-06-04T04:04:18.658Z
+created: 2026-06-05T04:28:12.496Z
+updated: 2026-06-05T04:28:12.569Z
 ---
 
 # GPT 使用指南

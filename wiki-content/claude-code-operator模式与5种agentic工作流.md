@@ -1,11 +1,11 @@
 ---
-id: cmpyz15bn0000lm53xey4wc3q
+id: cmq0fbqdd000onckleh0un74s
 title: "Claude Code Operator模式与5种Agentic工作流"
 type: concept
 tags:
-  - ["grahify-kb"]
-created: 2026-06-04T04:04:18.611Z
-updated: 2026-06-04T04:04:18.611Z
+
+created: 2026-06-05T04:28:12.481Z
+updated: 2026-06-05T04:28:12.481Z
 ---
 
 1|---

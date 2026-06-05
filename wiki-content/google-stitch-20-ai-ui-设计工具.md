@@ -1,11 +1,11 @@
 ---
-id: cmpyz15bv0006lm53c76lc0pl
+id: cmq0fbqdq000znckl5f7rd8yw
 title: "Google Stitch 2.0 - AI UI 设计工具"
 type: concept
 tags:
-  - ["grahify-kb"]
-created: 2026-06-04T04:04:18.620Z
-updated: 2026-06-04T04:04:18.620Z
+
+created: 2026-06-05T04:28:12.494Z
+updated: 2026-06-05T04:28:12.494Z
 ---
 
 1|---

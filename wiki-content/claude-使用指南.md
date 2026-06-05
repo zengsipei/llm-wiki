@@ -1,11 +1,11 @@
 ---
-id: cmpyz15cm000plm533fqz2527
+id: cmq0fbqdg000qnckl4qe9bwu6
 title: Claude 使用指南
 type: concept
 tags:
 
-created: 2026-06-04T04:04:18.646Z
-updated: 2026-06-04T04:04:18.646Z
+created: 2026-06-05T04:28:12.484Z
+updated: 2026-06-05T04:28:12.570Z
 ---
 
 # Claude 使用指南

@@ -1,11 +1,11 @@
 ---
-id: cmpyz15dt001mlm53mlnavd31
+id: cmq0fbqep001pnckli1u309ik
 title: System Prompt 设计指南
 type: concept
 tags:
 
-created: 2026-06-04T04:04:18.689Z
-updated: 2026-06-04T04:04:18.689Z
+created: 2026-06-05T04:28:12.529Z
+updated: 2026-06-05T04:28:12.571Z
 ---
 
 # System Prompt 设计指南

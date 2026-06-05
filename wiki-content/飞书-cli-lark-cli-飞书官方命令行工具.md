@@ -1,11 +1,11 @@
 ---
-id: cmpyz15cr000tlm53wsihnlni
+id: cmq0fbqf80022ncklu1k0ec9z
 title: 飞书 CLI（Lark CLI）— 飞书官方命令行工具
 type: concept
 tags:
-  - ["cli", "ai-agent", "飞书", "lark", "开源工具"]
-created: 2026-06-04T04:04:18.651Z
-updated: 2026-06-04T04:04:18.651Z
+
+created: 2026-06-05T04:28:12.548Z
+updated: 2026-06-05T04:28:12.577Z
 ---
 
 # 飞书 CLI（Lark CLI）— 飞书官方命令行工具

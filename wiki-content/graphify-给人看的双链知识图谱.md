@@ -1,11 +1,11 @@
 ---
-id: cmpyz15br0003lm53sec51eas
+id: cmq0fbqds0011ncklesweqd5p
 title: "Graphify - 给人看的双链知识图谱"
 type: concept
 tags:
-  - ["grahify-kb"]
-created: 2026-06-04T04:04:18.616Z
-updated: 2026-06-04T04:04:18.616Z
+
+created: 2026-06-05T04:28:12.497Z
+updated: 2026-06-05T04:28:12.497Z
 ---
 
 1|---

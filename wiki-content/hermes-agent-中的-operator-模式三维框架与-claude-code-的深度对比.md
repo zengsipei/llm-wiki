@@ -1,11 +1,11 @@
 ---
-id: cmpyz15d50015lm53toe2byb9
+id: cmq0fbqdy0016nckl42vbelns
 title: Hermes Agent 中的 Operator 模式：三维框架与 Claude Code 的深度对比
 type: concept
 tags:
 
-created: 2026-06-04T04:04:18.665Z
-updated: 2026-06-04T04:04:18.665Z
+created: 2026-06-05T04:28:12.503Z
+updated: 2026-06-05T04:28:12.567Z
 ---
 
 ---

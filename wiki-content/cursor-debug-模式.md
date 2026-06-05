@@ -1,11 +1,11 @@
 ---
-id: cmpyz15bp0001lm53ct1gf1fs
+id: cmq0fbqdj000tncklg93mmjlv
 title: "Cursor Debug 模式"
 type: concept
 tags:
-  - ["grahify-kb"]
-created: 2026-06-04T04:04:18.614Z
-updated: 2026-06-04T04:04:18.614Z
+
+created: 2026-06-05T04:28:12.488Z
+updated: 2026-06-05T04:28:12.488Z
 ---
 
 1|---

@@ -1,11 +1,11 @@
 ---
-id: cmpyz15e0001rlm530v6n8fx8
+id: cmq0fbqez001wncklfqdo8v70
 title: 三个极简Agent开源项目——从骨架到工程化
 type: summary
 tags:
 
-created: 2026-06-04T04:04:18.697Z
-updated: 2026-06-04T04:04:18.697Z
+created: 2026-06-05T04:28:12.540Z
+updated: 2026-06-05T04:28:12.568Z
 ---
 
 # 三个极简Agent开源项目——从骨架到工程化

@@ -1,11 +1,11 @@
 ---
-id: cmpyz15bx0007lm53hagv4lqx
+id: cmq0fbqf3001yncklct4a6g0e
 title: "暗壳AI - 室内AI设计平台"
 type: concept
 tags:
-  - ["grahify-kb"]
-created: 2026-06-04T04:04:18.622Z
-updated: 2026-06-04T04:04:18.622Z
+
+created: 2026-06-05T04:28:12.543Z
+updated: 2026-06-05T04:28:12.543Z
 ---
 
 1|---

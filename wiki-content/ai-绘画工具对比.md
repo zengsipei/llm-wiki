@@ -1,11 +1,11 @@
 ---
-id: cmpyz15cd000jlm53cwlwzwui
+id: cmq0fbqd2000jncklq1imkvy1
 title: AI 绘画工具对比
 type: entity
 tags:
 
-created: 2026-06-04T04:04:18.637Z
-updated: 2026-06-04T04:04:18.637Z
+created: 2026-06-05T04:28:12.471Z
+updated: 2026-06-05T04:28:12.471Z
 ---
 
 # AI 绘画工具对比

@@ -1,11 +1,11 @@
 ---
-id: cmpyz15bz0008lm53vx793w13
+id: cmq0fbqd5000lncklrwfdhbb5
 title: "Anthropic Claude Prompting Best Practices"
 type: concept
 tags:
-  - ["grahify-kb"]
-created: 2026-06-04T04:04:18.623Z
-updated: 2026-06-04T04:04:18.623Z
+
+created: 2026-06-05T04:28:12.473Z
+updated: 2026-06-05T04:28:12.473Z
 ---
 
 1|---

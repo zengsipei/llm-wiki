@@ -1,11 +1,11 @@
 ---
-id: cmpyz15bu0005lm53m3zqn2f3
+id: cmq0fbqej001knckli11pi9y6
 title: "Pretext - 纯 JS 文本测量库"
 type: concept
 tags:
-  - ["grahify-kb"]
-created: 2026-06-04T04:04:18.618Z
-updated: 2026-06-04T04:04:18.618Z
+
+created: 2026-06-05T04:28:12.523Z
+updated: 2026-06-05T04:28:12.523Z
 ---
 
 1|---

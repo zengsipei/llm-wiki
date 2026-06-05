@@ -1,11 +1,11 @@
 ---
-id: cmpyz15dk001flm53flv73903
+id: cmq0fbqeh001jncklfrdxdk75
 title: Plannotator — AI Agent 的交互式计划与代码审查工具
 type: tool
 tags:
 
-created: 2026-06-04T04:04:18.680Z
-updated: 2026-06-04T04:04:18.680Z
+created: 2026-06-05T04:28:12.522Z
+updated: 2026-06-05T04:28:12.578Z
 ---
 
 # Plannotator — AI Agent 的交互式计划与代码审查工具
@@ -244,8 +244,3 @@ Plannotator 的计划渲染器扩展了标准 Markdown，支持：
 - 需要 Bun 运行时
 - 代码审查依赖本地 VCS（git/jj）
 - Ask AI 功能依赖本地安装的对应 Agent CLI
-
-## 相关页面
-
-- [[Hapi - 手机远程控制 AI Coding Agent]] — 同为 Agent 辅助工具：Plannotator 做计划和代码的可视化审查，Hapi 做手机远程控制和权限审批
-- [[mindfold-ai/Trellis — AI Coding Agent Harness]] — 同为 Agent 编排框架，Trellis 做规范注入和任务生命周期管理

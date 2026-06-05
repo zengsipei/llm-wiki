@@ -1,15 +1,11 @@
 ---
-id: claude-code-dynamic-workflows
+id: cmq0fbqd9000nncklyvjc446s
 title: Claude Code Dynamic Workflows（动态工作流）
 type: concept
 tags:
-  - Claude-Code
-  - agentic-coding
-  - multi-agent
-  - workflow
-  - Anthropic
-created: 2026-06-05T12:30:00.000Z
-updated: 2026-06-05T12:30:00.000Z
+
+created: 2026-06-05T04:28:12.478Z
+updated: 2026-06-05T04:28:12.575Z
 ---
 
 # Claude Code Dynamic Workflows 深度研究报告

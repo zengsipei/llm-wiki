@@ -1,11 +1,11 @@
 ---
-id: cmpyz15c4000clm53hiu8uc8d
+id: cmq0fbqeo001oncklnqc7ct2d
 title: "Supabase vs Firebase"
 type: concept
 tags:
-  - ["grahify-kb"]
-created: 2026-06-04T04:04:18.629Z
-updated: 2026-06-04T04:04:18.629Z
+
+created: 2026-06-05T04:28:12.529Z
+updated: 2026-06-05T04:28:12.529Z
 ---
 
 1|---

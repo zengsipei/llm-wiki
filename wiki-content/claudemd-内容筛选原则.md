@@ -1,11 +1,11 @@
 ---
-id: claude-md-content-filter
+id: cmq0fbqdh000rnckl9tgpkxh7
 title: Claude.md 内容筛选原则
 type: concept
 tags:
 
-created: 2026-06-01T08:52:57.778Z
-updated: 2026-06-01T10:37:22.401Z
+created: 2026-06-05T04:28:12.485Z
+updated: 2026-06-05T04:28:12.575Z
 ---
 
 # Claude.md 内容筛选原则

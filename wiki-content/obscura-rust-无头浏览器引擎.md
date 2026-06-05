@@ -1,11 +1,11 @@
 ---
-id: cmpyz15bt0004lm53yi72bz7y
+id: cmq0fbqeb001fnckl47mr7q5d
 title: "Obscura - Rust 无头浏览器引擎"
 type: concept
 tags:
-  - ["grahify-kb"]
-created: 2026-06-04T04:04:18.617Z
-updated: 2026-06-04T04:04:18.617Z
+
+created: 2026-06-05T04:28:12.516Z
+updated: 2026-06-05T04:28:12.516Z
 ---
 
 1|---

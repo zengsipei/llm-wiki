@@ -1,11 +1,11 @@
 ---
-id: cmpyz15d90017lm533j6y03s4
+id: cmq0fbqe30018nckl8zdxnlld
 title: LLM 评测方法
 type: concept
 tags:
 
-created: 2026-06-04T04:04:18.670Z
-updated: 2026-06-04T04:04:18.670Z
+created: 2026-06-05T04:28:12.507Z
+updated: 2026-06-05T04:28:12.572Z
 ---
 
 # LLM 评测方法

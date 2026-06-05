@@ -1,11 +1,11 @@
 ---
-id: cmpyz15c2000alm53cvzmld2a
+id: cmq0fbqdw0015ncklumo942sp
 title: "HereOS — GUI 交互驱动的 Agent"
 type: concept
 tags:
-  - ["grahify-kb"]
-created: 2026-06-04T04:04:18.626Z
-updated: 2026-06-04T04:04:18.626Z
+
+created: 2026-06-05T04:28:12.501Z
+updated: 2026-06-05T04:28:12.501Z
 ---
 
 1|---

@@ -1,11 +1,11 @@
 ---
-id: cmpyz15df001blm53hh6ihpok
+id: cmq0fbqea001encklafvjk961
 title: Next.js 最佳实践
 type: concept
 tags:
 
-created: 2026-06-04T04:04:18.675Z
-updated: 2026-06-04T04:04:18.675Z
+created: 2026-06-05T04:28:12.515Z
+updated: 2026-06-05T04:28:12.561Z
 ---
 
 # Next.js 最佳实践

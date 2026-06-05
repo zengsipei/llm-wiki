@@ -1,11 +1,11 @@
 ---
-id: cmpyz15c3000blm53w60esu8t
+id: cmq0fbqd6000mncklvhy1gozw
 title: "Browser Harness"
 type: concept
 tags:
-  - ["grahify-kb"]
-created: 2026-06-04T04:04:18.628Z
-updated: 2026-06-04T04:04:18.628Z
+
+created: 2026-06-05T04:28:12.474Z
+updated: 2026-06-05T04:28:12.474Z
 ---
 
 1|---

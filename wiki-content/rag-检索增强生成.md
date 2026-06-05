@@ -1,11 +1,11 @@
 ---
-id: cmpyz15dq001jlm53j7q1xjy8
+id: cmq0fbqen001mnckln79iwysl
 title: RAG 检索增强生成
 type: concept
 tags:
 
-created: 2026-06-04T04:04:18.687Z
-updated: 2026-06-04T04:04:18.687Z
+created: 2026-06-05T04:28:12.527Z
+updated: 2026-06-05T04:28:12.559Z
 ---
 
 # RAG 检索增强生成

@@ -1,11 +1,11 @@
 ---
-id: cmpz2xg7c0001lmgp7wyw3nro
+id: cmq0fbqew001uncklbqc0iacg
 title: z.ai Opus — AI Agent 开发环境
 type: concept
 tags:
 
-created: 2026-06-04T05:53:24.552Z
-updated: 2026-06-04T05:53:24.605Z
+created: 2026-06-05T04:28:12.536Z
+updated: 2026-06-05T04:28:12.536Z
 ---
 
 # Opus 使用指南

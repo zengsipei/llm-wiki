@@ -1,11 +1,11 @@
 ---
-id: cmpyz15dd001alm53rk6t0gzd
+id: cmq0fbqe7001bnckl2nsh4b20
 title: mindfold-ai/Trellis — AI Coding Agent Harness
 type: concept
 tags:
 
-created: 2026-06-04T04:04:18.673Z
-updated: 2026-06-04T04:04:18.673Z
+created: 2026-06-05T04:28:12.511Z
+updated: 2026-06-05T04:28:12.579Z
 ---
 
 ---

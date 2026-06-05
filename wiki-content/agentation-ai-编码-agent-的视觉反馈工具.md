@@ -1,11 +1,11 @@
 ---
-id: cmpyz15c8000flm53wfh8vy11
+id: cmq0fbqcy000fncklrv1p55d1
 title: Agentation — AI 编码 Agent 的视觉反馈工具
 type: tool
 tags:
 
-created: 2026-06-04T04:04:18.632Z
-updated: 2026-06-04T04:04:18.632Z
+created: 2026-06-05T04:28:12.466Z
+updated: 2026-06-05T04:28:12.579Z
 ---
 
 # Agentation — AI 编码 Agent 的视觉反馈工具
