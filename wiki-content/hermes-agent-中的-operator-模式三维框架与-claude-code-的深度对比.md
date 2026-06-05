@@ -437,6 +437,7 @@ Hermes 的 Operator 模式本质上是对 Claude Code 三维框架的**保留 + 
 - [[三个极简Agent开源项目——从骨架到工程化]] — 开源 Agent 项目从骨架到工程化
 - [[Plannotator — AI Agent 的交互式计划与代码审查工具]] — Agent 计划工具
 - [[Agentation — AI 编码 Agent 的视觉反馈工具]] — Agent 视觉反馈
+- [[Claude Code Dynamic Workflows（动态工作流）]] — Claude Code 动态工作流深度解析
 
 ## 参考
 
