@@ -1,9 +1,11 @@
 ---
+id: cmq2igu270000nes9b4tqhcj0
 title: AI Agent 可执行 Hooks 与控制流方案
-slug: ai-agent-hooks-and-control-flow
-tags: [claude-code, codex-cli, hooks, agent-control, enforcement]
-created: 2026-06-06
-updated: 2026-06-06
+type: concept
+tags:
+  - [claude-code, codex-cli, hooks, agent-control, enforcement]
+created: 2026-06-06T15:31:41.743Z
+updated: 2026-06-06T15:31:41.743Z
 ---
 
 # AI Agent 可执行 Hooks 与控制流方案
