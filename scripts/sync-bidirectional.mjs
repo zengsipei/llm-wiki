@@ -145,23 +145,51 @@ async function reconcile() {
   }
 
   // Check for DB pages with no matching md file → export
-  const mdIds = new Set();
+  // Build maps: mdFileById (by frontmatter id), mdFileByTitle (by parsed title)
+  const mdFileById = new Map();
+  const mdFileByTitle = new Map();
+  const mdFileBySlug = new Map();
   for (const file of files) {
-    const parsed = parseFrontmatter(readFileSync(resolve(CONTENT_DIR, file), 'utf-8'));
-    if (parsed?.id) mdIds.add(parsed.id);
-  }
-  for (const page of allPages) {
-    if (!mdIds.has(page.id)) {
-      const slug = slugify(page.title);
-      const filePath = resolve(CONTENT_DIR, `${slug}.md`);
-      const frontmatter = buildFrontmatter(page);
-      writeFileSync(filePath, `${frontmatter}\n\n${page.content}`, 'utf-8');
-      // Set mtime to match DB updatedAt
-      const dbMtime = new Date(page.updatedAt).getTime();
-      utimesSync(filePath, new Date(dbMtime), new Date(dbMtime));
-      dbToMd++;
-      console.log(`[sync] DB→md NEW: ${page.title}`);
+    const filePath = resolve(CONTENT_DIR, file);
+    const parsed = parseFrontmatter(readFileSync(filePath, 'utf-8'));
+    if (parsed?.id) mdFileById.set(parsed.id, { file, parsed });
+    if (parsed?.title) {
+      mdFileByTitle.set(parsed.title, { file, parsed });
+      const fileSlug = slugify(parsed.title);
+      if (!mdFileBySlug.has(fileSlug)) mdFileBySlug.set(fileSlug, { file, parsed });
     }
+  }
+
+  for (const page of allPages) {
+    // Skip if already matched by id, title, or slug
+    if (mdFileById.has(page.id)) continue;
+    if (mdFileByTitle.has(page.title)) continue;
+    const pageSlug = slugify(page.title);
+    if (mdFileBySlug.has(pageSlug)) continue;
+
+    // Also skip if a file with same content hash already exists
+    const pageContentHash = contentHash(page.content);
+    let contentExists = false;
+    for (const [, entry] of mdFileById) {
+      if (contentHash(entry.parsed.content || '') === pageContentHash) {
+        contentExists = true;
+        break;
+      }
+    }
+    if (contentExists) {
+      skipped++;
+      continue;
+    }
+
+    const slug = slugify(page.title);
+    const filePath = resolve(CONTENT_DIR, `${slug}.md`);
+    const frontmatter = buildFrontmatter(page);
+    writeFileSync(filePath, `${frontmatter}\n\n${page.content}`, 'utf-8');
+    // Set mtime to match DB updatedAt
+    const dbMtime = new Date(page.updatedAt).getTime();
+    utimesSync(filePath, new Date(dbMtime), new Date(dbMtime));
+    dbToMd++;
+    console.log(`[sync] DB→md NEW: ${page.title}`);
   }
 
   console.log(`[sync] Reconcile done: ${mdToDb} md→DB, ${dbToMd} DB→md, ${both} unchanged, ${skipped} skipped (slug dup)`);
