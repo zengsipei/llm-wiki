@@ -136,4 +136,4 @@ npx prisma db push
 5. **连接池**：配置合理的 connection_limit
 
 ## 相关页面
-- [[Supabase vs Firebase]]
+- [[supabase-vs-firebase]]

@@ -147,11 +147,11 @@ tiann 是 Android 社区知名开发者：
 
 ## 相关页面
 
-- [[Claude 使用指南]] — Hapi 最常用的宿主 Agent，Claude Code 远程控制是核心场景
-- [[Claude Code Operator模式与5种Agentic工作流]] — Hapi 可在 Operator 模式下远程审批 Agent 权限
-- [[Codex CLI /goal 命令（v0.128.0+）]] — Hapi 同样支持 Codex Agent 的远程控制
-- [[Gemini 使用指南]] — Hapi 也支持 Gemini CLI 的远程操控
-- [[AI 编程工具对比]] — Hapi 可配合多种 Coding Agent 使用，是该对比的运维工具补充
-- [[Kami - AI 文档排版设计系统]] — 同为独立开发者工具生态：Kami 作者 Tw93 和 Hapi 作者 tiann 都在 AI Agent 工具领域活跃， Kami 做文档排版，Hapi 做远程控制
-- [[Plannotator — AI Agent 的交互式计划与代码审查工具]] — 同为 Agent 辅助工具，Plannotator 做计划/审查，Hapi 做远程控制
-- [[mindfold-ai/Trellis — AI Coding Agent Harness]] — 同为 Agent 编排工具，Trellis 做本地 harness，Hapi 做远程控制
+- [[claude-使用指南]] — Hapi 最常用的宿主 Agent，Claude Code 远程控制是核心场景
+- [[claude-code-operator模式与5种agentic工作流]] — Hapi 可在 Operator 模式下远程审批 Agent 权限
+- [[codex-cli-goal-命令-v01280]] — Hapi 同样支持 Codex Agent 的远程控制
+- [[gemini-使用指南]] — Hapi 也支持 Gemini CLI 的远程操控
+- [[ai-编程工具对比]] — Hapi 可配合多种 Coding Agent 使用，是该对比的运维工具补充
+- [[kami-ai文档排版设计系统]] — 同为独立开发者工具生态：Kami 作者 Tw93 和 Hapi 作者 tiann 都在 AI Agent 工具领域活跃， Kami 做文档排版，Hapi 做远程控制
+- [[plannotator-交互式计划与代码审查]] — 同为 Agent 辅助工具，Plannotator 做计划/审查，Hapi 做远程控制
+- [[mindfold-aitrellis-ai-coding-agent-harness]] — 同为 Agent 编排工具，Trellis 做本地 harness，Hapi 做远程控制

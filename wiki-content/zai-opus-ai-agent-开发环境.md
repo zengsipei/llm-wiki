@@ -118,9 +118,9 @@ Opus 支持通过 Skill 工具加载扩展能力：
 5. **错误处理**：工具超时 2 次以上主动告知用户重启 session
 
 ## 相关页面
-- [[AI 模型提供商对比]] — 模型提供商横向对比
-- [[AI Agent 输出格式研究]] — AI Agent 输出格式
-- [[Claude 使用指南]] — Claude 系列使用指南
-- [[Claude 使用指南]] — Claude 使用指南
-- [[AI 模型提供商对比]] — AI 模型提供商对比
-- [[Prompt Engineering 最佳实践]] — Prompt Engineering 最佳实践
+- [[ai-模型提供商对比]] — 模型提供商横向对比
+- [[ai-agent-输出格式研究]] — AI Agent 输出格式
+- [[claude-使用指南]] — Claude 系列使用指南
+- [[claude-使用指南]] — Claude 使用指南
+- [[ai-模型提供商对比]] — AI 模型提供商对比
+- [[prompt-engineering-最佳实践]] — Prompt Engineering 最佳实践

@@ -97,11 +97,11 @@ response = model.generate_content(
 
 ## 相关页面
 
-- [[GPT 使用指南]] — OpenAI GPT 的详细使用方法
-- [[Claude 使用指南]] — Anthropic Claude 的使用指南
-- [[AI 模型提供商对比]] — GPT/Claude/Gemini 三大提供商横向对比
-- [[Prompt Engineering 最佳实践]] — 通用提示工程技巧
-- [[System Prompt 设计指南]] — System Prompt 设计方法论
-- [[Function Calling 实践指南]] — Function Calling 实现细节
-- [[Hapi - 手机远程控制 AI Coding Agent]] — Hapi 同样支持 Gemini CLI 的远程操控
-- [[Kami - AI 文档排版设计系统]] — Claude Code Skill，也支持 Gemini Agent 生成高质量排版文档
+- [[gpt-使用指南]] — OpenAI GPT 的详细使用方法
+- [[claude-使用指南]] — Anthropic Claude 的使用指南
+- [[ai-模型提供商对比]] — GPT/Claude/Gemini 三大提供商横向对比
+- [[prompt-engineering-最佳实践]] — 通用提示工程技巧
+- [[system-prompt-设计指南]] — System Prompt 设计方法论
+- [[function-calling-实践指南]] — Function Calling 实现细节
+- [[hapi-手机远程控制ai-coding-agent]] — Hapi 同样支持 Gemini CLI 的远程操控
+- [[kami-ai文档排版设计系统]] — Claude Code Skill，也支持 Gemini Agent 生成高质量排版文档

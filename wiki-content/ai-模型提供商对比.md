@@ -106,11 +106,11 @@ updated: 2026-06-05T04:28:12.574Z
 
 ## 相关页面
 
-- [[GPT 使用指南]] — OpenAI GPT 的详细使用方法
-- [[Claude 使用指南]] — Anthropic Claude 的使用技巧
-- [[Gemini 使用指南]] — Google Gemini 的使用方法
-- [[Anthropic Claude Prompting Best Practices]] — Claude 的提示工程最佳实践
-- [[Prompt Engineering 最佳实践]] — 通用提示工程技巧
-- [[System Prompt 设计指南]] — System Prompt 设计方法
-- [[LLM 评测方法]] — 如何系统评测 LLM
-- [[Function Calling 实践指南]] — Function Calling 的实现细节
+- [[gpt-使用指南]] — OpenAI GPT 的详细使用方法
+- [[claude-使用指南]] — Anthropic Claude 的使用技巧
+- [[gemini-使用指南]] — Google Gemini 的使用方法
+- [[anthropic-claude-prompting-best-practices]] — Claude 的提示工程最佳实践
+- [[prompt-engineering-最佳实践]] — 通用提示工程技巧
+- [[system-prompt-设计指南]] — System Prompt 设计方法
+- [[llm-评测方法]] — 如何系统评测 LLM
+- [[function-calling-实践指南]] — Function Calling 的实现细节

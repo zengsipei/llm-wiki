@@ -117,11 +117,11 @@ response = client.chat.completions.create(
 
 ## 相关页面
 
-- [[Claude 使用指南]] — Anthropic Claude 的使用方法和技巧
-- [[Gemini 使用指南]] — Google Gemini 的使用指南
-- [[AI 模型提供商对比]] — GPT/Claude/Gemini 三大提供商横向对比
-- [[Anthropic Claude Prompting Best Practices]] — Claude 专属提示工程最佳实践
-- [[Prompt Engineering 最佳实践]] — 通用提示工程技巧
-- [[System Prompt 设计指南]] — System Prompt 设计方法论
-- [[LLM 评测方法]] — LLM 系统评测方法
-- [[Function Calling 实践指南]] — Function Calling 实现指南
+- [[claude-使用指南]] — Anthropic Claude 的使用方法和技巧
+- [[gemini-使用指南]] — Google Gemini 的使用指南
+- [[ai-模型提供商对比]] — GPT/Claude/Gemini 三大提供商横向对比
+- [[anthropic-claude-prompting-best-practices]] — Claude 专属提示工程最佳实践
+- [[prompt-engineering-最佳实践]] — 通用提示工程技巧
+- [[system-prompt-设计指南]] — System Prompt 设计方法论
+- [[llm-评测方法]] — LLM 系统评测方法
+- [[function-calling-实践指南]] — Function Calling 实现指南
