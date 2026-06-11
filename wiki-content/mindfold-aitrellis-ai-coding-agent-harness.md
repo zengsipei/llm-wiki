@@ -153,5 +153,5 @@ Trellis 和 Hermes 都属于 AI Agent 生态的不同层面：
 
 ## 相关页面
 
-- [[hapi-手机远程控制ai-coding-agent]] — 同为 Agent 辅助工具：Trellis 做本地规范注入和任务编排，Hapi 做远程手机控制和权限审批
-- [[plannotator-交互式计划与代码审查]] — 同为 Agent 编排工具，Plannotator 做可视化计划和代码审查
+- [[Hapi - 手机远程控制 AI Coding Agent]] — 同为 Agent 辅助工具：Trellis 做本地规范注入和任务编排，Hapi 做远程手机控制和权限审批
+- [[Plannotator — AI Agent 的交互式计划与代码审查工具]] — 同为 Agent 编排工具，Plannotator 做可视化计划和代码审查

@@ -274,7 +274,7 @@ Flowtrace 位于 skills 之上，提供"如何为某类任务串联招式"的层
 
 ## 相关页面
 
-- [[ai-agent-可执行hooks与控制流方案]] — 兼容 Claude Code + Codex CLI 的可执行 hooks 方案
-- [[mattpocock-skills调研]] — Matt Pocock Skills 合集调研
-- [[claude-code-operator模式与5种agentic工作流]] — Claude Code 的 operator 模式
-- [[agent-架构设计模式]] — Agent 架构设计模式
+- [[AI Agent 可执行 Hooks 与控制流方案]] — 兼容 Claude Code + Codex CLI 的可执行 hooks 方案
+- [[Matt Pocock Skills — AI Agent Skills 合集调研]] — Matt Pocock Skills 合集调研
+- [["Claude Code Operator模式与5种Agentic工作流"]] — Claude Code 的 operator 模式
+- [[Agent 架构设计模式]] — Agent 架构设计模式

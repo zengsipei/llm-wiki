@@ -65,12 +65,12 @@ updated: 2026-06-05T04:28:12.568Z
 
 ## 相关页面
 
-- [[claude-code-operator模式与5种agentic工作流]] — Claude Code 的 Agentic 工作流详解
-- [[agent-架构设计模式]] — Agent 架构的通用设计模式
-- [[cursor-debug-模式]] — Cursor IDE 的调试模式
-- [[windsurf-codemaps-ai-注释的代码结构地图]] — Windsurf 的代码理解能力
-- [[codex-cli-goal-命令-v01280]] — OpenAI Codex 的 goal 命令
-- [[hapi-手机远程控制ai-coding-agent]] — Claude Code/Codex/Gemini/Cursor Agent 的手机远程控制工具，离线时仍可审批 Agent 权限
+- [["Claude Code Operator模式与5种Agentic工作流"]] — Claude Code 的 Agentic 工作流详解
+- [[Agent 架构设计模式]] — Agent 架构的通用设计模式
+- [["Cursor Debug 模式"]] — Cursor IDE 的调试模式
+- [["Windsurf Codemaps — AI 注释的代码结构地图"]] — Windsurf 的代码理解能力
+- [["Codex CLI /goal 命令（v0.128.0+）"]] — OpenAI Codex 的 goal 命令
+- [[Hapi - 手机远程控制 AI Coding Agent]] — Claude Code/Codex/Gemini/Cursor Agent 的手机远程控制工具，离线时仍可审批 Agent 权限
 
 ## 使用最佳实践
 

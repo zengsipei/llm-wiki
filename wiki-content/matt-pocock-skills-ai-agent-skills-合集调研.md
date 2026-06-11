@@ -334,8 +334,8 @@ Agent Brief、PRD、测试都描述**系统应该做什么**，而非**如何实
 
 ## 相关页面
 
-- [[ai-agent-可执行hooks与控制流方案]] — 兼容 Claude Code + Codex CLI 的可执行 hooks 方案
-- [[claude-code-operator模式与5种agentic工作流]] — Claude Code 的 operator 模式
-- [[hermes-agent-中的-operator-模式三维框架与-claude-code-的深度对比]] — Hermes vs Claude Code
-- [[system-prompt-设计指南]] — 系统提示词设计方法论
-- [[prompt-engineering-最佳实践]] — 提示工程最佳实践
+- [[AI Agent 可执行 Hooks 与控制流方案]] — 兼容 Claude Code + Codex CLI 的可执行 hooks 方案
+- [["Claude Code Operator模式与5种Agentic工作流"]] — Claude Code 的 operator 模式
+- [[Hermes Agent 中的 Operator 模式：三维框架与 Claude Code 的深度对比]] — Hermes vs Claude Code
+- [[System Prompt 设计指南]] — 系统提示词设计方法论
+- [[Prompt Engineering 最佳实践]] — 提示工程最佳实践

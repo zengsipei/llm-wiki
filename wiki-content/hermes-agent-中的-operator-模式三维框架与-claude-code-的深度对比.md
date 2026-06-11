@@ -432,12 +432,12 @@ Hermes 的 Operator 模式本质上是对 Claude Code 三维框架的**保留 + 
 
 ## 相关页面
 
-- [[claude-code-operator模式与5种agentic工作流]] — Claude Code 5种模式的原始详解
-- [[agent-架构设计模式]] — 通用 Agent 架构设计模式（ReAct、Multi-Agent 等）
-- [[三个极简agent开源项目研究]] — 开源 Agent 项目从骨架到工程化
-- [[plannotator-交互式计划与代码审查]] — Agent 计划工具
-- [[agentation-ai-编码-agent-的视觉反馈工具]] — Agent 视觉反馈
-- [[claude-code-dynamic-workflows-动态工作流]] — Claude Code 动态工作流深度解析
+- [["Claude Code Operator模式与5种Agentic工作流"]] — Claude Code 5种模式的原始详解
+- [[Agent 架构设计模式]] — 通用 Agent 架构设计模式（ReAct、Multi-Agent 等）
+- [[三个极简Agent开源项目——从骨架到工程化]] — 开源 Agent 项目从骨架到工程化
+- [[Plannotator — AI Agent 的交互式计划与代码审查工具]] — Agent 计划工具
+- [[Agentation — AI 编码 Agent 的视觉反馈工具]] — Agent 视觉反馈
+- [[Claude Code Dynamic Workflows（动态工作流）]] — Claude Code 动态工作流深度解析
 
 ## 参考
 

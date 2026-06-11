@@ -41,6 +41,6 @@ updated: 2026-06-01T10:37:22.436Z
 
 ## 相关页面
 
-- [[markdown-进阶语法]]
-- [[markdown-渲染增强演示]]
-- [[llm-wiki-入门指南]]
+- [[Markdown 进阶语法]]
+- [[Markdown 渲染增强演示]]
+- [[LLM Wiki 入门指南]]

@@ -148,8 +148,8 @@ tiann 是 Android 社区知名开发者：
 ## 相关页面
 
 - [[Claude 使用指南]] — Hapi 最常用的宿主 Agent，Claude Code 远程控制是核心场景
-- [[Claude Code Operator模式与5种Agentic工作流]] — Hapi 可在 Operator 模式下远程审批 Agent 权限
-- [[Codex CLI /goal 命令（v0.128.0+）]] — Hapi 同样支持 Codex Agent 的远程控制
+- [["Claude Code Operator模式与5种Agentic工作流"]] — Hapi 可在 Operator 模式下远程审批 Agent 权限
+- [["Codex CLI /goal 命令（v0.128.0+）"]] — Hapi 同样支持 Codex Agent 的远程控制
 - [[Gemini 使用指南]] — Hapi 也支持 Gemini CLI 的远程操控
 - [[AI 编程工具对比]] — Hapi 可配合多种 Coding Agent 使用，是该对比的运维工具补充
 - [[Kami - AI 文档排版设计系统]] — 同为独立开发者工具生态：Kami 作者 Tw93 和 Hapi 作者 tiann 都在 AI Agent 工具领域活跃， Kami 做文档排版，Hapi 做远程控制

@@ -94,8 +94,8 @@ updated: 2026-06-05T04:28:12.471Z
 
 ## 相关页面
 
-- [[ai-编程工具对比]] — AI 辅助编程工具的横向对比
-- [[gpt-使用指南]] — GPT-4o 的 DALL-E 3 集成说明
-- [[claude-使用指南]] — Claude 的多模态能力
-- [[ai-agent-输出格式研究]] — AI 输出格式设计研究
-- [[open-design]] — AI 设计工具
+- [[AI 编程工具对比]] — AI 辅助编程工具的横向对比
+- [[GPT 使用指南]] — GPT-4o 的 DALL-E 3 集成说明
+- [[Claude 使用指南]] — Claude 的多模态能力
+- [[AI Agent 输出格式研究]] — AI 输出格式设计研究
+- [[Open Design]] — AI 设计工具

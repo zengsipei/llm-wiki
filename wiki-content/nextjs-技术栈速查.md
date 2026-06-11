@@ -30,4 +30,4 @@ updated: 2026-06-01T10:37:22.441Z
 - 开发模式：npx next dev
 
 ## 相关页面
-- [[prisma-orm-使用指南]] — Prisma ORM 详细使用指南
+- [[Prisma ORM 使用指南]] — Prisma ORM 详细使用指南

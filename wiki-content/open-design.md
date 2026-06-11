@@ -251,4 +251,4 @@ pnpm tools-dev run web
 - [Claude Design](https://claude.ai/design) — Anthropic 的闭源 AI 设计工具
 - [Open CoDesign](https://github.com/nicepkg/open-codesign) — 类似概念的开源项目
 - [huashu-design](https://github.com/huashu-design) — 初级设计师模式、五维评审的设计哲学来源
-- [[kami-ai文档排版设计系统]] — 互补而非竞争：Open Design 做 UI/Deck/Design System，Kami 专注文档排版（一页纸/简历/长文档/幻灯片），极简 Skill 安装
+- [[Kami - AI 文档排版设计系统]] — 互补而非竞争：Open Design 做 UI/Deck/Design System，Kami 专注文档排版（一页纸/简历/长文档/幻灯片），极简 Skill 安装

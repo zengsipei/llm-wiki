@@ -144,8 +144,8 @@ Kami 是 Tw93 三部曲之一：
 - [[GSAP (GreenSock Animation Platform)]] — 落地页动画方案，Kami 的 Landing Page 模板可配合 GSAP 使用
 - [[Claude 使用指南]] — Kami 最推荐的宿主 Agent，Claude Code 装上 Kami 后文档输出质量大幅提升
 - [[AI 编程工具对比]] — Kami 可配合多种 Coding Agent 使用（Claude Code / Codex / Cursor Agent / Gemini / OpenCode）
-- [[Claude Code Operator模式与5种Agentic工作流]] — Kami 作为 Claude Code 的 Skill，可在 Operator 模式下使用
-- [[Codex CLI /goal 命令（v0.128.0+）]] — Kami 也支持 Codex Agent，通用 Skill 安装方式
+- [["Claude Code Operator模式与5种Agentic工作流"]] — Kami 作为 Claude Code 的 Skill，可在 Operator 模式下使用
+- [["Codex CLI /goal 命令（v0.128.0+）"]] — Kami 也支持 Codex Agent，通用 Skill 安装方式
 - [[Gemini 使用指南]] — Kami 同样支持 Gemini CLI
-- [[Google Stitch 2.0 - AI UI 设计工具]] — 同为 AI 设计工具，但 Stitch 做网页 UI，Kami 做文档排版
-- [[暗壳AI - 室内AI设计平台]] — 同为 AI 设计工具，暗壳做室内设计，Kami 做文档设计
+- [["Google Stitch 2.0 - AI UI 设计工具"]] — 同为 AI 设计工具，但 Stitch 做网页 UI，Kami 做文档排版
+- [["暗壳AI - 室内AI设计平台"]] — 同为 AI 设计工具，暗壳做室内设计，Kami 做文档设计
