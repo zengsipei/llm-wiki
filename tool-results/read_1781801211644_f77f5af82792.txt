@@ -1,0 +1,435 @@
+     1→
+     2→[38;5;250m███████╗██╗  ██╗██╗██╗     ██╗     ███████╗[0m
+     3→[38;5;248m██╔════╝██║ ██╔╝██║██║     ██║     ██╔════╝[0m
+     4→[38;5;245m███████╗█████╔╝ ██║██║     ██║     ███████╗[0m
+     5→[38;5;243m╚════██║██╔═██╗ ██║██║     ██║     ╚════██║[0m
+     6→[38;5;240m███████║██║  ██╗██║███████╗███████╗███████║[0m
+     7→[38;5;238m╚══════╝╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚══════╝[0m
+     8→
+     9→┌   skills 
+    10→│
+    11→│  Tip: use the --yes (-y) and --global (-g) flags to install without prompts.
+    12→[?25l│
+    13→◇  Source: https://github.com/mattpocock/skills.git
+    14→[?25h[?25l│
+    15→[1D[0K◒  Cloning repository[999D[J◐  Cloning repository[999D[J◓  Cloning repository[999D[J◑  Cloning repository[999D[J◒  Cloning repository[999D[J◐  Cloning repository[999D[J◓  Cloning repository[999D[J◑  Cloning repository[999D[J◒  Cloning repository.[999D[J◐  Cloning repository.[999D[J◓  Cloning repository.[999D[J◑  Cloning repository.[999D[J◇  Repository cloned
+    16→[?25h[?25l│
+    17→[999D[J◇  Found 34 skills
+    18→[?25h│
+    19→●  Installing all 34 skills
+    20→│
+    21→●  Installing to all 71 agents
+    22→
+    23→│
+    24→◇  Installation Summary ───────────────────────────────────────────────────────────╮
+    25→│                                                                                  │
+    26→│                                                                                  │
+    27→│  Mattpocock Skills                                                               │
+    28→│                                                                                  │
+    29→│  ~/.agents/skills/ask-matt                                                       │
+    30→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+    31→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+    32→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+    33→│                                                                                  │
+    34→│  ~/.agents/skills/codebase-design                                                │
+    35→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+    36→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+    37→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+    38→│                                                                                  │
+    39→│  ~/.agents/skills/diagnosing-bugs                                                │
+    40→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+    41→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+    42→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+    43→│                                                                                  │
+    44→│  ~/.agents/skills/domain-modeling                                                │
+    45→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+    46→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+    47→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+    48→│                                                                                  │
+    49→│  ~/.agents/skills/grill-with-docs                                                │
+    50→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+    51→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+    52→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+    53→│                                                                                  │
+    54→│  ~/.agents/skills/improve-codebase-architecture                                  │
+    55→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+    56→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+    57→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+    58→│                                                                                  │
+    59→│  ~/.agents/skills/prototype                                                      │
+    60→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+    61→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+    62→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+    63→│                                                                                  │
+    64→│  ~/.agents/skills/setup-matt-pocock-skills                                       │
+    65→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+    66→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+    67→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+    68→│                                                                                  │
+    69→│  ~/.agents/skills/tdd                                                            │
+    70→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+    71→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+    72→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+    73→│                                                                                  │
+    74→│  ~/.agents/skills/to-issues                                                      │
+    75→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+    76→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+    77→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+    78→│                                                                                  │
+    79→│  ~/.agents/skills/to-prd                                                         │
+    80→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+    81→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+    82→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+    83→│                                                                                  │
+    84→│  ~/.agents/skills/triage                                                         │
+    85→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+    86→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+    87→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+    88→│                                                                                  │
+    89→│  ~/.agents/skills/grill-me                                                       │
+    90→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+    91→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+    92→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+    93→│                                                                                  │
+    94→│  ~/.agents/skills/grilling                                                       │
+    95→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+    96→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+    97→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+    98→│                                                                                  │
+    99→│  ~/.agents/skills/handoff                                                        │
+   100→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+   101→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+   102→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+   103→│                                                                                  │
+   104→│  ~/.agents/skills/teach                                                          │
+   105→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+   106→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+   107→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+   108→│                                                                                  │
+   109→│  ~/.agents/skills/writing-great-skills                                           │
+   110→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+   111→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+   112→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+   113→│                                                                                  │
+   114→│  General                                                                         │
+   115→│                                                                                  │
+   116→│  ~/.agents/skills/design-an-interface                                            │
+   117→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+   118→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+   119→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+   120→│                                                                                  │
+   121→│  ~/.agents/skills/qa                                                             │
+   122→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+   123→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+   124→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+   125→│                                                                                  │
+   126→│  ~/.agents/skills/request-refactor-plan                                          │
+   127→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+   128→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+   129→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+   130→│                                                                                  │
+   131→│  ~/.agents/skills/ubiquitous-language                                            │
+   132→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+   133→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+   134→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+   135→│                                                                                  │
+   136→│  ~/.agents/skills/implement                                                      │
+   137→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+   138→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+   139→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+   140→│                                                                                  │
+   141→│  ~/.agents/skills/resolving-merge-conflicts                                      │
+   142→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+   143→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+   144→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+   145→│                                                                                  │
+   146→│  ~/.agents/skills/decision-mapping                                               │
+   147→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+   148→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+   149→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+   150→│                                                                                  │
+   151→│  ~/.agents/skills/review                                                         │
+   152→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+   153→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+   154→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+   155→│                                                                                  │
+   156→│  ~/.agents/skills/writing-beats                                                  │
+   157→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+   158→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+   159→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+   160→│                                                                                  │
+   161→│  ~/.agents/skills/writing-fragments                                              │
+   162→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+   163→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+   164→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+   165→│                                                                                  │
+   166→│  ~/.agents/skills/writing-shape                                                  │
+   167→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+   168→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+   169→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+   170→│                                                                                  │
+   171→│  ~/.agents/skills/git-guardrails-claude-code                                     │
+   172→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+   173→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+   174→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+   175→│                                                                                  │
+   176→│  ~/.agents/skills/migrate-to-shoehorn                                            │
+   177→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+   178→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+   179→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+   180→│                                                                                  │
+   181→│  ~/.agents/skills/scaffold-exercises                                             │
+   182→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+   183→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+   184→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+   185→│                                                                                  │
+   186→│  ~/.agents/skills/setup-pre-commit                                               │
+   187→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+   188→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+   189→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+   190→│                                                                                  │
+   191→│  ~/.agents/skills/edit-article                                                   │
+   192→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+   193→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+   194→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+   195→│                                                                                  │
+   196→│  ~/.agents/skills/obsidian-vault                                                 │
+   197→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more           │
+   198→│    symlink → AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more    │
+   199→│    overwrites: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +53 more  │
+   200→│                                                                                  │
+   201→├──────────────────────────────────────────────────────────────────────────────────╯
+   202→│
+   203→◇  Security Risk Assessments ────────────────────────────────────────────────────╮
+   204→│                                                                                │
+   205→│                                 Gen               Socket            Snyk       │
+   206→│  design-an-interface            Safe              0 alerts          Low Risk   │
+   207→│  qa                             Safe              0 alerts          Low Risk   │
+   208→│  request-refactor-plan          Safe              0 alerts          Low Risk   │
+   209→│  ubiquitous-language            Safe              0 alerts          Low Risk   │
+   210→│  ask-matt                       Safe              0 alerts          Low Risk   │
+   211→│  codebase-design                Safe              0 alerts          Low Risk   │
+   212→│  diagnosing-bugs                Safe              0 alerts          Low Risk   │
+   213→│  domain-modeling                Safe              0 alerts          Low Risk   │
+   214→│  grill-with-docs                Safe              0 alerts          Low Risk   │
+   215→│  implement                      Safe              0 alerts          Low Risk   │
+   216→│  improve-codebase-architecture  Safe              0 alerts          Low Risk   │
+   217→│  prototype                      Safe              0 alerts          Low Risk   │
+   218→│  resolving-merge-conflicts      Safe              0 alerts          Med Risk   │
+   219→│  setup-matt-pocock-skills       Safe              0 alerts          Med Risk   │
+   220→│  tdd                            Safe              0 alerts          Low Risk   │
+   221→│  to-issues                      Safe              0 alerts          Med Risk   │
+   222→│  to-prd                         Safe              0 alerts          Low Risk   │
+   223→│  triage                         Safe              0 alerts          Med Risk   │
+   224→│  decision-mapping               Safe              0 alerts          Low Risk   │
+   225→│  review                         Safe              0 alerts          Med Risk   │
+   226→│  writing-beats                  Safe              0 alerts          Low Risk   │
+   227→│  writing-fragments              Safe              0 alerts          Low Risk   │
+   228→│  writing-shape                  Safe              0 alerts          High Risk  │
+   229→│  git-guardrails-claude-code     Safe              0 alerts          Low Risk   │
+   230→│  migrate-to-shoehorn            Safe              0 alerts          Low Risk   │
+   231→│  scaffold-exercises             Safe              0 alerts          Low Risk   │
+   232→│  setup-pre-commit               Safe              0 alerts          Low Risk   │
+   233→│  edit-article                   Safe              0 alerts          Low Risk   │
+   234→│  obsidian-vault                 Safe              0 alerts          Low Risk   │
+   235→│  grill-me                       Safe              0 alerts          Low Risk   │
+   236→│  grilling                       Safe              0 alerts          Low Risk   │
+   237→│  handoff                        Safe              0 alerts          Low Risk   │
+   238→│  teach                          Safe              0 alerts          Low Risk   │
+   239→│  writing-great-skills           Safe              0 alerts          Low Risk   │
+   240→│                                                                                │
+   241→│  Details: https://skills.sh/mattpocock/skills                                  │
+   242→│                                                                                │
+   243→├────────────────────────────────────────────────────────────────────────────────╯
+   244→[?25l│
+   245→[999D[J◒  Installing skills[999D[J◐  Installing skills[999D[J◓  Installing skills[999D[J◑  Installing skills[999D[J◒  Installing skills[999D[J◐  Installing skills[999D[J◓  Installing skills[999D[J◑  Installing skills[999D[J◒  Installing skills.[999D[J◐  Installing skills.[999D[J◓  Installing skills.[999D[J◑  Installing skills.[999D[J◒  Installing skills.[999D[J◐  Installing skills.[999D[J◓  Installing skills.[999D[J◑  Installing skills.[999D[J◒  Installing skills..[999D[J◐  Installing skills..[999D[J◓  Installing skills..[999D[J◇  Installation complete
+   246→[?25h
+   247→│  GitHub rate limit reached — using your gh login to continue.
+   248→│  Tip: set GITHUB_TOKEN to avoid this prompt, or use --full-depth to clone instead.
+   249→│
+   250→◇  Installed 34 skills ───────────────────────────────────────────────────────────╮
+   251→│                                                                                 │
+   252→│                                                                                 │
+   253→│  Mattpocock Skills                                                              │
+   254→│  ✓ ~/.agents/skills/ask-matt                                                    │
+   255→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   256→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   257→│  ✓ ~/.agents/skills/codebase-design                                             │
+   258→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   259→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   260→│  ✓ ~/.agents/skills/diagnosing-bugs                                             │
+   261→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   262→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   263→│  ✓ ~/.agents/skills/domain-modeling                                             │
+   264→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   265→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   266→│  ✓ ~/.agents/skills/grill-with-docs                                             │
+   267→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   268→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   269→│  ✓ ~/.agents/skills/improve-codebase-architecture                               │
+   270→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   271→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   272→│  ✓ ~/.agents/skills/prototype                                                   │
+   273→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   274→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   275→│  ✓ ~/.agents/skills/setup-matt-pocock-skills                                    │
+   276→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   277→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   278→│  ✓ ~/.agents/skills/tdd                                                         │
+   279→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   280→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   281→│  ✓ ~/.agents/skills/to-issues                                                   │
+   282→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   283→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   284→│  ✓ ~/.agents/skills/to-prd                                                      │
+   285→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   286→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   287→│  ✓ ~/.agents/skills/triage                                                      │
+   288→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   289→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   290→│  ✓ ~/.agents/skills/grill-me                                                    │
+   291→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   292→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   293→│  ✓ ~/.agents/skills/grilling                                                    │
+   294→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   295→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   296→│  ✓ ~/.agents/skills/handoff                                                     │
+   297→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   298→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   299→│  ✓ ~/.agents/skills/teach                                                       │
+   300→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   301→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   302→│  ✓ ~/.agents/skills/writing-great-skills                                        │
+   303→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   304→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   305→│                                                                                 │
+   306→│  General                                                                        │
+   307→│  ✓ ~/.agents/skills/design-an-interface                                         │
+   308→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   309→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   310→│  ✓ ~/.agents/skills/qa                                                          │
+   311→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   312→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   313→│  ✓ ~/.agents/skills/request-refactor-plan                                       │
+   314→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   315→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   316→│  ✓ ~/.agents/skills/ubiquitous-language                                         │
+   317→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   318→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   319→│  ✓ ~/.agents/skills/implement                                                   │
+   320→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   321→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   322→│  ✓ ~/.agents/skills/resolving-merge-conflicts                                   │
+   323→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   324→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   325→│  ✓ ~/.agents/skills/decision-mapping                                            │
+   326→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   327→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   328→│  ✓ ~/.agents/skills/review                                                      │
+   329→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   330→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   331→│  ✓ ~/.agents/skills/writing-beats                                               │
+   332→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   333→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   334→│  ✓ ~/.agents/skills/writing-fragments                                           │
+   335→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   336→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   337→│  ✓ ~/.agents/skills/writing-shape                                               │
+   338→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   339→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   340→│  ✓ ~/.agents/skills/git-guardrails-claude-code                                  │
+   341→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   342→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   343→│  ✓ ~/.agents/skills/migrate-to-shoehorn                                         │
+   344→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   345→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   346→│  ✓ ~/.agents/skills/scaffold-exercises                                          │
+   347→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   348→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   349→│  ✓ ~/.agents/skills/setup-pre-commit                                            │
+   350→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   351→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   352→│  ✓ ~/.agents/skills/edit-article                                                │
+   353→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   354→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   355→│  ✓ ~/.agents/skills/obsidian-vault                                              │
+   356→│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +14 more          │
+   357→│    symlinked: AiderDesk, AstrBot, Autohand Code CLI, Augment, IBM Bob +47 more  │
+   358→│                                                                                 │
+   359→├─────────────────────────────────────────────────────────────────────────────────╯
+   360→
+   361→│
+   362→■  Failed to install 34
+   363→│
+   364→│    ✗ design-an-interface → PromptScript: PromptScript does not support global skill installation
+   365→│
+   366→│    ✗ qa → PromptScript: PromptScript does not support global skill installation
+   367→│
+   368→│    ✗ request-refactor-plan → PromptScript: PromptScript does not support global skill installation
+   369→│
+   370→│    ✗ ubiquitous-language → PromptScript: PromptScript does not support global skill installation
+   371→│
+   372→│    ✗ ask-matt → PromptScript: PromptScript does not support global skill installation
+   373→│
+   374→│    ✗ codebase-design → PromptScript: PromptScript does not support global skill installation
+   375→│
+   376→│    ✗ diagnosing-bugs → PromptScript: PromptScript does not support global skill installation
+   377→│
+   378→│    ✗ domain-modeling → PromptScript: PromptScript does not support global skill installation
+   379→│
+   380→│    ✗ grill-with-docs → PromptScript: PromptScript does not support global skill installation
+   381→│
+   382→│    ✗ implement → PromptScript: PromptScript does not support global skill installation
+   383→│
+   384→│    ✗ improve-codebase-architecture → PromptScript: PromptScript does not support global skill installation
+   385→│
+   386→│    ✗ prototype → PromptScript: PromptScript does not support global skill installation
+   387→│
+   388→│    ✗ resolving-merge-conflicts → PromptScript: PromptScript does not support global skill installation
+   389→│
+   390→│    ✗ setup-matt-pocock-skills → PromptScript: PromptScript does not support global skill installation
+   391→│
+   392→│    ✗ tdd → PromptScript: PromptScript does not support global skill installation
+   393→│
+   394→│    ✗ to-issues → PromptScript: PromptScript does not support global skill installation
+   395→│
+   396→│    ✗ to-prd → PromptScript: PromptScript does not support global skill installation
+   397→│
+   398→│    ✗ triage → PromptScript: PromptScript does not support global skill installation
+   399→│
+   400→│    ✗ decision-mapping → PromptScript: PromptScript does not support global skill installation
+   401→│
+   402→│    ✗ review → PromptScript: PromptScript does not support global skill installation
+   403→│
+   404→│    ✗ writing-beats → PromptScript: PromptScript does not support global skill installation
+   405→│
+   406→│    ✗ writing-fragments → PromptScript: PromptScript does not support global skill installation
+   407→│
+   408→│    ✗ writing-shape → PromptScript: PromptScript does not support global skill installation
+   409→│
+   410→│    ✗ git-guardrails-claude-code → PromptScript: PromptScript does not support global skill installation
+   411→│
+   412→│    ✗ migrate-to-shoehorn → PromptScript: PromptScript does not support global skill installation
+   413→│
+   414→│    ✗ scaffold-exercises → PromptScript: PromptScript does not support global skill installation
+   415→│
+   416→│    ✗ setup-pre-commit → PromptScript: PromptScript does not support global skill installation
+   417→│
+   418→│    ✗ edit-article → PromptScript: PromptScript does not support global skill installation
+   419→│
+   420→│    ✗ obsidian-vault → PromptScript: PromptScript does not support global skill installation
+   421→│
+   422→│    ✗ grill-me → PromptScript: PromptScript does not support global skill installation
+   423→│
+   424→│    ✗ grilling → PromptScript: PromptScript does not support global skill installation
+   425→│
+   426→│    ✗ handoff → PromptScript: PromptScript does not support global skill installation
+   427→│
+   428→│    ✗ teach → PromptScript: PromptScript does not support global skill installation
+   429→│
+   430→│    ✗ writing-great-skills → PromptScript: PromptScript does not support global skill installation
+   431→
+   432→│
+   433→└  Done!  Review skills before use; they run with full agent permissions.
+   434→
+   435→
