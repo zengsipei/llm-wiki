@@ -93,17 +93,55 @@ function findMdFile(page) {
 
 // --- Sync modes ---
 
+// --- Duplicate detection safeguard ---
+
+function detectDuplicateTitles(files) {
+  const parsed = files.map(f => {
+    const raw = readFileSync(resolve(CONTENT_DIR, f), 'utf-8');
+    return { file: f, ...parseFrontmatter(raw) };
+  }).filter(p => p.title);
+
+  const byTitle = new Map();
+  for (const p of parsed) {
+    if (!byTitle.has(p.title)) byTitle.set(p.title, []);
+    byTitle.get(p.title).push(p.file);
+  }
+
+  const dups = [...byTitle.entries()].filter(([, v]) => v.length > 1);
+  if (dups.length > 0) {
+    console.warn(`[sync] ⚠️  Found ${dups.length} duplicate title(s) in md files:`);
+    for (const [title, files] of dups) {
+      console.warn(`  "${title}" → ${files.join(', ')}`);
+    }
+  }
+  return dups;
+}
+
 // Fast path: DB is empty, restore everything from md (blocking)
 async function fullRestore() {
   const files = readdirSync(CONTENT_DIR).filter(f => f.endsWith('.md'));
   console.log(`[sync] DB is empty, restoring from ${files.length} .md files...`);
 
+  // Safeguard: detect file-level duplicates before syncing
+  const dups = detectDuplicateTitles(files);
+
   let created = 0, skipped = 0;
+  // Track titles already inserted to prevent DB-level duplicates
+  const insertedTitles = new Set();
+
   for (const file of files) {
     const filePath = resolve(CONTENT_DIR, file);
     const raw = readFileSync(filePath, 'utf-8');
     const parsed = parseFrontmatter(raw);
     if (!parsed || !parsed.title) { skipped++; continue; }
+
+    // Skip if a file with the same title was already inserted
+    if (insertedTitles.has(parsed.title)) {
+      console.warn(`[sync] ⚠️  Skipping duplicate title "${parsed.title}" in file: ${file}`);
+      skipped++;
+      continue;
+    }
+    insertedTitles.add(parsed.title);
 
     const { id, title, type, tags, content } = parsed;
     await prisma.wikiPage.upsert({
